@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "274671795091",
+    "firebase_url": "https://erreiuscodigos.firebaseio.com",
+    "project_id": "erreiuscodigos",
+    "storage_bucket": "erreiuscodigos.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:274671795091:android:4e6879c02576d46960c666",
+        "android_client_info": {
+          "package_name": "com.erreius.developer.codigos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "274671795091-tl4tpvrgl0tcegs9he3kghbch9qjfeuf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA16SNdXcBm6RrVcvTP-UmLkod5EYBDHGY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "274671795091-tl4tpvrgl0tcegs9he3kghbch9qjfeuf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
