@@ -10,13 +10,19 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface APIService {
-    /*@POST("AuthenticateUser")
-    Call<UserInteractor> AuthenticateUser() {
-        return null;
-    }*/
 
     @POST("/api/login/authenticateuser")
     @FormUrlEncoded
     Call<User> authenticateUser(@Field("UserName") String email,
-                        @Field("Password") String password);
+                                @Field("Password") String password
+    );
+
+    @POST("/api/login/registeruser")
+    @FormUrlEncoded
+    Call<User> registeruser(@Field("Nombre") String nombre,
+                            @Field("Apellido") String apellido,
+                            @Field("Email") String email,
+                            @Field("Telefono") String telefono,
+                            @Field("Password") String password
+    );
 }

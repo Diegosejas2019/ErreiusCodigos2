@@ -91,7 +91,7 @@ public class RegisterFragment extends Fragment implements  MainContract.View{
 
                 if(!TextUtils.isEmpty(suscriptor) && !TextUtils.isEmpty(password)) {
                     User user = new User(suscriptor,password);
-                    mPresenter.createNewPlayer(user);
+                    mPresenter.readPlayers(user);
                 }
             }
         });

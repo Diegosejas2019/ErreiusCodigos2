@@ -56,7 +56,7 @@
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
         <EditText
-            android:id="@+id/txtContraseña"
+            android:id="@+id/txtNroSuscriptor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
@@ -72,7 +72,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <EditText
-            android:id="@+id/txtVerificarContraseña"
+            android:id="@+id/txtContraseña"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
@@ -88,12 +88,12 @@
             app:layout_constraintTop_toBottomOf="@+id/txtNroSuscriptor" />
 
         <Button
-            android:id="@+id/btnRegister"
+            android:id="@+id/btnContinuar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginLeft="40dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="40dp"
             android:layout_marginRight="40dp"
             android:background="@drawable/buttonroundprimary"
@@ -102,10 +102,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnRegister2" />
+            app:layout_constraintTop_toBottomOf="@+id/btnRegister" />
 
         <Button
-            android:id="@+id/btnRegister2"
+            android:id="@+id/btnRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
@@ -119,7 +119,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtPassword" />
+            app:layout_constraintTop_toBottomOf="@+id/txtContraseña" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

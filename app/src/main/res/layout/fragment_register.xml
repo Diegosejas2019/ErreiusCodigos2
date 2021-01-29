@@ -56,7 +56,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
             <EditText
-                android:id="@+id/txtContraseña"
+                android:id="@+id/txtNroSuscriptor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
@@ -72,7 +72,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
 
             <EditText
-                android:id="@+id/txtVerificarContraseña"
+                android:id="@+id/txtPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"

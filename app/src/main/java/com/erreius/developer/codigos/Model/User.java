@@ -8,6 +8,8 @@ public class User {
         UserName = userName;
         Password = password;
     }
+    public User() {
+    }
 
     @SerializedName("IdUser")
     public int IdUser;
@@ -23,6 +25,9 @@ public class User {
 
     @SerializedName("Email")
     public String Email;
+
+    @SerializedName("Telefono")
+    public String Telefono;
 
     public int getIdUser() {
         return IdUser;
@@ -42,6 +47,14 @@ public class User {
 
     public String getEmail() {
         return Email;
+    }
+
+    public String getTelefono() {
+        return Telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        Telefono = telefono;
     }
 
     @Override

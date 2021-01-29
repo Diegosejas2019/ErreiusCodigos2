@@ -20,6 +20,11 @@ public class MainPresenter implements MainContract.Presenter, MainContract.onOpe
     }
 
     @Override
+    public void readPlayers(User user) {
+        mInteractor.performReadPlayers(user);
+    }
+
+    @Override
     public void onSuccess() {
         mView.onCreatePlayerSuccessful();
     }

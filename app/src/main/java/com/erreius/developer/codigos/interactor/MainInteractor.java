@@ -28,22 +28,48 @@ public class MainInteractor implements MainContract.Ineractor{
     @Override
     public void performCreatePlayer(User user) {
         mListner.onStart();
-        mAPIService.authenticateUser(user.UserName, user.Password).enqueue(new Callback<User>() {
-                @Override
-                public void onResponse(Call<User> call, Response<User> response) {
+        mAPIService.registeruser(user.getUserName(),
+                                 user.getFullUserName(),
+                                 user.getEmail(),
+                                 user.getTelefono(),
+                                 user.getPassword()
+        ).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
 
-                    if(response.isSuccessful()) {
-                        mListner.onSuccess();
-                        mListner.onEnd();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<User> call, Throwable t) {
-                    mListner.onFailure();
+                if(response.isSuccessful()) {
+                    mListner.onSuccess();
                     mListner.onEnd();
                 }
-            });
-        }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                mListner.onFailure();
+                mListner.onEnd();
+            }
+        });
+    }
+
+    @Override
+    public void performReadPlayers(User user) {
+        mListner.onStart();
+        mAPIService.authenticateUser(user.UserName, user.Password).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+
+                if(response.isSuccessful()) {
+                    mListner.onSuccess();
+                    mListner.onEnd();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                mListner.onFailure();
+                mListner.onEnd();
+            }
+        });
+    }
 }
 

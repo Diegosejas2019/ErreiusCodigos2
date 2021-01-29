@@ -4,17 +4,25 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.erreius.developer.codigos.R;
@@ -49,6 +57,7 @@ public class MasterView extends AppCompatActivity {
                 R.id.nav_home, R.id.nav_registrarme, R.id.nav_activar, R.id.nav_terminos, R.id.nav_contactanos)
                 .setDrawerLayout(drawer)
                 .build();
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -77,13 +86,6 @@ public class MasterView extends AppCompatActivity {
                  return true;
              }
          });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
     }
 
     @Override

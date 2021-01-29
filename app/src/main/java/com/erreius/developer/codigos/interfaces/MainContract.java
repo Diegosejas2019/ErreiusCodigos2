@@ -18,15 +18,15 @@ public interface MainContract {
 
     interface Presenter{
         void createNewPlayer(User user);
-        /*void readPlayers(DatabaseReference reference);
-        void updatePlayer(DatabaseReference reference, Player player);
+        void readPlayers(User user);
+        /*void updatePlayer(DatabaseReference reference, Player player);
         void deletePlayer(DatabaseReference reference, Player player);*/
     }
 
     interface Ineractor{
         void performCreatePlayer(User user);
-        /*void performReadPlayers(DatabaseReference reference);
-        void performUpdatePlayer(DatabaseReference reference,Player player);
+        void performReadPlayers(User user);
+        /*void performUpdatePlayer(DatabaseReference reference,Player player);
         void performDeletePlayer(DatabaseReference reference, Player player);*/
     }
 
