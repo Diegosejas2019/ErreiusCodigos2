@@ -33,7 +33,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnCompreCodigo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
@@ -50,7 +50,7 @@
         app:layout_constraintTop_toBottomOf="@+id/buttonSuscriptor" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/btnProbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
@@ -63,7 +63,7 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/btnCompreCodigo" />
 
     <TextView
         android:id="@+id/textView"

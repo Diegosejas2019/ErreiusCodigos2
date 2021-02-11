@@ -7,31 +7,31 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.erreius.developer.codigos.views.CodesFragment"
+        android:name="com.erreius.developer.dev2018.views.CodesFragment"
         android:label="Home"
         tools:layout="@layout/fragment_codes" />
 
     <fragment
         android:id="@+id/nav_registrarme"
-        android:name="com.erreius.developer.codigos.views.RegisterFragment"
+        android:name="com.erreius.developer.dev2018.views.RegisterFragment"
         android:label="@string/menu_registrarme"
         tools:layout="@layout/fragment_register" />
 
     <fragment
         android:id="@+id/nav_activar"
-        android:name="com.erreius.developer.codigos.views.ActivarFragment"
+        android:name="com.erreius.developer.dev2018.views.ActivarFragment"
         android:label="@string/menu_activar"
         tools:layout="@layout/fragment_activar" />
 
     <fragment
         android:id="@+id/nav_terminos"
-        android:name="com.erreius.developer.codigos.views.TermsAndConditionsFragment"
+        android:name="com.erreius.developer.dev2018.views.TermsAndConditionsFragment"
         android:label="@string/menu_terminos"
         tools:layout="@layout/fragment_terms" />
 
     <fragment
         android:id="@+id/nav_contactanos"
-        android:name="com.erreius.developer.codigos.views.ContactFragment"
+        android:name="com.erreius.developer.dev2018.views.ContactFragment"
         android:label="@string/menu_contactenos"
         tools:layout="@layout/fragment_contact" />
 </navigation>

@@ -12,20 +12,6 @@
         android:layout_height="match_parent"
         tools:context=".views.RegisterFragment">
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:indeterminate="true"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toTopOf="@+id/btnRegister"
-            app:layout_constraintTop_toBottomOf="@+id/txtPassword"
-            tools:layout_editor_absoluteX="-16dp" />
-
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="120dp"
@@ -55,7 +41,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editsuscriptor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtNroSuscriptor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"
+                android:hint="Ingresá tu Nro de suscriptor" />
+        </com.google.android.material.textfield.TextInputLayout>
+      <!--  <EditText
             android:id="@+id/txtNroSuscriptor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -69,9 +74,31 @@
             android:hint="Ingresá tu Nro de suscriptor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/textView" />-->
 
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editcontraseña"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:passwordToggleEnabled="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editsuscriptor">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtContraseña"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"
+                android:inputType="textPassword"
+                android:hint="Ingresá tu contraseña" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--<EditText
             android:id="@+id/txtContraseña"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -85,7 +112,7 @@
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtNroSuscriptor" />
+            app:layout_constraintTop_toBottomOf="@+id/txtNroSuscriptor" />-->
 
         <Button
             android:id="@+id/btnContinuar"
@@ -109,17 +136,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="60dp"
             android:layout_marginEnd="40dp"
-            android:layout_marginRight="40dp"
             android:background="@drawable/buttonroundblack"
             android:text="Registrarme"
             android:textColor="@color/White"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtContraseña" />
+            app:layout_constraintTop_toBottomOf="@+id/editcontraseña" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

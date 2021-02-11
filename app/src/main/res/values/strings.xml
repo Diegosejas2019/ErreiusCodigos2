@@ -229,4 +229,7 @@
                     ERREPAR SA
 
                     </string>
+    <string name="facebook_app_id">130863474395603</string>
+    <string name="my_preference_key"></string>
+    <string name="my_preference"></string>
 </resources>
