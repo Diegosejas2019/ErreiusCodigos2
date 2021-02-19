@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.erreius.developer.dev2018.Model.EncryptData;
 import com.erreius.developer.dev2018.Model.User;
 import com.erreius.developer.dev2018.R;
 import com.erreius.developer.dev2018.interfaces.MainContract;
@@ -97,5 +98,25 @@ public class RegisterFragment extends Fragment implements  MainContract.View{
     @Override
     public void onProcessEnd() {
         mProgressbar.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onUserRead(User user) {
+
+        CodesFragment nextFrag= new CodesFragment();
+        Bundle bundle=new Bundle();
+        bundle.putString("idUser", mNroSuscriptor.getText().toString());
+        bundle.putString("Password", mNroSuscriptor.getText().toString());
+        nextFrag.setArguments(bundle);
+
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.nav_host_fragment, nextFrag, "findThisFragment")
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void onEncryptData(EncryptData encryptData) {
+
     }
 }

@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.erreius.developer.dev2018.Model.EncryptData;
+import com.erreius.developer.dev2018.Model.User;
 import com.erreius.developer.dev2018.R;
 import com.erreius.developer.dev2018.interfaces.MainContract;
 import com.erreius.developer.dev2018.presenters.MainPresenter;
@@ -95,6 +97,16 @@ public class HomeFragment extends Fragment implements  MainContract.View{
 
     @Override
     public void onProcessEnd() {
+
+    }
+
+    @Override
+    public void onUserRead(User user) {
+
+    }
+
+    @Override
+    public void onEncryptData(EncryptData encryptData) {
 
     }
 }

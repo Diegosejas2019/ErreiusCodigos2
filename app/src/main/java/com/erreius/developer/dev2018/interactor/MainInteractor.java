@@ -11,7 +11,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainInteractor implements MainContract.Ineractor{
+public class MainInteractor implements MainContract.Interactor{
     private APIService mAPIService;
     private MainContract.onOperationListener mListner;
 
@@ -50,12 +50,16 @@ public class MainInteractor implements MainContract.Ineractor{
     @Override
     public void performReadPlayers(User user) {
         mListner.onStart();
-        mAPIService.authenticateUser(user.UserName, user.Password).enqueue(new Callback<User>() {
+        mAPIService.authenticateUser(user.UserName, user.Password,user.IdUser,user.Email).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
 
                 if(response.isSuccessful()) {
                     mListner.onSuccessRead(response.body());
+                    mListner.onEnd();
+                }
+                else{
+                    mListner.onFailure();
                     mListner.onEnd();
                 }
             }
@@ -91,10 +95,10 @@ public class MainInteractor implements MainContract.Ineractor{
 
     @Override
     public void performActivarCodigo(Codigo codigo) {
-        mListner.onStart();
+        /*mListner.onStart();
         mListner.onSuccess();
-        mListner.onEnd();
-        /*mAPIService.activarcodigo(codigo.IdUser, codigo.Codigo).enqueue(new Callback<User>() {
+        mListner.onEnd();*/
+        mAPIService.activarcodigo(codigo.IdUser, codigo.Codigo).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
 
@@ -109,7 +113,7 @@ public class MainInteractor implements MainContract.Ineractor{
                 mListner.onFailure();
                 mListner.onEnd();
             }
-        });*/
+        });
     }
 }
 

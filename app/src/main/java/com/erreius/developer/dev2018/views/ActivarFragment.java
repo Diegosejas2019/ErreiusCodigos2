@@ -1,5 +1,6 @@
 package com.erreius.developer.dev2018.views;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,10 +17,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.erreius.developer.dev2018.Model.Codigo;
+import com.erreius.developer.dev2018.Model.EncryptData;
+import com.erreius.developer.dev2018.Model.User;
 import com.erreius.developer.dev2018.R;
 import com.erreius.developer.dev2018.interfaces.MainContract;
 import com.erreius.developer.dev2018.presenters.MainPresenter;
 import com.google.android.material.textfield.TextInputEditText;
+
+import static android.content.Context.MODE_PRIVATE;
+import static com.erreius.developer.dev2018.views.RegistrarP1Fragment.MY_PREFS_NAME;
 
 
 public class ActivarFragment extends Fragment implements  MainContract.View{
@@ -71,10 +77,11 @@ public class ActivarFragment extends Fragment implements  MainContract.View{
                     focusView.requestFocus();
                 } else {
                     String item = mCodigo.getText().toString().trim();
-
+                    SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                    Integer idUser = prefs.getInt("idUser", 0);
                     Codigo codigo = new Codigo();
                     codigo.setCodigo(item);
-                    codigo.setIdUser(1);
+                    codigo.setIdUser(idUser);
 
                     mPresenter.activarCodigo(codigo);
                 }
@@ -86,7 +93,7 @@ public class ActivarFragment extends Fragment implements  MainContract.View{
 
     @Override
     public void onCreatePlayerSuccessful() {
-        ContactFragment nextFrag= new ContactFragment();
+        CodesFragment nextFrag= new CodesFragment();
 
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.nav_host_fragment, nextFrag, "findThisFragment")
@@ -107,5 +114,15 @@ public class ActivarFragment extends Fragment implements  MainContract.View{
     @Override
     public void onProcessEnd() {
         mProgressbar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onUserRead(User user) {
+
+    }
+
+    @Override
+    public void onEncryptData(EncryptData encryptData) {
+
     }
 }

@@ -29,7 +29,7 @@ public class RegistrarP1Fragment extends Fragment implements  MainContract.View 
     public MainPresenter mPresenter;
     @BindView(R.id.btnRegister) Button mRegistrar;
     @BindView(R.id.btnContinuar) Button mContinuar;
-    @BindView(R.id.txtNroSuscriptor) EditText mNroSuscriptor;
+    @BindView(R.id.txtNroSuscriptor) EditText mEmail;
     @BindView(R.id.txtContraseña) EditText mContraseña;
     @BindView(R.id.progressBar) ProgressBar mProgressBar;
     public static final String MY_PREFS_NAME = "MyPrefsFile";
@@ -64,11 +64,32 @@ public class RegistrarP1Fragment extends Fragment implements  MainContract.View 
         mContinuar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String suscriptor = mNroSuscriptor.getText().toString().trim();
+                String email = mEmail.getText().toString().trim();
                 String password = mContraseña.getText().toString().trim();
 
-                if(!TextUtils.isEmpty(suscriptor) && !TextUtils.isEmpty(password)) {
-                    User user = new User(suscriptor,password);
+                View focusView = null;
+                boolean cancel = false;
+
+                if (TextUtils.isEmpty(email)){
+                    mEmail.setError("Campo requerido");
+                    focusView = mEmail;
+                    cancel = true;
+                }
+
+                if (TextUtils.isEmpty(password)){
+                    mContraseña.setError("Campo requerido");
+                    focusView = mContraseña;
+                    cancel = true;
+                }
+
+                if (cancel) {
+                    focusView.requestFocus();
+                } else {
+
+                    User user = new User();
+                    user.Email = email;
+                    user.Password = password;
+
                     mPresenter.readPlayers(user);
                 }
             }
@@ -110,8 +131,8 @@ public class RegistrarP1Fragment extends Fragment implements  MainContract.View 
     @Override
     public void onUserRead(User user) {
         SharedPreferences.Editor editor = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-        editor.putString("idUser", user.getUserName());
-        //editor.putString("idUser", user.getPassword());
+        editor.putInt("idUser", user.getIdUser());
+        editor.putString("Password", mContraseña.getText().toString());
         editor.apply();
 
         CodesFragment nextFrag= new CodesFragment();

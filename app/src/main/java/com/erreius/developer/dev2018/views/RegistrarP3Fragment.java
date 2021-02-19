@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
+import com.erreius.developer.dev2018.Model.EncryptData;
 import com.erreius.developer.dev2018.Model.User;
 import com.erreius.developer.dev2018.R;
 import com.erreius.developer.dev2018.interfaces.MainContract;
@@ -126,5 +127,15 @@ public class RegistrarP3Fragment extends Fragment implements  MainContract.View{
     @Override
     public void onProcessEnd() {
         mProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onUserRead(User user) {
+
+    }
+
+    @Override
+    public void onEncryptData(EncryptData encryptData) {
+
     }
 }

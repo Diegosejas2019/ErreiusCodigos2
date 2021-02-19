@@ -3,6 +3,7 @@ package com.erreius.developer.dev2018.views;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
@@ -54,11 +55,15 @@ public class CodesFragment extends Fragment implements  MainContract.View {
     @BindView(R.id.webView) WebView mWebView;
     private static String url_home = "http://appcodigos.erreius.com/Default.aspx";
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM1 = "Ingreso";
+    private static final String ARG_PARAM2 = "idUser";
+    private static final String ARG_PARAM3 = "Password";
     private Integer mIdUser;
+    private Integer restoredText;
     private String mParam1;
     private String mParam2;
+    private String mParam3;
+    private String Password;
     public MainPresenter mPresenter;
 
     public CodesFragment() {
@@ -66,11 +71,15 @@ public class CodesFragment extends Fragment implements  MainContract.View {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            mParam3 = getArguments().getString(ARG_PARAM3);
+        }
+        else{
+            mParam1 = "";
         }
         mPresenter = new MainPresenter(this);
         OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
@@ -88,7 +97,7 @@ public class CodesFragment extends Fragment implements  MainContract.View {
                 Boolean flag = mWebView.getUrl().toLowerCase().contains(content.toLowerCase());
                 if (flag){
                     if (!mWebView.getUrl().equals(url_home))
-                    {
+                    { 
                         mWebView.loadUrl(url_home);
                     }
                 }
@@ -140,14 +149,38 @@ public class CodesFragment extends Fragment implements  MainContract.View {
                 });
 
         SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-        Integer restoredText = prefs.getInt("idUser", 0);
+        restoredText = prefs.getInt("idUser", 0);
         if (restoredText != 0) {
 
             mIdUser = prefs.getInt("idUser", 0);
+            Password = prefs.getString("Password", "");
             EncryptData encryptData = new EncryptData();
             encryptData.EUS = mIdUser.toString();
+            encryptData.EPS = Password.toString();
 
-            mPresenter.onSuccessEncrypt(encryptData);
+            mPresenter.encryptData(encryptData);
+        }
+        else{
+            if(mParam2 != null){
+                EncryptData encryptData = new EncryptData();
+                encryptData.EUS = mParam2;
+                encryptData.EPS = mParam3;
+                restoredText = 22;
+                mPresenter.encryptData(encryptData);
+            }
+            else{
+                if(mParam1.equals("Menu")){
+                    if (restoredText == 0)
+                    {
+                        Intent mainIntent = new Intent(getContext(),
+                                LoginView.class);
+                        startActivity(mainIntent);
+                        getActivity().finish();
+                        getActivity().overridePendingTransition(R.anim.nav_default_enter_anim,R.anim.nav_default_exit_anim);
+                        return null;
+                    }
+                }
+            }
         }
         return view;
     }
@@ -253,11 +286,21 @@ public class CodesFragment extends Fragment implements  MainContract.View {
 
     @Override
     public void onEncryptData(EncryptData encryptData) {
-        String mensaje =  "eus=" + encryptData.EUS + "&eps=a&name=a&tipored=F&mobile=si";
-        String url = "http://appcodigos.erreius.com/Login.aspx?" + mensaje;
+        if (restoredText == 22)
+        {
+            String mensaje =  "eus=" + encryptData.EUS + "&eps=" + encryptData.EPS + "&name=a&mobile=si";
+            String url = "http://appcodigos.erreius.com/Login.aspx?" + mensaje;
 
-        CargarWebView(url);
-        setHasOptionsMenu(true);
+            CargarWebView(url);
+            setHasOptionsMenu(true);
+        }
+        else{
+            String mensaje =  "eus=" + encryptData.EUS + "&eps=a&name=a&tipored=F&mobile=si";
+            String url = "http://appcodigos.erreius.com/Login.aspx?" + mensaje;
+
+            CargarWebView(url);
+            setHasOptionsMenu(true);
+        }
     }
 
     private class MyWebViewClient extends WebViewClient {

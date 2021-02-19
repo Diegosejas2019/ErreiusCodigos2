@@ -74,6 +74,9 @@ public class MasterView extends AppCompatActivity {
                         break;
                     case R.id.nav_home:
                         nextFrag= new CodesFragment();
+                        Bundle bundle=new Bundle();
+                        bundle.putString("Ingreso", "Menu");
+                        nextFrag.setArguments(bundle);
                         break;
                     case R.id.nav_terminos:
                         nextFrag= new TermsAndConditionsFragment();
@@ -126,7 +129,13 @@ public class MasterView extends AppCompatActivity {
                 nextFrag = new RegisterFragment();
             }
             else{
-                nextFrag = new LoginFragment();
+                if (Opcion.equals("Logueado"))
+                {
+                    nextFrag = new CodesFragment();
+                }
+                else{
+                    nextFrag = new LoginFragment();
+                }
             }
 
             getSupportFragmentManager().beginTransaction()

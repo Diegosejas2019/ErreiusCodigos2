@@ -12,11 +12,13 @@ public interface APIService {
 
     @POST("/api/login/authenticateuser")
     @FormUrlEncoded
-    Call<User> authenticateUser(@Field("UserName") String email,
-                                @Field("Password") String password
+    Call<User> authenticateUser(@Field("UserName") String userName,
+                                @Field("Password") String password,
+                                @Field("idUser") Integer idUser,
+                                @Field("Email") String email
     );
 
-    @POST("/api/login/registeruser")
+    @POST("/api/login/registrarusuario")
     @FormUrlEncoded
     Call<User> registeruser(@Field("Nombre") String nombre,
                             @Field("Apellido") String apellido,

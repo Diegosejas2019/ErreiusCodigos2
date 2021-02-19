@@ -19,9 +19,10 @@ public interface MainContract {
         void createNewPlayer(User user);
         void readPlayers(User user);
         void activarCodigo(Codigo codigo);
+        void encryptData(EncryptData encryptData);
     }
 
-    interface Ineractor{
+    interface Interactor{
         void performCreatePlayer(User user);
         void performReadPlayers(User user);
         void performActivarCodigo(Codigo codigo);

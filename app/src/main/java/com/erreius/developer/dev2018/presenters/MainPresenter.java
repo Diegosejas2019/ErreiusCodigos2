@@ -1,6 +1,7 @@
 package com.erreius.developer.dev2018.presenters;
 
 import com.erreius.developer.dev2018.Model.Codigo;
+import com.erreius.developer.dev2018.Model.EncryptData;
 import com.erreius.developer.dev2018.Model.User;
 import com.erreius.developer.dev2018.interactor.MainInteractor;
 import com.erreius.developer.dev2018.interfaces.MainContract;
@@ -31,6 +32,11 @@ public class MainPresenter implements MainContract.Presenter, MainContract.onOpe
     }
 
     @Override
+    public void encryptData(EncryptData encryptData) {
+        mInteractor.performEncryptData(encryptData);
+    }
+
+    @Override
     public void onSuccess() {
         mView.onCreatePlayerSuccessful();
     }
@@ -38,6 +44,11 @@ public class MainPresenter implements MainContract.Presenter, MainContract.onOpe
     @Override
     public void onSuccessRead(User user) {
         mView.onUserRead(user);
+    }
+
+    @Override
+    public void onSuccessEncrypt(EncryptData encryptData) {
+        mView.onEncryptData(encryptData);
     }
 
     @Override

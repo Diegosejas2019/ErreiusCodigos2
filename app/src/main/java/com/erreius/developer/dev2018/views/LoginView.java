@@ -6,12 +6,17 @@ import butterknife.ButterKnife;
 
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.erreius.developer.dev2018.Model.EncryptData;
+import com.erreius.developer.dev2018.Model.User;
 import com.erreius.developer.dev2018.R;
+import com.erreius.developer.dev2018.interfaces.MainContract;
+import com.erreius.developer.dev2018.presenters.MainPresenter;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.play.core.appupdate.AppUpdateManager;
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
@@ -21,7 +26,9 @@ import com.google.android.play.core.install.model.AppUpdateType;
 import com.google.android.play.core.install.model.InstallStatus;
 import com.google.android.play.core.install.model.UpdateAvailability;
 
-public class LoginView extends AppCompatActivity {
+import static com.erreius.developer.dev2018.views.RegistrarP1Fragment.MY_PREFS_NAME;
+
+public class LoginView extends AppCompatActivity implements MainContract.View{
     @BindView(R.id.buttonSuscriptor) Button btnSuscriptor;
     @BindView(R.id.btnProbar) Button btnProbar;
     @BindView(R.id.btnCompreCodigo) Button btnCompreCodigo;
@@ -29,6 +36,9 @@ public class LoginView extends AppCompatActivity {
     private AppUpdateManager mAppUpdateManager;
     private static final int RC_APP_UPDATE = 11;
     private InstallStateUpdatedListener mInstallStateUpdatedListener;
+    public MainPresenter mPresenter;
+    private Integer mIdUser;
+    private String mPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +47,19 @@ public class LoginView extends AppCompatActivity {
 
         ButterKnife.bind(this);
         checkUpdate();
+        mPresenter = new MainPresenter(this);
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        Integer restoredText = prefs.getInt("idUser", 0);
+        if (restoredText != 0) {
 
+            mIdUser = prefs.getInt("idUser", 0);
+            mPassword = prefs.getString("Password", "");
+            User user = new User();
+            user.setIdUser(mIdUser);
+            user.setPassword(mPassword);
+
+            mPresenter.readPlayers(user);
+        }
         btnSuscriptor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,5 +153,38 @@ public class LoginView extends AppCompatActivity {
 
         snackbar.setActionTextColor(getResources().getColor(R.color.colorAccent));
         snackbar.show();
+    }
+
+    @Override
+    public void onCreatePlayerSuccessful() {
+
+    }
+
+    @Override
+    public void onCreatePlayerFailure() {
+
+    }
+
+    @Override
+    public void onProcessStart() {
+
+    }
+
+    @Override
+    public void onProcessEnd() {
+
+    }
+
+    @Override
+    public void onUserRead(User user) {
+        Intent intent = new Intent(LoginView.this, MasterView.class);
+        intent.putExtra("Opcion","Logeado");
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    @Override
+    public void onEncryptData(EncryptData encryptData) {
+
     }
 }
