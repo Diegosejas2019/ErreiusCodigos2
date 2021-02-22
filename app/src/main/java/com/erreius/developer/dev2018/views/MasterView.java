@@ -12,13 +12,17 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 
 import com.erreius.developer.dev2018.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+
+import static com.erreius.developer.dev2018.views.RegistrarP1Fragment.MY_PREFS_NAME;
 
 public class MasterView extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
@@ -60,6 +64,17 @@ public class MasterView extends AppCompatActivity {
                 Fragment nextFrag= new Fragment();
                 switch (menuItem.getItemId()) {
                     case R.id.nav_cerrar:
+
+                        SharedPreferences spreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                        SharedPreferences.Editor spreferencesEditor = spreferences.edit();
+                        spreferencesEditor.clear();
+                        spreferencesEditor.commit();
+
+                        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                        spreferencesEditor = prefs.edit();
+                        spreferencesEditor.clear();
+                        spreferencesEditor.commit();
+
                         Intent mainIntent = new Intent(MasterView.this,
                                 LoginView.class);
                         startActivity(mainIntent);

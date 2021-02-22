@@ -1,6 +1,7 @@
 package com.erreius.developer.dev2018.views;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +23,9 @@ import com.erreius.developer.dev2018.R;
 import com.erreius.developer.dev2018.interfaces.MainContract;
 import com.erreius.developer.dev2018.presenters.MainPresenter;
 import com.google.android.material.textfield.TextInputEditText;
+
+import static android.content.Context.MODE_PRIVATE;
+import static com.erreius.developer.dev2018.views.RegistrarP1Fragment.MY_PREFS_NAME;
 
 public class RegisterFragment extends Fragment implements  MainContract.View{
 
@@ -103,10 +107,15 @@ public class RegisterFragment extends Fragment implements  MainContract.View{
     @Override
     public void onUserRead(User user) {
 
+        SharedPreferences.Editor editor = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+        editor.putString("idUser",mNroSuscriptor.getText().toString());
+        editor.putString("Password", mPassword.getText().toString());
+        editor.apply();
+
         CodesFragment nextFrag= new CodesFragment();
         Bundle bundle=new Bundle();
         bundle.putString("idUser", mNroSuscriptor.getText().toString());
-        bundle.putString("Password", mNroSuscriptor.getText().toString());
+        bundle.putString("Password", mPassword.getText().toString());
         nextFrag.setArguments(bundle);
 
         getActivity().getSupportFragmentManager().beginTransaction()

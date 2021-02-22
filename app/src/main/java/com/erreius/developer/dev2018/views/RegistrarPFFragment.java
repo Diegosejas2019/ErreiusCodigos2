@@ -1,5 +1,6 @@
 package com.erreius.developer.dev2018.views;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,10 +15,20 @@ import android.widget.Button;
 
 import com.erreius.developer.dev2018.R;
 
+import static android.content.Context.MODE_PRIVATE;
+import static com.erreius.developer.dev2018.views.RegistrarP1Fragment.MY_PREFS_NAME;
+
 
 public class RegistrarPFFragment extends Fragment {
 
     @BindView(R.id.btnRegister) Button mContinuar;
+
+    private static final String ARG_PARAM1 = "email";
+    private static final String ARG_PARAM2 = "password";
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
     public RegistrarPFFragment() {
         // Required empty public constructor
     }
@@ -26,6 +37,8 @@ public class RegistrarPFFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -40,7 +53,17 @@ public class RegistrarPFFragment extends Fragment {
         mContinuar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                HomeFragment nextFrag= new HomeFragment();
+                SharedPreferences.Editor editor = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                editor.putInt("idUser", Integer.valueOf(mParam1));
+                editor.putString("Password", mParam2);
+                editor.apply();
+
+                CodesFragment nextFrag= new CodesFragment();
+                Bundle bundle=new Bundle();
+                bundle.putString("idUser", mParam1);
+                bundle.putString("Password", mParam2);
+                nextFrag.setArguments(bundle);
+
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.nav_host_fragment, nextFrag, "findThisFragment")
                         .addToBackStack(null)

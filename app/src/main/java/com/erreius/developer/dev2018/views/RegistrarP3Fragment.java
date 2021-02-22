@@ -107,6 +107,10 @@ public class RegistrarP3Fragment extends Fragment implements  MainContract.View{
     @Override
     public void onCreatePlayerSuccessful() {
         RegistrarPFFragment nextFrag= new RegistrarPFFragment();
+        Bundle bundle=new Bundle();
+        bundle.putString("email", mParam1);
+        bundle.putString("password", mContraseña.getText().toString());
+        nextFrag.setArguments(bundle);
 
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.nav_host_fragment, nextFrag, "findThisFragment")
