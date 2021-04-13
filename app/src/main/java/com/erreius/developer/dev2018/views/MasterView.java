@@ -11,20 +11,47 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Base64;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.erreius.developer.dev2018.R;
+import com.erreius.developer.dev2018.RoundedCornersTransform;
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+import com.facebook.login.Login;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.squareup.picasso.Picasso;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import static com.erreius.developer.dev2018.views.RegistrarP1Fragment.MY_PREFS_NAME;
 
 public class MasterView extends AppCompatActivity {
+    private static final String TAG = "info hash";
     private AppBarConfiguration mAppBarConfiguration;
 
     @Override
@@ -34,11 +61,13 @@ public class MasterView extends AppCompatActivity {
         /*FirebaseMessaging.getInstance().subscribeToTopic("news").addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(getApplicationContext(),"Success", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(),"Success", Toast.LENGTH_LONG).show();
             }
         });*/
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Erreius");
+        toolbar.setTitle("");
+        toolbar.setBackgroundColor(Color.WHITE);
+        toolbar.setOverflowIcon(null);
         setSupportActionBar(toolbar);
 
 
@@ -48,10 +77,16 @@ public class MasterView extends AppCompatActivity {
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_registrarme, R.id.nav_activar, R.id.nav_terminos, R.id.nav_contactanos)
-                .setDrawerLayout(drawer)
-                .build();
+        if (savedInstanceState == null) {
+            /*
+            return;
+        }
+        else{*/
+            mAppBarConfiguration = new AppBarConfiguration.Builder(
+                    R.id.nav_home, R.id.nav_registrarme, R.id.nav_activar,R.id.nav_notas, R.id.nav_terminos, R.id.nav_contactanos)
+                    .setDrawerLayout(drawer)
+                    .build();
+
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
@@ -83,6 +118,9 @@ public class MasterView extends AppCompatActivity {
                         break;
                     case R.id.nav_activar:
                         nextFrag= new ActivarFragment();
+                        break;
+                    case R.id.nav_notas:
+                        nextFrag= new NotasFragment();
                         break;
                     case R.id.nav_contactanos:
                         nextFrag= new ContactFragment();
@@ -134,34 +172,102 @@ public class MasterView extends AppCompatActivity {
                  return true;
              }
          });
-
-        Bundle b = getIntent().getExtras();
-        if(b != null){
-            String Opcion = b.getString("Opcion","");
-            Fragment nextFrag= new Fragment();
-            if (Opcion.equals("Suscriptor"))
-            {
-                nextFrag = new RegisterFragment();
-            }
-            else{
-                if (Opcion.equals("Logueado"))
+            Bundle b = getIntent().getExtras();
+            if(b != null){
+                String Opcion = b.getString("Opcion","");
+                String UrlFoto = b.getString("UrlFoto","");
+                String Name = b.getString("Name","");
+                Fragment nextFrag= new Fragment();
+                Log.println(Log.INFO,"Opcion",Opcion);
+                if (Opcion.equals("Suscriptor"))
                 {
-                    nextFrag = new CodesFragment();
+                    nextFrag = new RegisterFragment();
+                    Log.println(Log.INFO,"Login","Register");
                 }
                 else{
-                    nextFrag = new LoginFragment();
+                    if (Opcion.equals("Logueado"))
+                    {
+                        nextFrag = new CodesFragment();
+                        Log.println(Log.INFO,"Login","Codes");
+                    }
+                    else{
+                        nextFrag = new LoginFragment();
+                        Log.println(Log.INFO,"Login","Login");
+                    }
                 }
+
+                if (!UrlFoto.equals(""))
+                {
+                    new GraphRequest(
+                            AccessToken.getCurrentAccessToken(),
+                            "/10215768115819638",
+                            null,
+                            HttpMethod.GET,
+                            new GraphRequest.Callback() {
+                                public void onCompleted(GraphResponse response) {
+                                    /* handle the result */
+                                    String algo= "a";
+                                }
+                            }
+                    ).executeAsync();
+
+                    View hView =  navigationView.getHeaderView(0);
+                    TextView correo = (TextView)hView.findViewById(R.id.txtCorreo);
+                    TextView bienvenido = (TextView)hView.findViewById(R.id.txtBienvenido);
+                    bienvenido.setVisibility(View.VISIBLE);
+                    correo.setText(Name);
+                    ImageView nav_user = (ImageView)hView.findViewById(R.id.imageView);
+                    Picasso.with(MasterView.this)
+                            .load(UrlFoto)
+                            //.resize(1400, 850)
+                            .transform(new RoundedCornersTransform())
+                            .into(nav_user);
+                }
+
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment, nextFrag, "findThisFragment")
+                        .addToBackStack(null)
+
+                        .setMaxLifecycle(nextFrag, Lifecycle.State.RESUMED)
+                        .commit();
             }
+            return;
+        }
 
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.nav_host_fragment, nextFrag, "findThisFragment")
-                    .addToBackStack(null)
-
-                    .setMaxLifecycle(nextFrag, Lifecycle.State.RESUMED)
-                    .commit();
+        //printHashKey(MasterView.this);
+    }
+    public void printHashKey(Context pContext) {
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+            for (android.content.pm.Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String hashKey = new String(Base64.encode(md.digest(), 0));
+                Log.i(TAG, "printHashKey() Hash Key: " + hashKey);
+            }
+        } catch (NoSuchAlgorithmException e) {
+            Log.e(TAG, "printHashKey()", e);
+        } catch (Exception e) {
+            Log.e(TAG, "printHashKey()", e);
         }
     }
 
+    public void setName(String Name){
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        View hView =  navigationView.getHeaderView(0);
+        TextView correo = (TextView)hView.findViewById(R.id.txtCorreo);
+        TextView bienvenido = (TextView)hView.findViewById(R.id.txtBienvenido);
+        bienvenido.setVisibility(View.VISIBLE);
+        correo.setText(Name);
+
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -173,12 +279,59 @@ public class MasterView extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(getSupportFragmentManager().getBackStackEntryCount() > 0){
-            getSupportFragmentManager().popBackStackImmediate();
+        if(getFragmentManager().getBackStackEntryCount() > 0){
+            getFragmentManager().popBackStackImmediate();
         }
         else{
             super.onBackPressed();
         }
+
+       // LoginFragment.onBackPressed();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+        /*if (id == R.id.action_settings) {
+            showInfoAlert(0);
+        }*/
+
+        //showInfoAlert(0);
+        return super.onOptionsItemSelected(item);
+    }
+
+    //    public boolean onOptionsItemSelected(MenuItem item){
+//        switch(item.getItemId()){
+//            case SELECTTEXT_MENU_ID:
+//                SelectText();
+//                return true;
+//        }
+//        super.onOptionsItemSelected(item);
+//        return true;
+//    }
+    private void showInfoAlert(int ids)
+    {
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.detalle, null);
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.setPositiveButton("Guardar Nota", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //mListener.onDialogPositiveClick(mNameEdit.getText().toString(), mPasswordEdit.getText().toString());
+                TextView texto = findViewById(R.id.txtContenidoNota);
+                Toast.makeText(MasterView.this,"algo",Toast.LENGTH_LONG).show();
+            }
+        });
+
+        dialogBuilder.setNegativeButton("Cerrar",null );
+        //dialogBuilder.setNegativeButton("Guardar Nota",null );
+        //ImageView editText = (ImageView) dialogView.findViewById(R.id.ImageDetail);
+        //ImageView imagen = findViewById(ids);
+        //editText.setImageDrawable(imagen.getDrawable());
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+    }
 }

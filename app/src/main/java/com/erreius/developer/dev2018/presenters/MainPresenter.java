@@ -1,6 +1,7 @@
 package com.erreius.developer.dev2018.presenters;
 
 import com.erreius.developer.dev2018.Model.Codigo;
+import com.erreius.developer.dev2018.Model.CodigosResponse;
 import com.erreius.developer.dev2018.Model.EncryptData;
 import com.erreius.developer.dev2018.Model.User;
 import com.erreius.developer.dev2018.interactor.MainInteractor;
@@ -32,13 +33,43 @@ public class MainPresenter implements MainContract.Presenter, MainContract.onOpe
     }
 
     @Override
+    public void guardarNota(Codigo codigo) {
+        mInteractor.performGuardarNota(codigo);
+    }
+
+    @Override
     public void encryptData(EncryptData encryptData) {
         mInteractor.performEncryptData(encryptData);
     }
 
     @Override
+    public void obtenerNotas(Codigo codigos) {
+        mInteractor.performObtenerNotas(codigos);
+    }
+
+    @Override
+    public void eliminarnota(Codigo codigos) {
+        mInteractor.performEliminarNota(codigos);
+    }
+
+    @Override
     public void onSuccess() {
         mView.onCreatePlayerSuccessful();
+    }
+
+    @Override
+    public void onSuccessNota(Codigo codigo) {
+        mView.onGuardarNota(codigo);
+    }
+
+    @Override
+    public void onSuccessObtenerNota(CodigosResponse codigo) {
+        mView.onObtenerNotas(codigo);
+    }
+
+    @Override
+    public void onSuccessCreate(User user) {
+        mView.onUserCreate(user);
     }
 
     @Override

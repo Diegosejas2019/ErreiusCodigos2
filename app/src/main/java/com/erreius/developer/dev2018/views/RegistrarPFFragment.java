@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,7 +26,6 @@ public class RegistrarPFFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "email";
     private static final String ARG_PARAM2 = "password";
-
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -50,13 +50,13 @@ public class RegistrarPFFragment extends Fragment {
         ButterKnife.bind(this,view);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Erreius");
 
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
+        toolbar.setOverflowIcon(null);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
         mContinuar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences.Editor editor = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-                editor.putInt("idUser", Integer.valueOf(mParam1));
-                editor.putString("Password", mParam2);
-                editor.apply();
 
                 CodesFragment nextFrag= new CodesFragment();
                 Bundle bundle=new Bundle();

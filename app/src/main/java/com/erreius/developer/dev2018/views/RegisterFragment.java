@@ -1,10 +1,13 @@
 package com.erreius.developer.dev2018.views;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,6 +20,8 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.erreius.developer.dev2018.Model.Codigo;
+import com.erreius.developer.dev2018.Model.CodigosResponse;
 import com.erreius.developer.dev2018.Model.EncryptData;
 import com.erreius.developer.dev2018.Model.User;
 import com.erreius.developer.dev2018.R;
@@ -55,6 +60,15 @@ public class RegisterFragment extends Fragment implements  MainContract.View{
         }
 
         mPresenter = new MainPresenter(this);
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                getFragmentManager().beginTransaction().
+                        remove(RegisterFragment.this).commit();
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
     @Override
@@ -69,6 +83,11 @@ public class RegisterFragment extends Fragment implements  MainContract.View{
 
         //getActivity().setTitle("Erreius");
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Erreius");
+
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
+        toolbar.setOverflowIcon(null);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
         mRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,7 +127,8 @@ public class RegisterFragment extends Fragment implements  MainContract.View{
     public void onUserRead(User user) {
 
         SharedPreferences.Editor editor = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-        editor.putString("idUser",mNroSuscriptor.getText().toString());
+        editor.putInt("idUser", 0);
+        editor.putString("idSuscriptor", mNroSuscriptor.getText().toString());
         editor.putString("Password", mPassword.getText().toString());
         editor.apply();
 
@@ -125,7 +145,22 @@ public class RegisterFragment extends Fragment implements  MainContract.View{
     }
 
     @Override
+    public void onUserCreate(User user) {
+
+    }
+
+    @Override
     public void onEncryptData(EncryptData encryptData) {
+
+    }
+
+    @Override
+    public void onGuardarNota(Codigo codigo) {
+
+    }
+
+    @Override
+    public void onObtenerNotas(CodigosResponse codigos) {
 
     }
 }

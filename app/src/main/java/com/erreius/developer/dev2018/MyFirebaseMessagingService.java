@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Map;
@@ -34,7 +35,23 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     //firebase cloud messaging
     private void sendPushNotification(JSONObject json) {
         //optionally we can display the json into log
+        Log.e(TAG, "Notification JSON " + json.toString());
+        try {
 
+            String title = "Errepar";
+            String id = json.get("id").toString();
+            String titulo = json.get("titulo").toString();
+            String descripcion = json.get("descripcion").toString();
+            String link = json.get("link").toString();
+            MyNotificationManager mNotificationManager = new MyNotificationManager(getApplicationContext());
+
+            mNotificationManager.showSmallNotification(titulo, id,descripcion,descripcion,link);
+
+        } catch (JSONException e) {
+            Log.e(TAG, "Json Exception: " + e.getMessage());
+        } catch (Exception e) {
+            Log.e(TAG, "Exception: " + e.getMessage());
+        }
     }
 
 }

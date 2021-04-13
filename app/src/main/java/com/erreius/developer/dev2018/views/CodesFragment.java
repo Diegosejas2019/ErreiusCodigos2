@@ -1,16 +1,25 @@
 package com.erreius.developer.dev2018.views;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,21 +35,45 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import androidx.appcompat.widget.SearchView;
+
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.erreius.developer.dev2018.Model.Codigo;
+import com.erreius.developer.dev2018.Model.CodigosResponse;
 import com.erreius.developer.dev2018.Model.EncryptData;
 import com.erreius.developer.dev2018.Model.User;
 import com.erreius.developer.dev2018.R;
 import com.erreius.developer.dev2018.interfaces.MainContract;
 import com.erreius.developer.dev2018.presenters.MainPresenter;
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.textfield.TextInputEditText;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.content.ContentValues.TAG;
+import static android.content.Context.CONNECTIVITY_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
+import static android.content.Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP;
 import static com.erreius.developer.dev2018.views.RegistrarP1Fragment.MY_PREFS_NAME;
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 class WebAppInterface
 {
@@ -53,19 +86,24 @@ class WebAppInterface
 
 public class CodesFragment extends Fragment implements  MainContract.View {
     @BindView(R.id.webView) WebView mWebView;
-    private static String url_home = "http://appcodigos.erreius.com/Default.aspx";
+    //@BindView(R.id.txtContenidoNota) EditText nota;
+
+    private static String url_home = "http://appcodigos.erreius.com/Default.aspx?mobile=si";
 
     private static final String ARG_PARAM1 = "Ingreso";
     private static final String ARG_PARAM2 = "idUser";
     private static final String ARG_PARAM3 = "Password";
+    private static final String ARG_PARAM4 = "Name";
     private Integer mIdUser;
     private Integer restoredText;
     private String mParam1;
     private String mParam2;
     private String mParam3;
+    private String mParam4;
     private String Password;
     public MainPresenter mPresenter;
-
+    public View mView;
+    public Toolbar toolbar;
     public CodesFragment() {
         // Required empty public constructor
     }
@@ -77,6 +115,7 @@ public class CodesFragment extends Fragment implements  MainContract.View {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
             mParam3 = getArguments().getString(ARG_PARAM3);
+            mParam4 = getArguments().getString(ARG_PARAM4);
         }
         else{
             mParam1 = "";
@@ -85,20 +124,35 @@ public class CodesFragment extends Fragment implements  MainContract.View {
         OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
             @Override
             public void handleOnBackPressed() {
+                if (mWebView.getUrl() != null){
                 // Handle the back button event
                 if (!isConnected())
                 {
-                    mWebView.getSettings().setCacheMode( WebSettings.LOAD_CACHE_ELSE_NETWORK );
+                    mWebView.getSettings().setCacheMode( WebSettings.LOAD_CACHE_ONLY );
                 }
 
                 String url = PreferenceManager.getDefaultSharedPreferences(getContext()).getString("url", "defaultStringIfNothingFound");
                 String content = "About.aspx";
 
+                    if (url.contains("About"))
+                    {
+                        setHasOptionsMenu(true);
+                        toolbar.setOverflowIcon(null);
+                        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+                    }
+
+                    if (url.contains("Default"))
+                    {
+                        setHasOptionsMenu(false);
+                        toolbar.setOverflowIcon(null);
+                        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+                    }
+
                 Boolean flag = mWebView.getUrl().toLowerCase().contains(content.toLowerCase());
                 if (flag){
                     if (!mWebView.getUrl().equals(url_home))
                     { 
-                        mWebView.loadUrl(url_home);
+                        CargarWebView(url_home);
                     }
                 }
                 else
@@ -107,9 +161,10 @@ public class CodesFragment extends Fragment implements  MainContract.View {
                             !url.contains("https://appcodigos.erreius.com/Default.aspx"))
                     {
                         if (!url.equals(url_home)) {
-                            mWebView.loadUrl(url);
+                            CargarWebView(url);
                         }
                     }
+                }
                 }
             }
         };
@@ -117,28 +172,47 @@ public class CodesFragment extends Fragment implements  MainContract.View {
     }
 
     public boolean isConnected(){
-        ConnectivityManager cm =
+        /*ConnectivityManager cm =
                 (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         boolean isConnected = activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
-        return isConnected;
+        return isConnected;*/
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService( CONNECTIVITY_SERVICE );
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_codes, container, false);
+        mView = inflater.inflate(R.layout.fragment_codes, container, false);
 
-        ButterKnife.bind(this,view);
-        mWebView.getSettings().setJavaScriptEnabled(true);
+        ButterKnife.bind(this,mView);
+
+
+        toolbar = getActivity().findViewById(R.id.toolbar);
+        setHasOptionsMenu(false);
+        toolbar.setOverflowIcon(null);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        //mWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT); // load online by default
+
+        /*mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.getSettings().setSupportZoom(true);
         mWebView.getSettings().setBuiltInZoomControls(true);
         mWebView.getSettings().setDefaultZoom(WebSettings.ZoomDensity.MEDIUM);
-        mWebView.addJavascriptInterface(new WebAppInterface(), "js");
+        mWebView.getSettings().setAppCachePath(getActivity().getCacheDir().getAbsolutePath() );
+        mWebView.getSettings().setAllowFileAccess(true);
+        mWebView.getSettings().setAppCacheEnabled(true);
+        mWebView.getSettings().setCacheMode( WebSettings.LOAD_DEFAULT ); // load online by default
+        mWebView.setWebChromeClient(new WebChromeClient());
         mWebView.setWebViewClient(new MyWebViewClient());
-        mWebView.evaluateJavascript("(function(){return window.getSelection().toString()})()",
+        if (!isConnected())
+        {
+            mWebView.getSettings().setCacheMode( WebSettings.LOAD_CACHE_ONLY );
+        }*/
+        /*mWebView.evaluateJavascript("(function(){return window.getSelection().toString()})()",
                 new ValueCallback<String>()
                 {
                     @Override
@@ -146,8 +220,7 @@ public class CodesFragment extends Fragment implements  MainContract.View {
                     {
                         Log.v(TAG, "SELECTION:" + value);
                     }
-                });
-
+                });*/
         SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         restoredText = prefs.getInt("idUser", 0);
         if (restoredText != 0) {
@@ -181,8 +254,54 @@ public class CodesFragment extends Fragment implements  MainContract.View {
                     }
                 }
             }
+            String userSuscriptor =  prefs.getString("idSuscriptor", "");
+            if (userSuscriptor != "")
+            {
+                Password = prefs.getString("Password", "");
+                EncryptData encryptData = new EncryptData();
+                encryptData.EUS = userSuscriptor;
+                encryptData.EPS = Password;
+                restoredText = 22;
+                mPresenter.encryptData(encryptData);
+            }
+
         }
-        return view;
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            String Name = bundle.getString("Name", "");
+            if (Name != "")
+            {
+                new GraphRequest(
+                        AccessToken.getCurrentAccessToken(),
+                        "/{10215768115819638}",
+                        null,
+                        HttpMethod.GET,
+                        new GraphRequest.Callback() {
+                            public void onCompleted(GraphResponse response) {
+                                /* handle the result */
+                                String algo= "a";
+                            }
+                        }
+                ).executeAsync();
+
+                Toast.makeText(getContext(),"entro",Toast.LENGTH_LONG).show();
+                NavigationView navigationView = getActivity().findViewById(R.id.nav_view);
+                View hView =  navigationView.getHeaderView(0);
+                TextView correo = (TextView)hView.findViewById(R.id.txtCorreo);
+                TextView bienvenido = (TextView)hView.findViewById(R.id.txtBienvenido);
+                bienvenido.setVisibility(View.VISIBLE);
+                correo.setText(mParam4);
+            }
+        }
+
+        return mView;
+    }
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        setRetainInstance(true);
+
     }
 
     private static final int SELECTTEXT_MENU_ID = Menu.FIRST;
@@ -223,19 +342,73 @@ public class CodesFragment extends Fragment implements  MainContract.View {
        // menu.add(0, SELECTTEXT_MENU_ID, 0, "Select Text");
     }
 
-    public void onPrepareOptionsMenu(Menu menu){
-        super.onPrepareOptionsMenu(menu);
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+
+
+            case R.id.action_settings:
+                //Toast.makeText(getContext(),"algo",Toast.LENGTH_LONG).show();
+                // Do Fragment menu item stuff here
+                showInfoAlert(0);
+                return true;
+
+            default:
+                break;
+        }
+
+        return false;
     }
 
-//    public boolean onOptionsItemSelected(MenuItem item){
-//        switch(item.getItemId()){
-//            case SELECTTEXT_MENU_ID:
-//                SelectText();
-//                return true;
-//        }
-//        super.onOptionsItemSelected(item);
-//        return true;
-//    }
+    private void showInfoAlert(int ids)
+    {
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.detalle, null);
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.setPositiveButton("Guardar Nota", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //mListener.onDialogPositiveClick(mNameEdit.getText().toString(), mPasswordEdit.getText().toString());
+                TextView texto = dialogView.findViewById(R.id.txtContenidoNota);
+                Codigo codigo = new Codigo();
+                codigo.setIdUser(mIdUser);
+                String url = PreferenceManager.getDefaultSharedPreferences(getContext()).getString("Lasturl", "defaultStringIfNothingFound");
+                codigo.setTituloCodigo(url.substring(54));
+                codigo.setNota(texto.getText().toString());
+                mPresenter.guardarNota(codigo);
+            }
+        });
+
+        dialogBuilder.setNegativeButton("Cerrar",null );
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+    }
+
+    public void onPrepareOptionsMenu(Menu menu){
+        MenuItem id = menu.getItem(0);
+
+        /*if (id == R.id.cerrarSesion) {
+            getSupportFragmentManager().beginTransaction().
+                    remove(getSupportFragmentManager().findFragmentById(R.id.content_frame)).commit();
+            SharedPreferences spreferences =  getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor spreferencesEditor = spreferences.edit();
+            spreferencesEditor.clear();
+            spreferencesEditor.commit();
+            startActivity(new Intent(MainActivity.this, HomeActivity.class));
+            finish();
+        }
+        if (id == R.id.registrarse) {
+            getSupportFragmentManager().beginTransaction().
+                    remove(getSupportFragmentManager().findFragmentById(R.id.content_frame)).commit();
+            Intent myIntent = new Intent(MainActivity.this, HomeActivity.class);
+            myIntent.addFlags(FLAG_ACTIVITY_PREVIOUS_IS_TOP);
+            MainActivity.this.startActivity(myIntent);
+        }*/
+        //showInfoAlert(0);
+        super.onPrepareOptionsMenu(menu);
+    }
 
     public void SelectText(){
         try{
@@ -256,7 +429,16 @@ public class CodesFragment extends Fragment implements  MainContract.View {
             url = url.substring(0, indice);
         }
         url = url + "&buscador=" + query;
-        mWebView.loadUrl(url);
+        if ( !isConnected() ) { // loading offline
+            if (18 < Build.VERSION.SDK_INT ){
+                mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+            }
+            if (Build.VERSION.SDK_INT >= 19) {
+                mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+            }
+        }
+        //mWebView.loadUrl(url);
+        CargarWebView(url);
     }
 
     @Override
@@ -285,22 +467,39 @@ public class CodesFragment extends Fragment implements  MainContract.View {
     }
 
     @Override
+    public void onUserCreate(User user) {
+
+    }
+
+    @Override
     public void onEncryptData(EncryptData encryptData) {
         if (restoredText == 22)
         {
             String mensaje =  "eus=" + encryptData.EUS + "&eps=" + encryptData.EPS + "&name=a&mobile=si";
             String url = "http://appcodigos.erreius.com/Login.aspx?" + mensaje;
-
+            //mWebView.reload();
             CargarWebView(url);
-            setHasOptionsMenu(true);
+            Log.println(Log.INFO,"CallUrl",url);
+            //setHasOptionsMenu(true);
         }
         else{
             String mensaje =  "eus=" + encryptData.EUS + "&eps=a&name=a&tipored=F&mobile=si";
             String url = "http://appcodigos.erreius.com/Login.aspx?" + mensaje;
-
+            Log.println(Log.INFO,"CallUrl",url);
+            //mWebView.reload();
             CargarWebView(url);
-            setHasOptionsMenu(true);
+
         }
+    }
+
+    @Override
+    public void onGuardarNota(Codigo codigo) {
+        Toast.makeText(getContext(),"Nota Guardada!",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onObtenerNotas(CodigosResponse codigos) {
+
     }
 
     private class MyWebViewClient extends WebViewClient {
@@ -322,11 +521,17 @@ public class CodesFragment extends Fragment implements  MainContract.View {
 
     private void CargarWebView(String url) {
         final ProgressDialog pd = ProgressDialog.show(getContext(), "", "Cargando..", true);
-
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.getSettings().setLoadWithOverviewMode(true);
         mWebView.getSettings().setUseWideViewPort(true);
         mWebView.getSettings().setBuiltInZoomControls(true);
+
+        mWebView.getSettings().setAppCachePath(getActivity().getCacheDir().getAbsolutePath());
+        mWebView.getSettings().setAllowFileAccess(true);
+        mWebView.getSettings().setAppCacheEnabled(true);
+        mWebView.getSettings().setDomStorageEnabled(true);
+        mWebView.setWebChromeClient(new WebChromeClient());
+        mWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT); // load online by default
         mWebView.setWebViewClient(new WebViewClient() {
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 Toast.makeText(getContext(), description, Toast.LENGTH_SHORT).show();
@@ -340,15 +545,48 @@ public class CodesFragment extends Fragment implements  MainContract.View {
                 if (!flag){
                     PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putString("url", url).apply();
                 }
+                if (url.contains("About"))
+                {
+                    setHasOptionsMenu(true);
+                    toolbar.setOverflowIcon(null);
+                    ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+                }
+
+                if (url.contains("Default"))
+                {
+                    setHasOptionsMenu(false);
+                    toolbar.setOverflowIcon(null);
+                    ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+                }
+                //CargarWebView(url);
             }
             @Override
             public void onPageFinished(WebView view, String url) {
                 pd.dismiss();
                 String content = "DetalleArticulo";
                 Boolean flag = url.toLowerCase().contains(content.toLowerCase());
+                PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putString("Lasturl", url).apply();
                 if (!flag){
                     PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putString("url", url).apply();
                 }
+
+               /* mWebView.evaluateJavascript(
+                        "(function() { return ('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>'); })();",
+                        new ValueCallback<String>() {
+                            @Override
+                            public void onReceiveValue(String html) {
+                                Log.d("HTML", html);
+                                Document doc = Jsoup.parse(html);
+                                Elements content = doc.body().getElementsByClass("TextoCentradoNegritaNovedades");
+                                //Elements links = content.getElementsByTag("a");
+                                for (Element link : content) {
+                                    String linkHref = link.attr("href");
+                                    String linkText = link.text();
+                                }
+                                // code here
+                            }
+                        });*/
+                //CargarWebView(url);
             }
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -357,14 +595,44 @@ public class CodesFragment extends Fragment implements  MainContract.View {
                 if (!flag){
                     PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putString("url", url).apply();
                 }
+                if (url.contains("DetalleArticulo")){
+                    toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_baseline_note_add_24));
+                    ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+                }
+                if (url.contains("About"))
+                {
+                    setHasOptionsMenu(true);
+                    toolbar.setOverflowIcon(null);
+                    ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+                }
+
+                if (url.contains("Default"))
+                {
+                    setHasOptionsMenu(false);
+                    toolbar.setOverflowIcon(null);
+                    ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+                }
+                //CargarWebView(url);
                 return false;
             }
         });
-
-        if (!isConnected())
-        {
-            mWebView.getSettings().setCacheMode( WebSettings.LOAD_CACHE_ELSE_NETWORK );
+        Map<String, String> noCacheHeaders = new HashMap<String, String>(2);
+        noCacheHeaders.put("Pragma", "cache");
+        noCacheHeaders.put("Cache-Control", "cache");
+        //mWebView.reload();
+        if (isConnected()){
+            mWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+            mWebView.loadUrl(url,noCacheHeaders);
         }
-        mWebView.loadUrl(url);
+        else{
+            mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+            mWebView.loadUrl(url,noCacheHeaders);
+        }
+
+
+
+        Log.println(Log.INFO,"CallUrl",url);
+        //setHasOptionsMenu(true);
+        pd.dismiss();
     }
 }

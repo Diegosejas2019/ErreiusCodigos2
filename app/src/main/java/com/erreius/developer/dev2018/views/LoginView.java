@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.erreius.developer.dev2018.Model.Codigo;
+import com.erreius.developer.dev2018.Model.CodigosResponse;
 import com.erreius.developer.dev2018.Model.EncryptData;
 import com.erreius.developer.dev2018.Model.User;
 import com.erreius.developer.dev2018.R;
@@ -49,16 +51,29 @@ public class LoginView extends AppCompatActivity implements MainContract.View{
         checkUpdate();
         mPresenter = new MainPresenter(this);
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-        Integer restoredText = prefs.getInt("idUser", 0);
+        //Integer restoredText = prefs.getInt("idUserRedsocial", 0);
+        Integer restoredText = 1;
         if (restoredText != 0) {
 
-            mIdUser = prefs.getInt("idUser", 0);
+            //mIdUser = prefs.getInt("idUserRedsocial", 0);
+            mIdUser = 12572;
             mPassword = prefs.getString("Password", "");
             User user = new User();
             user.setIdUser(mIdUser);
             user.setPassword(mPassword);
 
             mPresenter.readPlayers(user);
+        }
+        else{
+            String dUser = prefs.getString("idSuscriptor", "");
+            mPassword = prefs.getString("Password", "");
+            if (!dUser.isEmpty()){
+                User user = new User();
+                user.setUserName(dUser);
+                user.setPassword(mPassword);
+
+                mPresenter.readPlayers(user);
+            }
         }
         btnSuscriptor.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,13 +193,34 @@ public class LoginView extends AppCompatActivity implements MainContract.View{
     @Override
     public void onUserRead(User user) {
         Intent intent = new Intent(LoginView.this, MasterView.class);
-        intent.putExtra("Opcion","Logeado");
+        if (user.getUrlFoto() != null)
+        {
+            intent.putExtra("UrlFoto",user.getUrlFoto());
+            intent.putExtra("Name",user.getFullUserName());
+        }
+        intent.putExtra("Opcion","Logueado");
+        Log.println(Log.INFO,"Opcion","Log");
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     @Override
+    public void onUserCreate(User user) {
+
+    }
+
+    @Override
     public void onEncryptData(EncryptData encryptData) {
+
+    }
+
+    @Override
+    public void onGuardarNota(Codigo codigo) {
+
+    }
+
+    @Override
+    public void onObtenerNotas(CodigosResponse codigos) {
 
     }
 }

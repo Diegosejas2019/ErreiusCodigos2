@@ -3,6 +3,7 @@ package com.erreius.developer.dev2018.views;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import butterknife.ButterKnife;
 
@@ -32,6 +33,9 @@ public class SlideshowFragment extends Fragment {
 
         ButterKnife.bind(this,view);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Erreius");
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
+        toolbar.setOverflowIcon(null);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         return view;
     }

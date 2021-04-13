@@ -2,7 +2,9 @@ package com.erreius.developer.dev2018.views;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +34,18 @@ public class RegistrarP2Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                RegistrarP1Fragment nextFrag= new RegistrarP1Fragment();
+
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment, nextFrag, "findThisFragment")
+                        .addToBackStack(null)
+                        .commit();
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
     @Override
@@ -41,6 +55,10 @@ public class RegistrarP2Fragment extends Fragment {
 
         ButterKnife.bind(this,view);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Erreius");
+
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
+        toolbar.setOverflowIcon(null);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         mContinuar.setOnClickListener(new View.OnClickListener() {
             @Override

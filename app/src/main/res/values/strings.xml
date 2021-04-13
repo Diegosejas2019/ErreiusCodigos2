@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ErreiusCodigos</string>
+    <string name="app_name">Erreius Codigos</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
@@ -232,4 +232,7 @@
     <string name="facebook_app_id">130863474395603</string>
     <string name="my_preference_key"></string>
     <string name="my_preference"></string>
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

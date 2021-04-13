@@ -74,7 +74,7 @@
         android:layout_marginEnd="64dp"
         android:layout_marginRight="64dp"
         android:gravity="center|center_vertical"
-        android:text="Erreius \n Códigos 2020"
+        android:text="Erreius \n Códigos 2021"
         android:textColor="@color/colorPrimary"
         android:textSize="28sp"
         android:textStyle="bold"

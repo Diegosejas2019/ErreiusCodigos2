@@ -14,6 +14,9 @@ public class User {
     @SerializedName("IdUser")
     public int IdUser;
 
+    @SerializedName("IdUserRedSocial")
+    public int IdUserRedSocial;
+
     @SerializedName("UserName")
     public String UserName;
 
@@ -106,5 +109,13 @@ public class User {
                 "email='" + this.Email + '\'' +
                 ", password='" + this.Password +
                 '}';
+    }
+
+    public int getIdUserRedSocial() {
+        return IdUserRedSocial;
+    }
+
+    public void setIdUserRedSocial(int idUserRedSocial) {
+        IdUserRedSocial = idUserRedSocial;
     }
 }

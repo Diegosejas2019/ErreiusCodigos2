@@ -3,6 +3,7 @@ package com.erreius.developer.dev2018.views;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -12,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.erreius.developer.dev2018.Model.Codigo;
+import com.erreius.developer.dev2018.Model.CodigosResponse;
 import com.erreius.developer.dev2018.Model.EncryptData;
 import com.erreius.developer.dev2018.Model.User;
 import com.erreius.developer.dev2018.R;
@@ -44,6 +47,11 @@ public class HomeFragment extends Fragment implements  MainContract.View{
 
         ButterKnife.bind(this,view);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Erreius");
+
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
+        toolbar.setOverflowIcon(null);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
         mSusciptor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,7 +114,22 @@ public class HomeFragment extends Fragment implements  MainContract.View{
     }
 
     @Override
+    public void onUserCreate(User user) {
+
+    }
+
+    @Override
     public void onEncryptData(EncryptData encryptData) {
+
+    }
+
+    @Override
+    public void onGuardarNota(Codigo codigo) {
+
+    }
+
+    @Override
+    public void onObtenerNotas(CodigosResponse codigos) {
 
     }
 }

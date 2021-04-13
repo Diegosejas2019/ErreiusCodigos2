@@ -1,9 +1,12 @@
 package com.erreius.developer.dev2018.views;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.erreius.developer.dev2018.Model.Codigo;
+import com.erreius.developer.dev2018.Model.CodigosResponse;
 import com.erreius.developer.dev2018.Model.EncryptData;
 import com.erreius.developer.dev2018.Model.User;
 import com.erreius.developer.dev2018.R;
@@ -44,6 +48,14 @@ public class ActivarFragment extends Fragment implements  MainContract.View{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPresenter = new MainPresenter(this);
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                getFragmentManager().beginTransaction().
+                        remove(ActivarFragment.this).commit();
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
     @Override
@@ -53,6 +65,10 @@ public class ActivarFragment extends Fragment implements  MainContract.View{
 
         ButterKnife.bind(this,view);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Erreius");
+
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
+        toolbar.setOverflowIcon(null);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         mProgressbar.bringToFront();
         mEncontrarCodigo.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +94,7 @@ public class ActivarFragment extends Fragment implements  MainContract.View{
                 } else {
                     String item = mCodigo.getText().toString().trim();
                     SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-                    Integer idUser = prefs.getInt("idUser", 0);
+                    Integer idUser = prefs.getInt("idUserRedsocial", 0);
                     Codigo codigo = new Codigo();
                     codigo.setCodigo(item);
                     codigo.setIdUser(idUser);
@@ -122,7 +138,22 @@ public class ActivarFragment extends Fragment implements  MainContract.View{
     }
 
     @Override
+    public void onUserCreate(User user) {
+
+    }
+
+    @Override
     public void onEncryptData(EncryptData encryptData) {
+
+    }
+
+    @Override
+    public void onGuardarNota(Codigo codigo) {
+
+    }
+
+    @Override
+    public void onObtenerNotas(CodigosResponse codigos) {
 
     }
 }

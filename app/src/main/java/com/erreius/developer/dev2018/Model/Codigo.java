@@ -7,6 +7,12 @@ public class Codigo {
 
     public String CodigoQr;
 
+    public String TituloCodigo;
+
+    public String Nota;
+
+    public int IdNota;
+
     public Codigo() {
     }
 
@@ -32,5 +38,29 @@ public class Codigo {
 
     public void setCodigoQr(String codigoQr) {
         CodigoQr = codigoQr;
+    }
+
+    public String getTituloCodigo() {
+        return TituloCodigo;
+    }
+
+    public void setTituloCodigo(String tituloCodigo) {
+        TituloCodigo = tituloCodigo;
+    }
+
+    public String getNota() {
+        return Nota;
+    }
+
+    public void setNota(String nota) {
+        Nota = nota;
+    }
+
+    public int getIdNota() {
+        return IdNota;
+    }
+
+    public void setIdNota(int idNota) {
+        IdNota = idNota;
     }
 }

@@ -2,6 +2,8 @@ package com.erreius.developer.dev2018.views;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,6 +31,9 @@ public class EncontrarCodigoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_encontrar_codigo, container, false);
 
         ButterKnife.bind(this,view);
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
+        toolbar.setOverflowIcon(null);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         mContactanos.setOnClickListener(new View.OnClickListener() {
             @Override

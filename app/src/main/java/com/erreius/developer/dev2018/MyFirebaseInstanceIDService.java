@@ -20,7 +20,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         FirebaseMessaging.getInstance().subscribeToTopic("news").addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(getApplicationContext(),"Success", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(),"Success", Toast.LENGTH_LONG).show();
             }
         });
     }

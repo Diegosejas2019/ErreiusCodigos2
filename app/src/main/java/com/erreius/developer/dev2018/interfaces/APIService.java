@@ -1,5 +1,7 @@
 package com.erreius.developer.dev2018.interfaces;
 
+import com.erreius.developer.dev2018.Model.Codigo;
+import com.erreius.developer.dev2018.Model.CodigosResponse;
 import com.erreius.developer.dev2018.Model.EncryptData;
 import com.erreius.developer.dev2018.Model.User;
 
@@ -24,7 +26,9 @@ public interface APIService {
                             @Field("Apellido") String apellido,
                             @Field("Email") String email,
                             @Field("Telefono") String telefono,
-                            @Field("Password") String password
+                            @Field("Password") String password,
+                            @Field("UrlFoto") String urlfoto,
+                            @Field("TipoRed") String tipored
     );
 
     @POST("/api/login/activarcodigo")
@@ -37,5 +41,21 @@ public interface APIService {
     @FormUrlEncoded
     Call<EncryptData> encryptdata(@Field("EUS") String iduser,
                                   @Field("EPS") String password
+    );
+
+    @POST("/api/login/guardarnota")
+    @FormUrlEncoded
+    Call<Codigo> guardarnota(@Field("IdUser") int iduser,
+                             @Field("TituloCodigo") String titulocodigo,
+                             @Field("Nota") String nota
+    );
+    @POST("/api/login/obtenernotas")
+    @FormUrlEncoded
+    Call<CodigosResponse> obtenernotas(@Field("IdUser") int iduser
+    );
+
+    @POST("/api/login/eliminarnota")
+    @FormUrlEncoded
+    Call<Codigo> eliminarnota(@Field("idNota") int idnota
     );
 }
