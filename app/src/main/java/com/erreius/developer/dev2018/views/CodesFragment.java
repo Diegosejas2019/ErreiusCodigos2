@@ -25,6 +25,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import android.preference.PreferenceManager;
+import android.print.PrintAttributes;
+import android.print.PrintDocumentAdapter;
+import android.print.PrintJob;
+import android.print.PrintManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -46,6 +50,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.erreius.developer.dev2018.MainActivity;
 import com.erreius.developer.dev2018.Model.Codigo;
 import com.erreius.developer.dev2018.Model.CodigosResponse;
 import com.erreius.developer.dev2018.Model.EncryptData;
@@ -53,18 +58,29 @@ import com.erreius.developer.dev2018.Model.User;
 import com.erreius.developer.dev2018.R;
 import com.erreius.developer.dev2018.interfaces.MainContract;
 import com.erreius.developer.dev2018.presenters.MainPresenter;
+import com.erreius.developer.dev2018.utils.HtmlManager;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.tool.xml.XMLWorkerHelper;
 
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -87,7 +103,7 @@ class WebAppInterface
 public class CodesFragment extends Fragment implements  MainContract.View {
     @BindView(R.id.webView) WebView mWebView;
     //@BindView(R.id.txtContenidoNota) EditText nota;
-
+    private HtmlManager htmlManager = new HtmlManager();
     private static String url_home = "http://appcodigos.erreius.com/Default.aspx?mobile=si";
 
     private static final String ARG_PARAM1 = "Ingreso";
@@ -257,6 +273,7 @@ public class CodesFragment extends Fragment implements  MainContract.View {
             String userSuscriptor =  prefs.getString("idSuscriptor", "");
             if (userSuscriptor != "")
             {
+                mIdUser = Integer.valueOf(userSuscriptor);
                 Password = prefs.getString("Password", "");
                 EncryptData encryptData = new EncryptData();
                 encryptData.EUS = userSuscriptor;
@@ -341,7 +358,7 @@ public class CodesFragment extends Fragment implements  MainContract.View {
         searchView.setQueryHint("Buscar..");
        // menu.add(0, SELECTTEXT_MENU_ID, 0, "Select Text");
     }
-
+    PrintJob printJob;
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -350,7 +367,26 @@ public class CodesFragment extends Fragment implements  MainContract.View {
             case R.id.action_settings:
                 //Toast.makeText(getContext(),"algo",Toast.LENGTH_LONG).show();
                 // Do Fragment menu item stuff here
-                showInfoAlert(0);
+                //showInfoAlert(0);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    //Calling createWebPrintJob()
+
+
+                    // Creating  PrintManager instance
+                    PrintManager printManager = (PrintManager) getContext()
+                            .getSystemService(Context.PRINT_SERVICE);
+
+                    //setting the name of job
+                    String jobName = getString(R.string.app_name) + " webpage"+ mWebView.getUrl();
+
+                    // Creating  PrintDocumentAdapter instance
+                    PrintDocumentAdapter printAdapter = mWebView.createPrintDocumentAdapter(jobName);
+
+                    // Create a print job with name and adapter instance
+                    assert printManager != null;
+                    printJob = printManager.print(jobName, printAdapter,
+                            new PrintAttributes.Builder().build());
+                }
                 return true;
 
             default:
@@ -360,24 +396,22 @@ public class CodesFragment extends Fragment implements  MainContract.View {
         return false;
     }
 
-    private void showInfoAlert(int ids)
+    private void showInfoAlert()
     {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = this.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.detalle, null);
+        View dialogView = inflater.inflate(R.layout.offline, null);
         dialogBuilder.setView(dialogView);
-        dialogBuilder.setPositiveButton("Guardar Nota", new DialogInterface.OnClickListener() {
+        dialogBuilder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                //mListener.onDialogPositiveClick(mNameEdit.getText().toString(), mPasswordEdit.getText().toString());
-                TextView texto = dialogView.findViewById(R.id.txtContenidoNota);
-                Codigo codigo = new Codigo();
-                codigo.setIdUser(mIdUser);
-                String url = PreferenceManager.getDefaultSharedPreferences(getContext()).getString("Lasturl", "defaultStringIfNothingFound");
-                codigo.setTituloCodigo(url.substring(54));
-                codigo.setNota(texto.getText().toString());
-                mPresenter.guardarNota(codigo);
+                OfflineFragment nextFrag= new OfflineFragment();
+
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment, nextFrag, "findThisFragment")
+                        .addToBackStack(null)
+                        .commit();
             }
         });
 
@@ -558,6 +592,10 @@ public class CodesFragment extends Fragment implements  MainContract.View {
                     toolbar.setOverflowIcon(null);
                     ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
                 }
+                if (!isConnected()){
+                    mWebView.stopLoading();
+                    showInfoAlert();
+                }
                 //CargarWebView(url);
             }
             @Override
@@ -570,23 +608,11 @@ public class CodesFragment extends Fragment implements  MainContract.View {
                     PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putString("url", url).apply();
                 }
 
-               /* mWebView.evaluateJavascript(
-                        "(function() { return ('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>'); })();",
-                        new ValueCallback<String>() {
-                            @Override
-                            public void onReceiveValue(String html) {
-                                Log.d("HTML", html);
-                                Document doc = Jsoup.parse(html);
-                                Elements content = doc.body().getElementsByClass("TextoCentradoNegritaNovedades");
-                                //Elements links = content.getElementsByTag("a");
-                                for (Element link : content) {
-                                    String linkHref = link.attr("href");
-                                    String linkText = link.text();
-                                }
-                                // code here
-                            }
-                        });*/
-                //CargarWebView(url);
+                htmlManager.pathSaveFiles = String.valueOf(getContext().getFilesDir());
+                htmlManager.webView = mWebView;
+                if (url.contains("DetalleArticulo.aspx?id=")) {
+                    htmlManager.save(url);
+                }
             }
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -624,15 +650,76 @@ public class CodesFragment extends Fragment implements  MainContract.View {
             mWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
             mWebView.loadUrl(url,noCacheHeaders);
         }
-        else{
+        /*else{
             mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
             mWebView.loadUrl(url,noCacheHeaders);
-        }
+        }*/
 
-
+        //createPDF("test");
 
         Log.println(Log.INFO,"CallUrl",url);
         //setHasOptionsMenu(true);
         pd.dismiss();
+    }
+
+    private void createPDF (String pdfFilename){
+
+        //path for the PDF file to be generated
+        String path = "docs/" + "pdfname";
+        File yourFile = new File("score.txt");
+        try {
+            yourFile.createNewFile(); // if file already exists will do nothing
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        PdfWriter pdfWriter = null;
+
+        //create a new document
+        Document document = new Document();
+
+        try {
+
+            //get Instance of the PDFWriter
+            pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(yourFile));
+
+            //document header attributes
+            document.addAuthor("betterThanZero");
+            document.addCreationDate();
+            document.addProducer();
+            document.addCreator("MySampleCode.com");
+            document.addTitle("Demo for iText XMLWorker");
+            document.setPageSize(PageSize.LETTER);
+
+            //open document
+            document.open();
+
+            //To convert a HTML file from the filesystem
+            //String File_To_Convert = "docs/SamplePDF.html";
+            //FileInputStream fis = new FileInputStream(File_To_Convert);
+
+            //URL for HTML page
+            URL myWebPage = new URL(mWebView.getUrl());
+            InputStreamReader fis = new InputStreamReader(myWebPage.openStream());
+
+            //get the XMLWorkerHelper Instance
+            XMLWorkerHelper worker = XMLWorkerHelper.getInstance();
+            //convert to PDF
+            worker.parseXHtml(pdfWriter, document, fis);
+
+            //close the document
+            document.close();
+            //close the writer
+            pdfWriter.close();
+
+        }
+
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+
     }
 }

@@ -48,15 +48,15 @@ public class LoginView extends AppCompatActivity implements MainContract.View{
         setContentView(R.layout.activity_login_view);
 
         ButterKnife.bind(this);
-        checkUpdate();
+
         mPresenter = new MainPresenter(this);
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-        //Integer restoredText = prefs.getInt("idUserRedsocial", 0);
-        Integer restoredText = 1;
+        Integer restoredText = prefs.getInt("idUserRedsocial", 0);
+        //Integer restoredText = 1;
         if (restoredText != 0) {
 
-            //mIdUser = prefs.getInt("idUserRedsocial", 0);
-            mIdUser = 12572;
+            mIdUser = prefs.getInt("idUserRedsocial", 0);
+            //mIdUser = 12572;
             mPassword = prefs.getString("Password", "");
             User user = new User();
             user.setIdUser(mIdUser);
@@ -106,69 +106,6 @@ public class LoginView extends AppCompatActivity implements MainContract.View{
         });
     }
 
-    private void checkUpdate() {
-        mAppUpdateManager = AppUpdateManagerFactory.create(this);
-
-        mInstallStateUpdatedListener = new
-                InstallStateUpdatedListener() {
-                    @Override
-                    public void onStateUpdate(InstallState state) {
-                        if (state.installStatus() == InstallStatus.DOWNLOADED){
-                            //CHECK THIS if AppUpdateType.FLEXIBLE, otherwise you can skip
-                            popupSnackbarForCompleteUpdate();
-                        } else if (state.installStatus() == InstallStatus.INSTALLED){
-                            if (mAppUpdateManager != null){
-                                mAppUpdateManager.unregisterListener(mInstallStateUpdatedListener);
-                            }
-
-                        } else {
-                            Log.i("TAG", "InstallStateUpdatedListener: state: " + state.installStatus());
-                        }
-                    }
-                };
-
-        mAppUpdateManager.registerListener(mInstallStateUpdatedListener);
-
-        mAppUpdateManager.getAppUpdateInfo().addOnSuccessListener(appUpdateInfo -> {
-
-            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
-                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE /*AppUpdateType.IMMEDIATE*/)){
-
-                try {
-                    mAppUpdateManager.startUpdateFlowForResult(
-                            appUpdateInfo, AppUpdateType.FLEXIBLE /*AppUpdateType.IMMEDIATE*/, LoginView.this, RC_APP_UPDATE);
-
-                } catch (IntentSender.SendIntentException e) {
-                    e.printStackTrace();
-                }
-
-            } else if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED){
-                //CHECK THIS if AppUpdateType.FLEXIBLE, otherwise you can skip
-                popupSnackbarForCompleteUpdate();
-            } else {
-                Log.e("TAG2", "checkForAppUpdateAvailability: something else");
-            }
-        });
-    }
-
-    private void popupSnackbarForCompleteUpdate() {
-
-        Snackbar snackbar =
-                Snackbar.make(
-                        findViewById(R.id.content),
-                        "La nueva aplicación está lista!",
-                        Snackbar.LENGTH_INDEFINITE);
-
-        snackbar.setAction("Instalar", view -> {
-            if (mAppUpdateManager != null){
-                mAppUpdateManager.completeUpdate();
-            }
-        });
-
-
-        snackbar.setActionTextColor(getResources().getColor(R.color.colorAccent));
-        snackbar.show();
-    }
 
     @Override
     public void onCreatePlayerSuccessful() {

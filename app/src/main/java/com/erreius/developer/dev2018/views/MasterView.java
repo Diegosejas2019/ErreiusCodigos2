@@ -15,6 +15,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -33,16 +34,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.erreius.developer.dev2018.R;
-import com.erreius.developer.dev2018.RoundedCornersTransform;
+import com.erreius.developer.dev2018.utils.RoundedCornersTransform;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
-import com.facebook.login.Login;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.InstallState;
+import com.google.android.play.core.install.InstallStateUpdatedListener;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.InstallStatus;
+import com.google.android.play.core.install.model.UpdateAvailability;
 import com.squareup.picasso.Picasso;
 
 import java.security.MessageDigest;
@@ -53,6 +59,9 @@ import static com.erreius.developer.dev2018.views.RegistrarP1Fragment.MY_PREFS_N
 public class MasterView extends AppCompatActivity {
     private static final String TAG = "info hash";
     private AppBarConfiguration mAppBarConfiguration;
+    private AppUpdateManager mAppUpdateManager;
+    private static final int RC_APP_UPDATE = 11;
+    private InstallStateUpdatedListener mInstallStateUpdatedListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +79,7 @@ public class MasterView extends AppCompatActivity {
         toolbar.setOverflowIcon(null);
         setSupportActionBar(toolbar);
 
-
+        checkUpdate();
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -135,7 +144,7 @@ public class MasterView extends AppCompatActivity {
                         nextFrag= new TermsAndConditionsFragment();
                         break;
                     case R.id.nav_registrarme:
-                        nextFrag= new RegisterFragment();
+                        nextFrag= new OfflineFragment();
                         break;
                 }
 
@@ -234,8 +243,74 @@ public class MasterView extends AppCompatActivity {
             return;
         }
 
+
         //printHashKey(MasterView.this);
     }
+
+    private void checkUpdate() {
+        mAppUpdateManager = AppUpdateManagerFactory.create(this);
+
+        mInstallStateUpdatedListener = new
+                InstallStateUpdatedListener() {
+                    @Override
+                    public void onStateUpdate(InstallState state) {
+                        if (state.installStatus() == InstallStatus.DOWNLOADED){
+                            //CHECK THIS if AppUpdateType.FLEXIBLE, otherwise you can skip
+                            popupSnackbarForCompleteUpdate();
+                        } else if (state.installStatus() == InstallStatus.INSTALLED){
+                            if (mAppUpdateManager != null){
+                                mAppUpdateManager.unregisterListener(mInstallStateUpdatedListener);
+                            }
+
+                        } else {
+                            Log.i("TAG", "InstallStateUpdatedListener: state: " + state.installStatus());
+                        }
+                    }
+                };
+
+        mAppUpdateManager.registerListener(mInstallStateUpdatedListener);
+
+        mAppUpdateManager.getAppUpdateInfo().addOnSuccessListener(appUpdateInfo -> {
+
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE /*AppUpdateType.IMMEDIATE*/)){
+
+                try {
+                    mAppUpdateManager.startUpdateFlowForResult(
+                            appUpdateInfo, AppUpdateType.FLEXIBLE /*AppUpdateType.IMMEDIATE*/, MasterView.this, RC_APP_UPDATE);
+
+                } catch (IntentSender.SendIntentException e) {
+                    e.printStackTrace();
+                }
+
+            } else if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED){
+                //CHECK THIS if AppUpdateType.FLEXIBLE, otherwise you can skip
+                popupSnackbarForCompleteUpdate();
+            } else {
+                Log.e("TAG2", "checkForAppUpdateAvailability: something else");
+            }
+        });
+    }
+
+    private void popupSnackbarForCompleteUpdate() {
+
+        Snackbar snackbar =
+                Snackbar.make(
+                        findViewById(R.id.content),
+                        "La nueva aplicación está lista!",
+                        Snackbar.LENGTH_INDEFINITE);
+
+        snackbar.setAction("Instalar", view -> {
+            if (mAppUpdateManager != null){
+                mAppUpdateManager.completeUpdate();
+            }
+        });
+
+
+        snackbar.setActionTextColor(getResources().getColor(R.color.colorAccent));
+        snackbar.show();
+    }
+
     public void printHashKey(Context pContext) {
         try {
             PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);

@@ -75,6 +75,17 @@ public class NotasFragment extends Fragment implements  MainContract.View{
 
             CallNotas(codigo);
         }
+        else{
+            String userSuscriptor =  prefs.getString("idSuscriptor", "");
+            if (userSuscriptor != "")
+            {
+                Integer mIdUser = Integer.valueOf(userSuscriptor);
+                Codigo codigo = new Codigo();
+                codigo.setIdUser(mIdUser);
+
+                CallNotas(codigo);
+            }
+        }
 
         return view;
     }

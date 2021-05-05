@@ -110,7 +110,7 @@ public class RegisterFragment extends Fragment implements  MainContract.View{
 
     @Override
     public void onCreatePlayerFailure() {
-        Toast.makeText(getContext(),"fallo",Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(),"Los datos ingresados son incorrectos.",Toast.LENGTH_LONG).show();
     }
 
     @Override

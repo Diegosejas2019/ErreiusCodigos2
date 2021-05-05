@@ -130,10 +130,26 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
 
     @Override
     public void onGuardarNota(Codigo codigo) {
-        SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        /*SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         Integer mIdUser = prefs.getInt("idUser", 0);
         codigo.setIdUser(mIdUser);
-        notasFragment.CallNotas(codigo);
+        notasFragment.CallNotas(codigo);*/
+        SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        Integer restoredText = prefs.getInt("idUser", 0);
+        if (restoredText != 0) {
+            Integer mIdUser = prefs.getInt("idUser", 0);
+            codigo.setIdUser(mIdUser);
+            notasFragment.CallNotas(codigo);
+        }
+        else{
+            String userSuscriptor =  prefs.getString("idSuscriptor", "");
+            if (userSuscriptor != "")
+            {
+                Integer mIdUser = Integer.valueOf(userSuscriptor);
+                codigo.setIdUser(mIdUser);
+                notasFragment.CallNotas(codigo);
+            }
+        }
     }
 
     @Override

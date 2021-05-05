@@ -1,6 +1,6 @@
 package com.erreius.developer.dev2018.interactor;
 
-import com.erreius.developer.dev2018.ApiUtils;
+import com.erreius.developer.dev2018.utils.ApiUtils;
 import com.erreius.developer.dev2018.Model.Codigo;
 import com.erreius.developer.dev2018.Model.CodigosResponse;
 import com.erreius.developer.dev2018.Model.EncryptData;
