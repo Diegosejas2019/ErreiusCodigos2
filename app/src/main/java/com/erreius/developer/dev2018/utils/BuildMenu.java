@@ -44,7 +44,9 @@ public  class BuildMenu {
             if (!terceto[PARENT_ID].equals("0")) { //no tiene padre
                 if(Pattern.matches("[0-9]*", terceto[BRANCH_NAME])){
                     if(!docs.contains(terceto[BRANCH_NAME])){
-                        String name = nodoMap.get(terceto[PARENT_ID]).getValue().toString();
+                        IconTreeItemHolder.IconTreeItem nodo = (IconTreeItemHolder.IconTreeItem) nodoMap.get(terceto[PARENT_ID]).getValue();
+                        String name = nodo.text;
+                        //String name = nodoMap.get(terceto[PARENT_ID]).getValue().toString();
                         files.put(name,terceto[BRANCH_NAME]);
                         nodoMap.get(terceto[PARENT_ID]).setClickListener(new TreeNode.TreeNodeClickListener() {
                             @Override
@@ -77,7 +79,9 @@ public  class BuildMenu {
             if (!terceto[PARENT_ID].equals("0")) { //no tiene padre
                 if(Pattern.matches("[0-9]*", terceto[BRANCH_NAME])){
                     if(!docs.contains(terceto[BRANCH_NAME])){
-                        String name = nodoMap.get(terceto[PARENT_ID]).getValue().toString();
+                        IconTreeItemHolder.IconTreeItem nodo = (IconTreeItemHolder.IconTreeItem) nodoMap.get(terceto[PARENT_ID]).getValue();
+                        String name = nodo.text;
+                        //String name = nodoMap.get(terceto[PARENT_ID]).getValue().toString();
                         files.put(name,terceto[BRANCH_NAME]);
                         nodoMap.get(terceto[PARENT_ID]).setClickListener(new TreeNode.TreeNodeClickListener() {
                             @Override
@@ -106,7 +110,9 @@ public  class BuildMenu {
             if (!terceto[PARENT_ID].equals("0")) { //no tiene padre
                 if(Pattern.matches("[0-9]*", terceto[BRANCH_NAME])){
                     if(!docs.contains(terceto[BRANCH_NAME])){
-                        String name = nodoMap.get(terceto[PARENT_ID]).getValue().toString();
+                        IconTreeItemHolder.IconTreeItem nodo = (IconTreeItemHolder.IconTreeItem) nodoMap.get(terceto[PARENT_ID]).getValue();
+                        String name = nodo.text;
+                        //String name = nodoMap.get(terceto[PARENT_ID]).getValue().toString();
                         files.put(name,terceto[BRANCH_NAME]);
                         nodoMap.get(terceto[PARENT_ID]).setClickListener(new TreeNode.TreeNodeClickListener() {
                             @Override
@@ -135,7 +141,9 @@ public  class BuildMenu {
             if (!terceto[PARENT_ID].equals("0")) { //no tiene padre
                 if(Pattern.matches("[0-9]*", terceto[BRANCH_NAME])){
                     if(!docs.contains(terceto[BRANCH_NAME])){
-                        String name = nodoMap.get(terceto[PARENT_ID]).getValue().toString();
+                        IconTreeItemHolder.IconTreeItem nodo = (IconTreeItemHolder.IconTreeItem) nodoMap.get(terceto[PARENT_ID]).getValue();
+                        String name = nodo.text;
+                        //String name = nodoMap.get(terceto[PARENT_ID]).getValue().toString();
                         files.put(name,terceto[BRANCH_NAME]);
                         nodoMap.get(terceto[PARENT_ID]).setClickListener(new TreeNode.TreeNodeClickListener() {
                             @Override
@@ -164,7 +172,9 @@ public  class BuildMenu {
             if (!terceto[PARENT_ID].equals("0")) { //no tiene padre
                 if(Pattern.matches("[0-9]*", terceto[BRANCH_NAME])){
                     if(!docs.contains(terceto[BRANCH_NAME])){
-                        String name = nodoMap.get(terceto[PARENT_ID]).getValue().toString();
+                        IconTreeItemHolder.IconTreeItem nodo = (IconTreeItemHolder.IconTreeItem) nodoMap.get(terceto[PARENT_ID]).getValue();
+                        String name = nodo.text;
+                        //String name = nodoMap.get(terceto[PARENT_ID]).getValue().toString();
                         files.put(name,terceto[BRANCH_NAME]);
                         nodoMap.get(terceto[PARENT_ID]).setClickListener(new TreeNode.TreeNodeClickListener() {
                             @Override
