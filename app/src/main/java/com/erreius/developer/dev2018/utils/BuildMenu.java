@@ -1,16 +1,24 @@
 package com.erreius.developer.dev2018.utils;
 
 import android.app.Activity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import android.os.Bundle;
 import android.webkit.WebView;
 import android.widget.Toast;
 
 import com.erreius.developer.dev2018.R;
+import com.erreius.developer.dev2018.views.DetailOfflineFragment;
+import com.erreius.developer.dev2018.views.EncontrarCodigoFragment;
+import com.erreius.developer.dev2018.views.RegistrarP3Fragment;
 import com.unnamed.b.atv.model.TreeNode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
+
+import androidx.fragment.app.Fragment;
 
 public  class BuildMenu {
 
@@ -22,7 +30,7 @@ public  class BuildMenu {
     private static List<String> docs = new ArrayList<>();
     public static Activity mActivity;
 
-    public static TreeNode getMenu(final WebView wv , final String path, final Activity activity){
+    public static TreeNode getMenu(final WebView wv, final String path, final Activity activity, FragmentManager supportFragmentManager){
         mActivity = activity;
         TreeNode root = TreeNode.root();
         /*TreeNode myProfile = new TreeNode(new IconTreeItemHolder.IconTreeItem(R.string.ic_bookmark, "My Profile")).setViewHolder(new ProfileHolder(activity));
@@ -39,7 +47,7 @@ public  class BuildMenu {
             String separador = Pattern.quote("|");
             String[] terceto = line.split(separador);
             //TreeNode currentNode = new TreeNode(terceto[BRANCH_NAME]);
-            TreeNode currentNode = new TreeNode(new IconTreeItemHolder.IconTreeItem(R.string.ic_bookmark, terceto[BRANCH_NAME])).setViewHolder(new ProfileHolder(activity));
+            TreeNode currentNode = new TreeNode(new IconTreeItemHolder.IconTreeItem(terceto[BRANCH_NAME])).setViewHolder(new ProfileHolder(activity));
             nodoMap.put(terceto[ID], currentNode);
             if (!terceto[PARENT_ID].equals("0")) { //no tiene padre
                 if(Pattern.matches("[0-9]*", terceto[BRANCH_NAME])){
@@ -57,7 +65,17 @@ public  class BuildMenu {
                                 String documento=ht.readFromFile(path, files.get((String)test.text));
                                 if (documento == null )
                                     documento = "<p>El documento : </p><h4>\" "+(String)test.text +" \" </h4> <p>no se encuentra guardado en el historial </p>";
-                                wv.loadData(documento, "text/html", "UTF-8");
+                                FragmentManager fragmentManager = supportFragmentManager;
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                Fragment fragment = new DetailOfflineFragment();
+
+                                Bundle bundle=new Bundle();
+                                bundle.putString("documento", documento);
+                                fragment.setArguments(bundle);
+
+                                fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
+                                fragmentTransaction.addToBackStack(null);
+                                fragmentTransaction.commit();
                             }
                         });
                     }
@@ -74,7 +92,7 @@ public  class BuildMenu {
             String separador = Pattern.quote("|");
             String[] terceto = line.split(separador);
             //TreeNode currentNode = new TreeNode(terceto[BRANCH_NAME]);
-            TreeNode currentNode = new TreeNode(new IconTreeItemHolder.IconTreeItem(R.string.ic_bookmark, terceto[BRANCH_NAME])).setViewHolder(new ProfileHolder(activity));
+            TreeNode currentNode = new TreeNode(new IconTreeItemHolder.IconTreeItem(terceto[BRANCH_NAME])).setViewHolder(new ProfileHolder(activity));
             nodoMap.put(terceto[ID], currentNode);
             if (!terceto[PARENT_ID].equals("0")) { //no tiene padre
                 if(Pattern.matches("[0-9]*", terceto[BRANCH_NAME])){
@@ -86,12 +104,23 @@ public  class BuildMenu {
                         nodoMap.get(terceto[PARENT_ID]).setClickListener(new TreeNode.TreeNodeClickListener() {
                             @Override
                             public void onClick(TreeNode node, Object value) {
-                                System.out.println(files.get((String)value));
+//                                System.out.println(files.get((String)value));
                                 HtmlManager ht = new HtmlManager();
-                                String documento=ht.readFromFile(path, files.get((String)value));
+                                IconTreeItemHolder.IconTreeItem test = (IconTreeItemHolder.IconTreeItem) value;
+                                String documento=ht.readFromFile(path, files.get((String)test.text));
                                 if (documento == null )
-                                    documento = "<p>El documento : </p><h4>\" "+(String)value+" \" </h4> <p>no se encuentra guardado en el historial </p>";
-                                wv.loadData(documento, "text/html", "UTF-8");
+                                    documento = "<p>El documento : </p><h4>\" "+(String)test.text +" \" </h4> <p>no se encuentra guardado en el historial </p>";
+                                FragmentManager fragmentManager = supportFragmentManager;
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                Fragment fragment = new DetailOfflineFragment();
+
+                                Bundle bundle=new Bundle();
+                                bundle.putString("documento", documento);
+                                fragment.setArguments(bundle);
+
+                                fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
+                                fragmentTransaction.addToBackStack(null);
+                                fragmentTransaction.commit();
                             }
                         });
                     }
@@ -105,7 +134,7 @@ public  class BuildMenu {
         for (String line : menu3.split("\n")) {
             String separador = Pattern.quote("|");
             String[] terceto = line.split(separador);
-            TreeNode currentNode = new TreeNode(new IconTreeItemHolder.IconTreeItem(R.string.ic_bookmark, terceto[BRANCH_NAME])).setViewHolder(new ProfileHolder(activity));
+            TreeNode currentNode = new TreeNode(new IconTreeItemHolder.IconTreeItem(terceto[BRANCH_NAME])).setViewHolder(new ProfileHolder(activity));
             nodoMap.put(terceto[ID], currentNode);
             if (!terceto[PARENT_ID].equals("0")) { //no tiene padre
                 if(Pattern.matches("[0-9]*", terceto[BRANCH_NAME])){
@@ -117,12 +146,23 @@ public  class BuildMenu {
                         nodoMap.get(terceto[PARENT_ID]).setClickListener(new TreeNode.TreeNodeClickListener() {
                             @Override
                             public void onClick(TreeNode node, Object value) {
-                                System.out.println(files.get((String)value));
+//                                System.out.println(files.get((String)value));
                                 HtmlManager ht = new HtmlManager();
-                                String documento=ht.readFromFile(path, files.get((String)value));
+                                IconTreeItemHolder.IconTreeItem test = (IconTreeItemHolder.IconTreeItem) value;
+                                String documento=ht.readFromFile(path, files.get((String)test.text));
                                 if (documento == null )
-                                    documento = "<p>El documento : </p><h4>\" "+(String)value+" \" </h4> <p>no se encuentra guardado en el historial </p>";
-                                wv.loadData(documento, "text/html", "UTF-8");
+                                    documento = "<p>El documento : </p><h4>\" "+(String)test.text +" \" </h4> <p>no se encuentra guardado en el historial </p>";
+                                FragmentManager fragmentManager = supportFragmentManager;
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                Fragment fragment = new DetailOfflineFragment();
+
+                                Bundle bundle=new Bundle();
+                                bundle.putString("documento", documento);
+                                fragment.setArguments(bundle);
+
+                                fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
+                                fragmentTransaction.addToBackStack(null);
+                                fragmentTransaction.commit();
                             }
                         });
                     }
@@ -136,7 +176,7 @@ public  class BuildMenu {
         for (String line : menu2.split("\n")) {
             String separador = Pattern.quote("|");
             String[] terceto = line.split(separador);
-            TreeNode currentNode = new TreeNode(new IconTreeItemHolder.IconTreeItem(R.string.ic_bookmark, terceto[BRANCH_NAME])).setViewHolder(new ProfileHolder(activity));
+            TreeNode currentNode = new TreeNode(new IconTreeItemHolder.IconTreeItem(terceto[BRANCH_NAME])).setViewHolder(new ProfileHolder(activity));
             nodoMap.put(terceto[ID], currentNode);
             if (!terceto[PARENT_ID].equals("0")) { //no tiene padre
                 if(Pattern.matches("[0-9]*", terceto[BRANCH_NAME])){
@@ -148,12 +188,23 @@ public  class BuildMenu {
                         nodoMap.get(terceto[PARENT_ID]).setClickListener(new TreeNode.TreeNodeClickListener() {
                             @Override
                             public void onClick(TreeNode node, Object value) {
-                                System.out.println(files.get((String)value));
+//                                System.out.println(files.get((String)value));
                                 HtmlManager ht = new HtmlManager();
-                                String documento=ht.readFromFile(path, files.get((String)value));
+                                IconTreeItemHolder.IconTreeItem test = (IconTreeItemHolder.IconTreeItem) value;
+                                String documento=ht.readFromFile(path, files.get((String)test.text));
                                 if (documento == null )
-                                    documento = "<p>El documento : </p><h4>\" "+(String)value+" \" </h4> <p>no se encuentra guardado en el historial </p>";
-                                wv.loadData(documento, "text/html", "UTF-8");
+                                    documento = "<p>El documento : </p><h4>\" "+(String)test.text +" \" </h4> <p>no se encuentra guardado en el historial </p>";
+                                FragmentManager fragmentManager = supportFragmentManager;
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                Fragment fragment = new DetailOfflineFragment();
+
+                                Bundle bundle=new Bundle();
+                                bundle.putString("documento", documento);
+                                fragment.setArguments(bundle);
+
+                                fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
+                                fragmentTransaction.addToBackStack(null);
+                                fragmentTransaction.commit();
                             }
                         });
                     }
@@ -167,7 +218,7 @@ public  class BuildMenu {
         for (String line : menu4.split("\n")) {
             String separador = Pattern.quote("|");
             String[] terceto = line.split(separador);
-            TreeNode currentNode = new TreeNode(terceto[BRANCH_NAME]);
+            TreeNode currentNode = new TreeNode(new IconTreeItemHolder.IconTreeItem(terceto[BRANCH_NAME])).setViewHolder(new ProfileHolder(activity));
             nodoMap.put(terceto[ID], currentNode);
             if (!terceto[PARENT_ID].equals("0")) { //no tiene padre
                 if(Pattern.matches("[0-9]*", terceto[BRANCH_NAME])){
@@ -179,12 +230,23 @@ public  class BuildMenu {
                         nodoMap.get(terceto[PARENT_ID]).setClickListener(new TreeNode.TreeNodeClickListener() {
                             @Override
                             public void onClick(TreeNode node, Object value) {
-                                System.out.println(files.get((String)value));
+//                                System.out.println(files.get((String)value));
                                 HtmlManager ht = new HtmlManager();
-                                String documento=ht.readFromFile(path, files.get((String)value));
+                                IconTreeItemHolder.IconTreeItem test = (IconTreeItemHolder.IconTreeItem) value;
+                                String documento=ht.readFromFile(path, files.get((String)test.text));
                                 if (documento == null )
-                                    documento = "<p>El documento : </p><h4>\" "+(String)value+" \" </h4> <p>no se encuentra guardado en el historial </p>";
-                                wv.loadData(documento, "text/html", "UTF-8");
+                                    documento = "<p>El documento : </p><h4>\" "+(String)test.text +" \" </h4> <p>no se encuentra guardado en el historial </p>";
+                                FragmentManager fragmentManager = supportFragmentManager;
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                Fragment fragment = new DetailOfflineFragment();
+
+                                Bundle bundle=new Bundle();
+                                bundle.putString("documento", documento);
+                                fragment.setArguments(bundle);
+
+                                fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
+                                fragmentTransaction.addToBackStack(null);
+                                fragmentTransaction.commit();
                             }
                         });
                     }
@@ -192,9 +254,9 @@ public  class BuildMenu {
                     nodoMap.get(terceto[PARENT_ID]).addChildren(currentNode);
                 }
             } else {
-                //root.addChildren(currentNode);
-                TreeNode myProfile = new TreeNode(new IconTreeItemHolder.IconTreeItem(R.string.ic_bookmark, terceto[BRANCH_NAME])).setViewHolder(new ProfileHolder(activity));
-                root.addChildren(myProfile);
+                root.addChildren(currentNode);
+                //TreeNode myProfile = new TreeNode(new IconTreeItemHolder.IconTreeItem(R.string.ic_bookmark, terceto[BRANCH_NAME])).setViewHolder(new ProfileHolder(activity));
+                //root.addChildren(myProfile);
             }
         }
        /* if (Pattern.matches("[0-9]*", s))
@@ -204,8 +266,8 @@ public  class BuildMenu {
     }
 
     private static void addProfileData(TreeNode profile) {
-        TreeNode socialNetworks = new TreeNode(new IconTreeItemHolder.IconTreeItem(R.string.ic_people, "Social")).setViewHolder(new HeaderHolder(mActivity));
-        TreeNode places = new TreeNode(new IconTreeItemHolder.IconTreeItem(R.string.ic_place, "Places")).setViewHolder(new HeaderHolder(mActivity));
+        TreeNode socialNetworks = new TreeNode(new IconTreeItemHolder.IconTreeItem("Social")).setViewHolder(new HeaderHolder(mActivity));
+        TreeNode places = new TreeNode(new IconTreeItemHolder.IconTreeItem("Places")).setViewHolder(new HeaderHolder(mActivity));
 
         profile.addChildren(socialNetworks, places);
     }

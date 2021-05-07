@@ -144,7 +144,7 @@ public class MasterView extends AppCompatActivity {
                         nextFrag= new TermsAndConditionsFragment();
                         break;
                     case R.id.nav_registrarme:
-                        nextFrag= new OfflineFragment();
+                        nextFrag= new RegisterFragment();
                         break;
                 }
 

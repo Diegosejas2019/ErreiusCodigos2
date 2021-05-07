@@ -6,4 +6,9 @@
         android:orderInCategory="100"
         android:title="Agregar Nota"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_print"
+        android:orderInCategory="100"
+        android:title="Imprimir Documento"
+        app:showAsAction="never" />
 </menu>

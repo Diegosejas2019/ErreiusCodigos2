@@ -7,16 +7,16 @@
     android:layout_height="match_parent">
 
 
-    <com.github.johnkil.print.PrintView
+   <!-- <com.github.johnkil.print.PrintView
         android:layout_alignParentLeft="true"
         android:id="@+id/arrow_icon"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:iconText="@string/ic_keyboard_arrow_right"
+        app:iconText=""
         app:iconColor="#12558C"
-        app:iconFont="fonts/material-icon-font.ttf"
+        app:iconFont="font/material_icon_font.ttf"
         app:iconSize="20dp" />
 
     <com.github.johnkil.print.PrintView
@@ -27,23 +27,22 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:iconText="@string/ic_email"
+        app:iconText=""
+        app:iconFont="font/material_icon_font.ttf"
         app:iconColor="#12558C"
-        app:iconFont="fonts/material-icon-font.ttf"
-        app:iconSize="24dp" />
+        app:iconSize="24dp" />-->
 
     <TextView
         android:layout_centerVertical="true"
         android:textSize="16sp"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/icon"
-        android:layout_toLeftOf="@+id/buttonsContainer"
         android:id="@+id/node_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
 
-    <LinearLayout
+    <!--<LinearLayout
         android:id="@+id/buttonsContainer"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
@@ -59,8 +58,8 @@
             android:padding="5dp"
             app:iconSize="20dp"
             app:iconColor="#99cc00"
-            app:iconFont="fonts/material-icon-font.ttf"
-            app:iconText="@string/ic_add" />
+            app:iconFont="font/material_icon_font.ttf"
+            app:iconText="" />
 
 
         <com.github.johnkil.print.PrintView
@@ -71,6 +70,6 @@
             app:iconSize="20dp"
             app:iconColor="#ff4444"
             app:iconFont="fonts/material-icon-font.ttf"
-            app:iconText="@string/ic_close" />
-    </LinearLayout>
+            app:iconText="" />
+    </LinearLayout>-->
 </RelativeLayout>

@@ -8,7 +8,7 @@
     android:layout_height="match_parent">
 
 
-    <com.github.johnkil.print.PrintView
+    <!--<com.github.johnkil.print.PrintView
         android:layout_alignParentLeft="true"
         android:id="@+id/icon"
         android:layout_centerVertical="true"
@@ -16,8 +16,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:iconColor="#0099cc"
-        app:iconSize="36dp" />
 
+        app:iconText="@string/ic_keyboard_arrow_right"
+        app:iconSize="36dp" />
+-->
     <TextView
         android:layout_centerVertical="true"
         android:textSize="19sp"

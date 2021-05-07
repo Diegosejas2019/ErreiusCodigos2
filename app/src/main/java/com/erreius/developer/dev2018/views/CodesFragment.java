@@ -363,11 +363,8 @@ public class CodesFragment extends Fragment implements  MainContract.View {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
 
+            case R.id.action_print:
 
-            case R.id.action_settings:
-                //Toast.makeText(getContext(),"algo",Toast.LENGTH_LONG).show();
-                // Do Fragment menu item stuff here
-                //showInfoAlert(0);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     //Calling createWebPrintJob()
 
@@ -388,6 +385,10 @@ public class CodesFragment extends Fragment implements  MainContract.View {
                             new PrintAttributes.Builder().build());
                 }
                 return true;
+            case R.id.action_settings:
+                showGuardarAlert();
+
+                return true;
 
             default:
                 break;
@@ -395,7 +396,29 @@ public class CodesFragment extends Fragment implements  MainContract.View {
 
         return false;
     }
+    private  void showGuardarAlert(){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.detalle, null);
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.setPositiveButton("Guardar Nota", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //mListener.onDialogPositiveClick(mNameEdit.getText().toString(), mPasswordEdit.getText().toString());
+                TextView texto = dialogView.findViewById(R.id.txtContenidoNota);
+                Codigo codigo = new Codigo();
+                codigo.setIdUser(mIdUser);
+                String url = PreferenceManager.getDefaultSharedPreferences(getContext()).getString("Lasturl", "defaultStringIfNothingFound");
+                codigo.setTituloCodigo(url.substring(54));
+                codigo.setNota(texto.getText().toString());
+                mPresenter.guardarNota(codigo);
+            }
+        });
 
+        dialogBuilder.setNegativeButton("Cerrar",null );
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+    }
     private void showInfoAlert()
     {
 

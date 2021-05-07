@@ -24,15 +24,15 @@ public class IconTreeItemHolder extends TreeNode.BaseNodeViewHolder<IconTreeItem
         tvValue = (TextView) view.findViewById(R.id.node_value);
         tvValue.setText(value.text);
 
-        final PrintView iconView = (PrintView) view.findViewById(R.id.icon);
-        iconView.setIconText(context.getResources().getString(value.icon));
+        /*final PrintView iconView = (PrintView) view.findViewById(R.id.icon);
+        iconView.setIconText(context.getResources().getString(value.icon));*/
 
-        arrowView = (PrintView) view.findViewById(R.id.arrow_icon);
+        //arrowView = (PrintView) view.findViewById(R.id.arrow_icon);
 
-        view.findViewById(R.id.btn_addFolder).setOnClickListener(new View.OnClickListener() {
+        /*view.findViewById(R.id.btn_addFolder).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TreeNode newFolder = new TreeNode(new IconTreeItemHolder.IconTreeItem(R.string.ic_folder, "New Folder"));
+                TreeNode newFolder = new TreeNode(new IconTreeItemHolder.IconTreeItem("New Folder"));
                 getTreeView().addNode(node, newFolder);
             }
         });
@@ -42,12 +42,12 @@ public class IconTreeItemHolder extends TreeNode.BaseNodeViewHolder<IconTreeItem
             public void onClick(View v) {
                 getTreeView().removeNode(node);
             }
-        });
+        });*/
 
         //if My computer
-        if (node.getLevel() == 1) {
+        /*if (node.getLevel() == 1) {
             view.findViewById(R.id.btn_delete).setVisibility(View.GONE);
-        }
+        }*/
 
         return view;
     }
@@ -58,11 +58,9 @@ public class IconTreeItemHolder extends TreeNode.BaseNodeViewHolder<IconTreeItem
     }
 
     public static class IconTreeItem {
-        public int icon;
         public String text;
 
-        public IconTreeItem(int icon, String text) {
-            this.icon = icon;
+        public IconTreeItem(String text) {
             this.text = text;
         }
     }
