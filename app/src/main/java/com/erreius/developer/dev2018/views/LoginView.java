@@ -7,6 +7,8 @@ import butterknife.ButterKnife;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -62,7 +64,22 @@ public class LoginView extends AppCompatActivity implements MainContract.View{
             user.setIdUser(mIdUser);
             user.setPassword(mPassword);
 
-            mPresenter.readPlayers(user);
+            if(isConnected())
+            {
+                mPresenter.readPlayers(user);
+            }
+            else{
+                Intent intent = new Intent(LoginView.this, MasterView.class);
+                if (user.getUrlFoto() != null)
+                {
+                    intent.putExtra("UrlFoto",user.getUrlFoto());
+                    intent.putExtra("Name",user.getFullUserName());
+                }
+                intent.putExtra("Opcion","Logueado");
+                Log.println(Log.INFO,"Opcion","Log");
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            }
         }
         else{
             String dUser = prefs.getString("idSuscriptor", "");
@@ -72,7 +89,22 @@ public class LoginView extends AppCompatActivity implements MainContract.View{
                 user.setUserName(dUser);
                 user.setPassword(mPassword);
 
-                mPresenter.readPlayers(user);
+                if(isConnected())
+                {
+                    mPresenter.readPlayers(user);
+                }
+                else{
+                    Intent intent = new Intent(LoginView.this, MasterView.class);
+                    if (user.getUrlFoto() != null)
+                    {
+                        intent.putExtra("UrlFoto",user.getUrlFoto());
+                        intent.putExtra("Name",user.getFullUserName());
+                    }
+                    intent.putExtra("Opcion","Logueado");
+                    Log.println(Log.INFO,"Opcion","Log");
+                    startActivity(intent);
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                }
             }
         }
         btnSuscriptor.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +138,11 @@ public class LoginView extends AppCompatActivity implements MainContract.View{
         });
     }
 
-
+    public boolean isConnected(){
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService( CONNECTIVITY_SERVICE );
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
     @Override
     public void onCreatePlayerSuccessful() {
 

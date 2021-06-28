@@ -279,7 +279,19 @@ public class CodesFragment extends Fragment implements  MainContract.View {
                 encryptData.EUS = userSuscriptor;
                 encryptData.EPS = Password;
                 restoredText = 22;
-                mPresenter.encryptData(encryptData);
+                if(isConnected())
+                {
+                    mPresenter.encryptData(encryptData);
+                }
+                else{
+                    OfflineFragment nextFrag= new OfflineFragment();
+
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.nav_host_fragment, nextFrag, "findThisFragment")
+                            .addToBackStack(null)
+                            .commit();
+                }
+
             }
 
         }
@@ -288,20 +300,7 @@ public class CodesFragment extends Fragment implements  MainContract.View {
             String Name = bundle.getString("Name", "");
             if (Name != "")
             {
-                new GraphRequest(
-                        AccessToken.getCurrentAccessToken(),
-                        "/{10215768115819638}",
-                        null,
-                        HttpMethod.GET,
-                        new GraphRequest.Callback() {
-                            public void onCompleted(GraphResponse response) {
-                                /* handle the result */
-                                String algo= "a";
-                            }
-                        }
-                ).executeAsync();
 
-                Toast.makeText(getContext(),"entro",Toast.LENGTH_LONG).show();
                 NavigationView navigationView = getActivity().findViewById(R.id.nav_view);
                 View hView =  navigationView.getHeaderView(0);
                 TextView correo = (TextView)hView.findViewById(R.id.txtCorreo);
@@ -530,6 +529,13 @@ public class CodesFragment extends Fragment implements  MainContract.View {
 
     @Override
     public void onEncryptData(EncryptData encryptData) {
+
+        NavigationView navigationView = getActivity().findViewById(R.id.nav_view);
+        Menu nav_Menu = navigationView.getMenu();
+
+        nav_Menu.findItem(R.id.nav_activar).setVisible(true);
+        nav_Menu.findItem(R.id.nav_notas).setVisible(true);
+
         if (restoredText == 22)
         {
             String mensaje =  "eus=" + encryptData.EUS + "&eps=" + encryptData.EPS + "&name=a&mobile=si";
@@ -540,7 +546,10 @@ public class CodesFragment extends Fragment implements  MainContract.View {
             //setHasOptionsMenu(true);
         }
         else{
-            String mensaje =  "eus=" + encryptData.EUS + "&eps=a&name=a&tipored=F&mobile=si";
+            SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String tipored = prefs.getString("TipoRed", "F");
+
+            String mensaje =  "eus=" + encryptData.EUS + "&eps=a&name=a&tipored=" + tipored +"&mobile=si";
             String url = "http://appcodigos.erreius.com/Login.aspx?" + mensaje;
             Log.println(Log.INFO,"CallUrl",url);
             //mWebView.reload();
@@ -585,10 +594,10 @@ public class CodesFragment extends Fragment implements  MainContract.View {
 
         mWebView.getSettings().setAppCachePath(getActivity().getCacheDir().getAbsolutePath());
         mWebView.getSettings().setAllowFileAccess(true);
-        mWebView.getSettings().setAppCacheEnabled(true);
+        mWebView.getSettings().setAppCacheEnabled(false);
         mWebView.getSettings().setDomStorageEnabled(true);
         mWebView.setWebChromeClient(new WebChromeClient());
-        mWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT); // load online by default
+        mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE); // load online by default
         mWebView.setWebViewClient(new WebViewClient() {
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 Toast.makeText(getContext(), description, Toast.LENGTH_SHORT).show();
@@ -636,6 +645,9 @@ public class CodesFragment extends Fragment implements  MainContract.View {
                 if (url.contains("DetalleArticulo.aspx?id=")) {
                     htmlManager.save(url);
                 }
+                if (!isConnected()){
+                    mWebView.stopLoading();
+                }
             }
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -661,17 +673,20 @@ public class CodesFragment extends Fragment implements  MainContract.View {
                     toolbar.setOverflowIcon(null);
                     ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
                 }
+                if (!isConnected()){
+                    mWebView.stopLoading();
+                }
                 //CargarWebView(url);
                 return false;
             }
         });
-        Map<String, String> noCacheHeaders = new HashMap<String, String>(2);
+        /*Map<String, String> noCacheHeaders = new HashMap<String, String>(2);
         noCacheHeaders.put("Pragma", "cache");
-        noCacheHeaders.put("Cache-Control", "cache");
+        noCacheHeaders.put("Cache-Control", "cache");*/
         //mWebView.reload();
         if (isConnected()){
             mWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
-            mWebView.loadUrl(url,noCacheHeaders);
+            mWebView.loadUrl(url);
         }
         /*else{
             mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);

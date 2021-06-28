@@ -20,6 +20,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -105,55 +107,71 @@ public class MasterView extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
-                Fragment nextFrag= new Fragment();
-                switch (menuItem.getItemId()) {
-                    case R.id.nav_cerrar:
+                if(isConnected()){
+                    Fragment nextFrag= new Fragment();
+                    switch (menuItem.getItemId()) {
+                        case R.id.nav_cerrar:
 
-                        SharedPreferences spreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                        SharedPreferences.Editor spreferencesEditor = spreferences.edit();
-                        spreferencesEditor.clear();
-                        spreferencesEditor.commit();
+                            SharedPreferences spreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                            SharedPreferences.Editor spreferencesEditor = spreferences.edit();
+                            spreferencesEditor.clear();
+                            spreferencesEditor.commit();
 
-                        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-                        spreferencesEditor = prefs.edit();
-                        spreferencesEditor.clear();
-                        spreferencesEditor.commit();
+                            SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                            spreferencesEditor = prefs.edit();
+                            spreferencesEditor.clear();
+                            spreferencesEditor.commit();
 
-                        Intent mainIntent = new Intent(MasterView.this,
-                                LoginView.class);
-                        startActivity(mainIntent);
-                        MasterView.this.finish();
-                        overridePendingTransition(R.anim.nav_default_enter_anim,R.anim.nav_default_exit_anim);
-                        break;
-                    case R.id.nav_activar:
-                        nextFrag= new ActivarFragment();
-                        break;
-                    case R.id.nav_notas:
-                        nextFrag= new NotasFragment();
-                        break;
-                    case R.id.nav_contactanos:
-                        nextFrag= new ContactFragment();
-                        break;
-                    case R.id.nav_home:
-                        nextFrag= new CodesFragment();
-                        Bundle bundle=new Bundle();
-                        bundle.putString("Ingreso", "Menu");
-                        nextFrag.setArguments(bundle);
-                        break;
-                    case R.id.nav_terminos:
-                        nextFrag= new TermsAndConditionsFragment();
-                        break;
-                    case R.id.nav_registrarme:
-                        nextFrag= new RegisterFragment();
-                        break;
+                            Intent mainIntent = new Intent(MasterView.this,
+                                    LoginView.class);
+                            startActivity(mainIntent);
+                            MasterView.this.finish();
+                            overridePendingTransition(R.anim.nav_default_enter_anim,R.anim.nav_default_exit_anim);
+                            break;
+                        case R.id.nav_activar:
+                            nextFrag= new ActivarFragment();
+                            break;
+                        case R.id.nav_notas:
+                            nextFrag= new NotasFragment();
+                            break;
+                        case R.id.nav_contactanos:
+                            nextFrag= new ContactFragment();
+                            break;
+                        case R.id.nav_home:
+                            nextFrag= new CodesFragment();
+                            Bundle bundle=new Bundle();
+                            bundle.putString("Ingreso", "Menu");
+                            nextFrag.setArguments(bundle);
+                            break;
+                        case R.id.nav_terminos:
+                            nextFrag= new TermsAndConditionsFragment();
+                            break;
+                        case R.id.nav_registrarme:
+                            nextFrag= new RegisterFragment();
+                            break;
+                    }
+
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.nav_host_fragment, nextFrag, "findThisFragment")
+                            .addToBackStack(null)
+                            .commit();
+                    drawer.closeDrawers();
+                    return true;
                 }
+                else{
+                    /*Fragment nextFrag= new OfflineFragment();
 
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.nav_host_fragment, nextFrag, "findThisFragment")
-                        .addToBackStack(null)
-                        .commit();
-                drawer.closeDrawers();
-                return true;
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.nav_host_fragment, nextFrag, "findThisFragment")
+                            .addToBackStack(null)
+                            .commit();
+                    drawer.closeDrawers();
+                    Toast.makeText(MasterView.this, "Sin Conexión",Toast.LENGTH_LONG).show();*/
+                    drawer.closeDrawers();
+                    showInfoAlert();
+
+                    return true;
+                }
             }
         });
 
@@ -181,70 +199,97 @@ public class MasterView extends AppCompatActivity {
                  return true;
              }
          });
-            Bundle b = getIntent().getExtras();
-            if(b != null){
-                String Opcion = b.getString("Opcion","");
-                String UrlFoto = b.getString("UrlFoto","");
-                String Name = b.getString("Name","");
-                Fragment nextFrag= new Fragment();
-                Log.println(Log.INFO,"Opcion",Opcion);
-                if (Opcion.equals("Suscriptor"))
+        Bundle b = getIntent().getExtras();
+        if(b != null){
+            String Opcion = b.getString("Opcion","");
+            String UrlFoto = b.getString("UrlFoto","");
+            String Name = b.getString("Name","");
+            Fragment nextFrag= new Fragment();
+            Log.println(Log.INFO,"Opcion",Opcion);
+            Menu nav_Menu = navigationView.getMenu();
+            if (Opcion.equals("Suscriptor"))
+            {
+
+                nav_Menu.findItem(R.id.nav_activar).setVisible(false);
+                nav_Menu.findItem(R.id.nav_notas).setVisible(false);
+
+                nextFrag = new RegisterFragment();
+                Log.println(Log.INFO,"Login","Register");
+            }
+            else{
+                if (Opcion.equals("Logueado"))
                 {
-                    nextFrag = new RegisterFragment();
-                    Log.println(Log.INFO,"Login","Register");
+                    nav_Menu.findItem(R.id.nav_activar).setVisible(true);
+                    nav_Menu.findItem(R.id.nav_notas).setVisible(true);
+                    nextFrag = new CodesFragment();
+                    Log.println(Log.INFO,"Login","Codes");
                 }
                 else{
-                    if (Opcion.equals("Logueado"))
-                    {
-                        nextFrag = new CodesFragment();
-                        Log.println(Log.INFO,"Login","Codes");
-                    }
-                    else{
-                        nextFrag = new LoginFragment();
-                        Log.println(Log.INFO,"Login","Login");
-                    }
-                }
 
-                if (!UrlFoto.equals(""))
-                {
-                    new GraphRequest(
-                            AccessToken.getCurrentAccessToken(),
-                            "/10215768115819638",
-                            null,
-                            HttpMethod.GET,
-                            new GraphRequest.Callback() {
-                                public void onCompleted(GraphResponse response) {
-                                    /* handle the result */
-                                    String algo= "a";
-                                }
-                            }
-                    ).executeAsync();
-
-                    View hView =  navigationView.getHeaderView(0);
-                    TextView correo = (TextView)hView.findViewById(R.id.txtCorreo);
-                    TextView bienvenido = (TextView)hView.findViewById(R.id.txtBienvenido);
-                    bienvenido.setVisibility(View.VISIBLE);
-                    correo.setText(Name);
-                    ImageView nav_user = (ImageView)hView.findViewById(R.id.imageView);
-                    Picasso.with(MasterView.this)
-                            .load(UrlFoto)
-                            //.resize(1400, 850)
-                            .transform(new RoundedCornersTransform())
-                            .into(nav_user);
+                    nav_Menu.findItem(R.id.nav_activar).setVisible(false);
+                    nav_Menu.findItem(R.id.nav_notas).setVisible(false);
+                    nextFrag = new LoginFragment();
+                    Log.println(Log.INFO,"Login","Login");
                 }
+            }
+
+            if (!UrlFoto.equals(""))
+            {
+                View hView =  navigationView.getHeaderView(0);
+                TextView correo = (TextView)hView.findViewById(R.id.txtCorreo);
+                TextView bienvenido = (TextView)hView.findViewById(R.id.txtBienvenido);
+                bienvenido.setVisibility(View.VISIBLE);
+                correo.setText(Name);
+                ImageView nav_user = (ImageView)hView.findViewById(R.id.imageView);
+                Picasso.with(MasterView.this)
+                        .load(UrlFoto)
+                        //.resize(1400, 850)
+                        .transform(new RoundedCornersTransform())
+                        .into(nav_user);
+            }
+
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.nav_host_fragment, nextFrag, "findThisFragment")
+                    .addToBackStack(null)
+
+                    .setMaxLifecycle(nextFrag, Lifecycle.State.RESUMED)
+                    .commit();
+        }
+            return;
+        }
+
+        printHashKey(MasterView.this);
+    }
+
+    private void showInfoAlert()
+    {
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MasterView.this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.offline, null);
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                OfflineFragment nextFrag= new OfflineFragment();
 
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.nav_host_fragment, nextFrag, "findThisFragment")
                         .addToBackStack(null)
-
-                        .setMaxLifecycle(nextFrag, Lifecycle.State.RESUMED)
                         .commit();
             }
-            return;
-        }
+        });
 
+        dialogBuilder.setNegativeButton("Cerrar",null );
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+    }
 
-        //printHashKey(MasterView.this);
+    public boolean isConnected(){
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService( CONNECTIVITY_SERVICE );
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     private void checkUpdate() {

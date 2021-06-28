@@ -2,13 +2,13 @@ package com.erreius.developer.dev2018.services;
 
 import android.util.Log;
 
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.FirebaseInstanceIdService;
+
 
 import static android.content.ContentValues.TAG;
 
-public class FireBaseInstanceIdService extends FirebaseInstanceIdService {
-    @Override
+
+public class FireBaseInstanceIdService {
+/*    @Override
     public void onTokenRefresh() {
         // Get updated InstanceID token.
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
@@ -21,5 +21,5 @@ public class FireBaseInstanceIdService extends FirebaseInstanceIdService {
     }
 
     private void sendRegistrationToServer(String refreshedToken) {
-    }
+    }*/
 }

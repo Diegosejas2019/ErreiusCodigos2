@@ -15,46 +15,27 @@
       },
       "oauth_client": [
         {
-          "client_id": "308512450088-d537sop121isel34ihgg9cee0iu1is0g.apps.googleusercontent.com",
-          "client_type": 3
-        },
-        {
-          "client_id": "308512450088-kfodjuakhr10puhh3gc2d0acr5ukntvi.apps.googleusercontent.com",
-          "client_type": 3
-        },
-        {
-          "client_id": "308512450088-spue1koq4drpgqqq2mdd3urs3dikafqp.apps.googleusercontent.com",
+          "client_id": "308512450088-3mjmlmdd1rt892p4tsid2kh62mkt265c.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.erreius.developer.dev2018",
-            "certificate_hash": "b95dd904e16046ceccd875ff3b14ccea5b7fbed7"
+            "certificate_hash": "61dcaf514a93c7584b6fac1f8aa9e99110c24ec6"
           }
-        },
-        {
-          "client_id": "308512450088-k2aeobjop5jodh3efdt1nvtq2ogpd1nu.apps.googleusercontent.com",
-          "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBF4IOv5JfdhkGeb5O_eNjvVrwpIF1zXWo"
+          "current_key": "AIzaSyBmI8oQIPWtwa5RLOcuuqd4eF0-PPh3-XA"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "308512450088-d537sop121isel34ihgg9cee0iu1is0g.apps.googleusercontent.com",
+              "client_id": "308512450088-7v7i3ml1jq2fud01kg09u6fklmtckuuc.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }

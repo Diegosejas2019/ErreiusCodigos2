@@ -4,15 +4,14 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.FirebaseInstanceIdService;
+
 import com.google.firebase.messaging.FirebaseMessaging;
 
-public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
+public class MyFirebaseInstanceIDService  {
 
     private static final String TAG = "MyFirebaseIIDService";
 
-    @Override
+    /*@Override
     public void onTokenRefresh() {
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "Refreshed token: " + refreshedToken);
@@ -23,7 +22,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
                 //Toast.makeText(getApplicationContext(),"Success", Toast.LENGTH_LONG).show();
             }
         });
-    }
+    }*/
 
     private void storeToken(String token) {
         //saving the token on shared preferences

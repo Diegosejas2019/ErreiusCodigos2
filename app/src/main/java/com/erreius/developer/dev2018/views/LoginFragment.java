@@ -5,6 +5,8 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -20,6 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import android.preference.PreferenceManager;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -58,15 +61,18 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONObject;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.erreius.developer.dev2018.views.RegistrarP1Fragment.MY_PREFS_NAME;
 import static com.facebook.FacebookSdk.getApplicationContext;
-
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 
 public class LoginFragment extends Fragment implements  MainContract.View ,GoogleApiClient.OnConnectionFailedListener{
-
+    private static final String TAG = "info hash";
     @BindView(R.id.btnContinuarCorreo) Button mCompreCodigo;
     @BindView(R.id.btnGoogle) Button mGoggle;
     @BindView(R.id.btnFacebook) Button mFaceebook;
@@ -88,6 +94,8 @@ public class LoginFragment extends Fragment implements  MainContract.View ,Googl
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(getApplicationContext());
         activity = getActivity();
         mPresenter = new MainPresenter(this);
         setHasOptionsMenu(false);
@@ -167,7 +175,7 @@ public class LoginFragment extends Fragment implements  MainContract.View ,Googl
                 LoginManager.getInstance().setLoginBehavior(LoginBehavior.WEB_ONLY);
                 LoginManager.getInstance().logOut();
                 mCallbackManager = CallbackManager.Factory.create();
-                LoginManager.getInstance().logInWithReadPermissions(LoginFragment.this, Arrays.asList("email","user_photos", "public_profile"));
+                LoginManager.getInstance().logInWithReadPermissions(LoginFragment.this, Arrays.asList("email", "public_profile"));
 
                 LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
                     @Override
@@ -203,7 +211,7 @@ public class LoginFragment extends Fragment implements  MainContract.View ,Googl
                             }
                         });
                         Bundle parameters = new Bundle();
-                        parameters.putString("fields", "id,name,email,gender, birthday,picture");
+                        parameters.putString("fields", "id,name,email");
                         request.setParameters(parameters);
                         request.executeAsync();
                     }
@@ -221,7 +229,24 @@ public class LoginFragment extends Fragment implements  MainContract.View ,Googl
             }
         });
 
+        printHashKey(getContext());
         return view;
+    }
+
+    public void printHashKey(Context pContext) {
+        try {
+            PackageInfo info = getContext().getPackageManager().getPackageInfo(getContext().getPackageName(), PackageManager.GET_SIGNATURES);
+            for (android.content.pm.Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String hashKey = new String(Base64.encode(md.digest(), 0));
+                Log.i(TAG, "printHashKey() Hash Key: " + hashKey);
+            }
+        } catch (NoSuchAlgorithmException e) {
+            Log.e(TAG, "printHashKey()", e);
+        } catch (Exception e) {
+            Log.e(TAG, "printHashKey()", e);
+        }
     }
 
     @Override

@@ -117,6 +117,7 @@ public class RegistrarP3Fragment extends Fragment implements  MainContract.View{
 
                     User user = new User();
                     user.UserName = mParam2;
+                    user.FullUserName = mParam2;
                     user.Email = mParam1;
                     user.Telefono = mParam3;
                     user.Password = contraseña;
@@ -170,6 +171,7 @@ public class RegistrarP3Fragment extends Fragment implements  MainContract.View{
         editor.putInt("idUser", user.getIdUser());
         editor.putString("Password", mContraseña.getText().toString());
         editor.putString("Email", mParam1);
+        editor.putString("TipoRed", "R");
         editor.apply();
 
         RegistrarPFFragment nextFrag= new RegistrarPFFragment();

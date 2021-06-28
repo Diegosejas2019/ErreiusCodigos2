@@ -94,10 +94,17 @@ public class ActivarFragment extends Fragment implements  MainContract.View{
                 } else {
                     String item = mCodigo.getText().toString().trim();
                     SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-                    Integer idUser = prefs.getInt("idUserRedsocial", 0);
+                    Integer idUserRedsocial = prefs.getInt("idUserRedsocial", 0);
+                    //Integer idUser = prefs.getInt("idUser", 0);
+
                     Codigo codigo = new Codigo();
                     codigo.setCodigo(item);
-                    codigo.setIdUser(idUser);
+                  //  if (idUser > 0){
+                   //     codigo.setIdUser(idUser);
+                   // }
+                    //else{
+                        codigo.setIdUser(idUserRedsocial);
+                    //}
 
                     mPresenter.activarCodigo(codigo);
                 }
