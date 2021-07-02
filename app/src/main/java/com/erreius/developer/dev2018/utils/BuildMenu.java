@@ -259,6 +259,93 @@ public  class BuildMenu {
                 //root.addChildren(myProfile);
             }
         }
+
+        for (String line : menu5.split("\n")) {
+            String separador = Pattern.quote("|");
+            String[] terceto = line.split(separador);
+            TreeNode currentNode = new TreeNode(new IconTreeItemHolder.IconTreeItem(terceto[BRANCH_NAME])).setViewHolder(new ProfileHolder(activity));
+            nodoMap.put(terceto[ID], currentNode);
+            if (!terceto[PARENT_ID].equals("0")) { //no tiene padre
+                if(Pattern.matches("[0-9]*", terceto[BRANCH_NAME])){
+                    if(!docs.contains(terceto[BRANCH_NAME])){
+                        IconTreeItemHolder.IconTreeItem nodo = (IconTreeItemHolder.IconTreeItem) nodoMap.get(terceto[PARENT_ID]).getValue();
+                        String name = nodo.text;
+                        //String name = nodoMap.get(terceto[PARENT_ID]).getValue().toString();
+                        files.put(name,terceto[BRANCH_NAME]);
+                        nodoMap.get(terceto[PARENT_ID]).setClickListener(new TreeNode.TreeNodeClickListener() {
+                            @Override
+                            public void onClick(TreeNode node, Object value) {
+//                                System.out.println(files.get((String)value));
+                                HtmlManager ht = new HtmlManager();
+                                IconTreeItemHolder.IconTreeItem test = (IconTreeItemHolder.IconTreeItem) value;
+                                String documento=ht.readFromFile(path, files.get((String)test.text));
+                                if (documento == null )
+                                    documento = "<p>El documento : </p><h4>\" "+(String)test.text +" \" </h4> <p>no se encuentra guardado en el historial </p>";
+                                FragmentManager fragmentManager = supportFragmentManager;
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                Fragment fragment = new DetailOfflineFragment();
+
+                                Bundle bundle=new Bundle();
+                                bundle.putString("documento", documento);
+                                fragment.setArguments(bundle);
+
+                                fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
+                                fragmentTransaction.addToBackStack(null);
+                                fragmentTransaction.commit();
+                            }
+                        });
+                    }
+                }else{
+                    nodoMap.get(terceto[PARENT_ID]).addChildren(currentNode);
+                }
+            } else {
+                root.addChildren(currentNode);
+            }
+        }
+
+
+        for (String line : menu6.split("\n")) {
+            String separador = Pattern.quote("|");
+            String[] terceto = line.split(separador);
+            TreeNode currentNode = new TreeNode(new IconTreeItemHolder.IconTreeItem(terceto[BRANCH_NAME])).setViewHolder(new ProfileHolder(activity));
+            nodoMap.put(terceto[ID], currentNode);
+            if (!terceto[PARENT_ID].equals("0")) { //no tiene padre
+                if(Pattern.matches("[0-9]*", terceto[BRANCH_NAME])){
+                    if(!docs.contains(terceto[BRANCH_NAME])){
+                        IconTreeItemHolder.IconTreeItem nodo = (IconTreeItemHolder.IconTreeItem) nodoMap.get(terceto[PARENT_ID]).getValue();
+                        String name = nodo.text;
+                        //String name = nodoMap.get(terceto[PARENT_ID]).getValue().toString();
+                        files.put(name,terceto[BRANCH_NAME]);
+                        nodoMap.get(terceto[PARENT_ID]).setClickListener(new TreeNode.TreeNodeClickListener() {
+                            @Override
+                            public void onClick(TreeNode node, Object value) {
+//                                System.out.println(files.get((String)value));
+                                HtmlManager ht = new HtmlManager();
+                                IconTreeItemHolder.IconTreeItem test = (IconTreeItemHolder.IconTreeItem) value;
+                                String documento=ht.readFromFile(path, files.get((String)test.text));
+                                if (documento == null )
+                                    documento = "<p>El documento : </p><h4>\" "+(String)test.text +" \" </h4> <p>no se encuentra guardado en el historial </p>";
+                                FragmentManager fragmentManager = supportFragmentManager;
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                Fragment fragment = new DetailOfflineFragment();
+
+                                Bundle bundle=new Bundle();
+                                bundle.putString("documento", documento);
+                                fragment.setArguments(bundle);
+
+                                fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
+                                fragmentTransaction.addToBackStack(null);
+                                fragmentTransaction.commit();
+                            }
+                        });
+                    }
+                }else{
+                    nodoMap.get(terceto[PARENT_ID]).addChildren(currentNode);
+                }
+            } else {
+                root.addChildren(currentNode);
+            }
+        }
        /* if (Pattern.matches("[0-9]*", s))
             System.out.println(s);
         else System.out.println("--");*/
@@ -3880,6 +3967,1055 @@ public  class BuildMenu {
             "27098|27097|20170710063708023\n" +
             "27099|26702|Disposición (RNR) 11/2018. Creación del Registro de Antecedentes Penales de Personas Jurídicas\n" +
             "27100|27099|20181123080906770\n");
+
+
+            private static String menu5 =new String("3401|0|Provinciales\n" +
+                    "27524|3401|Código Procesal Civil y Comercial de la Provincia de Buenos Aires - Decreto-Ley 7425\n" +
+                    "27525|27524|20100922063401163\n" +
+                    "27526|3401|Código Procesal Penal de la Provincia de Buenos Aires - Ley (BsAs) 11922\n" +
+                    "27527|27526|20100922063403054\n" +
+                    "27528|3401|Normas Complementarias del Código Procesal Civil y Comercial de la Provincia de Buenos Aires\n" +
+                    "27529|27528|Ley 5177\n" +
+                    "27530|27529|Ejercicio Profesional de la Abogacía en la Provincia de Buenos Aires\n" +
+                    "27531|27530|20100922064834652\n" +
+                    "27532|27528|Ley 5708\n" +
+                    "27533|27532|Expropiación. Régimen\n" +
+                    "27534|27533|20100922064912511\n" +
+                    "27535|27528|Ley 5827\n" +
+                    "27536|27535|Ley Orgánica del Poder Judicial de la Provincia de Buenos Aires\n" +
+                    "27537|27536|20100922064941651\n" +
+                    "27538|27528|Ley 6716\n" +
+                    "27539|27538|Abogacía. Caja de Previsión Social. Régimen. Texto ordenado\n" +
+                    "27540|27539|20100922064836215\n" +
+                    "27541|27528|Ley 7193\n" +
+                    "27542|27541|Colegios Profesionales. Gestor. Texto ordenado\n" +
+                    "27543|27542|20100922064900480\n" +
+                    "27544|27528|Ley 7205\n" +
+                    "27545|27544|Poder Judicial. Registro Público de Juicios Universales\n" +
+                    "27546|27545|20100922064947479\n" +
+                    "27547|27528|Ley 7322\n" +
+                    "27548|27547|Sucesiones. Herencias vacantes. Denuncia\n" +
+                    "27549|27548|20100922065007620\n" +
+                    "27550|27528|Ley 7543\n" +
+                    "27551|27550|Estado Provincial. Juicios contra el Estado. Representación judicial. Cuerpo de Abogados\n" +
+                    "27552|27551|20100922064911933\n" +
+                    "27553|27528|Ley 7951\n" +
+                    "27554|27553|Procedimiento Judicial. Feria\n" +
+                    "27555|27554|20100922065000729\n" +
+                    "27556|27528|Ley 7967\n" +
+                    "27557|27556|Poder Judicial. Demente. Internación\n" +
+                    "27558|27557|20100922064934745\n" +
+                    "27559|27528|Ley 8132\n" +
+                    "27560|27559|Procedimiento Judicial. Penal. Sentencia. Error. Daños y perjuicios\n" +
+                    "27561|27560|20100922064952432\n" +
+                    "27562|27528|Ley 8480\n" +
+                    "27563|27562|Colegios profesionales. Abogado. Derecho fijo\n" +
+                    "27564|27563|20100922064900402\n" +
+                    "27565|27528|Ley 8593\n" +
+                    "27566|27565|Procedimiento Judicial. Beneficio de litigar sin gastos. Edictos\n" +
+                    "27567|27566|20100922064958448\n" +
+                    "27568|27528|Ley 8904\n" +
+                    "27569|27568|Abogacía. Honorarios. Regulación\n" +
+                    "27570|27569|20100922064837230\n" +
+                    "27571|27528|Ley 8946\n" +
+                    "27572|27571|Documentos. Administración pública. Legalización\n" +
+                    "27573|27572|20100922064909339\n" +
+                    "27574|27528|Ley 8965\n" +
+                    "27575|27574|Poder Judicial. Enjuiciamiento de Magistrados. Suprema Corte de Justicia. Procurador General\n" +
+                    "27576|27575|20100922064937511\n" +
+                    "27577|27528|Ley 9020\n" +
+                    "27578|27577|Escribanos. Ejercicio Profesional. Texto ordenado\n" +
+                    "27579|27578|20100922064909917\n" +
+                    "27580|27528|Ley 9122\n" +
+                    "27581|27580|Apremio. Créditos fiscales. Cobro\n" +
+                    "27582|27581|20100922064839355\n" +
+                    "27583|27528|Ley 9229\n" +
+                    "27584|27583|Poder Judicial. Justicia de Paz\n" +
+                    "27585|27584|20100922064940229\n" +
+                    "27586|27528|Ley 9533\n" +
+                    "27587|27586|Inmuebles. Bienes de dominio público. Régimen\n" +
+                    "27588|27587|20100922064929948\n" +
+                    "27589|27528|Ley 9618\n" +
+                    "27590|27589|Convenios. Comunicaciones entre tribunales de distinta jurisdicción. Adhesión\n" +
+                    "27591|27590|20100922064902058\n" +
+                    "27592|27528|Ley 9718\n" +
+                    "27593|27592|Colegios Profesionales. Calígrafo Público. Régimen\n" +
+                    "27594|27593|20100922064900449\n" +
+                    "27595|27528|Ley 9747\n" +
+                    "27596|27595|Bien de Familia. Vivienda única. Valuación fiscal\n" +
+                    "27597|27596|20100922064840808\n" +
+                    "27598|27528|Ley 10235\n" +
+                    "27599|27598|Procedimiento Judicial. Sentencia. Administración pública\n" +
+                    "27600|27599|20100922064952417\n" +
+                    "27601|27528|Ley 10300\n" +
+                    "27602|27601|Procedimiento Judicial. Sucesiones. Herencia vacante. Depósito bancario\n" +
+                    "27603|27602|20100922065004729\n" +
+                    "27604|27528|Ley 10315\n" +
+                    "27605|27604|Asistencia Social. Demente. Externación. Texto ordenado\n" +
+                    "27606|27605|20100922064839402\n" +
+                    "27607|27528|Ley 10397\n" +
+                    "27608|27607|Código Fiscal. Texto Ordenado -  Buenos Aires\n" +
+                    "27609|27608|20100922064856449\n" +
+                    "27610|27528|Ley 10488\n" +
+                    "27611|27610|Procedimiento Judicial. Municipalidad. Posesión de inmueble. Prueba\n" +
+                    "27612|27611|20100922064940823\n" +
+                    "27613|27528|Ley 10620\n" +
+                    "27614|27613|Procedimiento Judicial. Peritos. Contador. Honorarios\n" +
+                    "27615|27614|20100922065004135\n" +
+                    "27616|27528|Ley 10973\n" +
+                    "27617|27616|Colegios Profesionales. Martilleros. Régimen\n" +
+                    "27618|27617|20100922064900949\n" +
+                    "27619|27528|Ley 11594\n" +
+                    "27620|27619|Poder Judicial. Tasa de Justicia. Empleado Público\n" +
+                    "27621|27620|20100922064953370\n" +
+                    "27622|27528|Ley 11653\n" +
+                    "27623|27622|Procedimiento Laboral de la Provincia de Buenos Aires\n" +
+                    "27624|27623|20100922065005198\n" +
+                    "27625|27528|Ley 11809\n" +
+                    "27626|27625|Colegios profesionales. Tribunal de disciplina. Resoluciones. Publicidad\n" +
+                    "27627|27626|20100922064901574\n" +
+                    "27628|27528|Ley 11868\n" +
+                    "27629|27628|Poder Judicial. Consejo de la Magistratura\n" +
+                    "27630|27629|20100922064933776\n" +
+                    "27631|27528|Ley 12008\n" +
+                    "27632|27631|Código Contencioso Administrativo de la Provincia de Buenos Aires\n" +
+                    "27633|27632|20100922064844949\n" +
+                    "27634|27528|Ley 12048\n" +
+                    "27635|27634|Colegios Profesionales. Traductor Público\n" +
+                    "27636|27635|20100922064901542\n" +
+                    "27637|27528|Ley 12074\n" +
+                    "27638|27637|Poder Judicial. Fuero Contencioso Administrativo\n" +
+                    "27639|27638|20100922064938526\n" +
+                    "27640|27528|Ley 12091\n" +
+                    "27641|27640|Colegios Profesionales. Matrícula. Pago\n" +
+                    "27642|27641|20100922064901511\n" +
+                    "27643|27528|Ley 12200\n" +
+                    "27644|27643|Procedimiento Judicial. Laboral. Gratuidad\n" +
+                    "27645|27644|20100922065002557\n" +
+                    "27646|27528|Ley 12765\n" +
+                    "27647|27646|Empleados y Funcionarios Públicos. Demanda. Beneficio de litigar sin gastos\n" +
+                    "27648|27647|20100922064909808\n" +
+                    "27649|27528|Ley 12871\n" +
+                    "27650|27649|Procedimiento Judicial. Procesos judiciales comprendidos en el artículo 1 de ley nacional 25587. Competencia de la Justicia Federal\n" +
+                    "27651|27650|20100922065004214\n" +
+                    "27652|27528|Ley 13074\n" +
+                    "27653|27652|Registros Públicos. Registro de Deudores Alimentarios Morosos. Creación\n" +
+                    "27654|27653|20100922065005776\n" +
+                    "27655|27528|Ley 13211\n" +
+                    "27656|27655|Ejecuciones Hipotecarias. Sistema de Refinanciación Hipotecaria. Adhesión al régimen nacional\n" +
+                    "27657|27656|20100922064909355\n" +
+                    "27658|27528|Ley 13298\n" +
+                    "27659|27658|Derechos Humanos. Derechos de los niños. Promoción. Protección\n" +
+                    "27660|27659|20100922064908745\n" +
+                    "27661|27528|Ley 13302\n" +
+                    "27662|27661|Procedimiento Judicial. Ejecuciones Hipotecarias. Vivienda Única. Suspensión\n" +
+                    "27663|27662|20100922042416294\n" +
+                    "27664|27528|Ley 13329\n" +
+                    "27665|27664|Poder Judicial. Organización. Cámara de Apelaciones en lo Contencioso Administrativo. Departamento Judicial de La Plata. Competencias\n" +
+                    "27666|27665|20100922064942948\n" +
+                    "27667|27528|Ley 13406\n" +
+                    "27668|27667|Procedimiento Judicial. Ejecuciones Fiscales. Ley de Apremio. Texto\n" +
+                    "27669|27668|20100922042415294\n" +
+                    "27670|27528|Ley 13434\n" +
+                    "27671|27670|Estado Provincial. Juicios contra el Estado. Representación judicial. Cuerpo de Abogados\n" +
+                    "27672|27671|20100922064911902\n" +
+                    "27673|27528|Ley 13435\n" +
+                    "27674|27673|Poder Judicial. Fuero de Ejecuciones Tributarias. Creación\n" +
+                    "27675|27674|20100922064938964\n" +
+                    "27676|27528|Ley 13634\n" +
+                    "27677|27676|Poder Judicial. Fuero de Familia y Fuero Penal del Niño. Código Procesal Civil y Comercial. Código Procesal Penal. Modificaciones\n" +
+                    "27678|27677|20100922064939479\n" +
+                    "27679|27528|Ley 13661\n" +
+                    "27680|27679|Poder Judicial. Enjuiciamiento de Magistrados. Normas de Procedimiento\n" +
+                    "27681|27680|20100922064937354\n" +
+                    "27682|27528|Ley 13928\n" +
+                    "27683|27682|Procedimiento Judicial. Amparo. Texto Ordenado\n" +
+                    "27684|27683|20100922064957932\n" +
+                    "27685|27528|Ley 13951\n" +
+                    "27686|27685|Mediación y Conciliación. Régimen\n" +
+                    "27687|27686|20100922064931105\n" +
+                    "27688|27528|Ley 14214\n" +
+                    "27689|27688|Hábeas Data. Procedimiento. Reglamentación\n" +
+                    "27690|27689|20110221103045620\n" +
+                    "27691|27528|Ley 14351\n" +
+                    "27692|27691|Inmuebles. Transferencia. Constitución de Derechos Reales. Inscripción. Inexistencia de Deudas. Certificación\n" +
+                    "27693|27692|20120201013848379\n" +
+                    "27694|27528|Ley 14376\n" +
+                    "27695|27694|Procedimiento Judicial. Obras Municipales de Infraestructura Urbana. Sentencias de Trance y Remate. Ejecuciones. Suspensión\n" +
+                    "27696|27695|20121002114725989\n" +
+                    "27697|27528|Ley 14442\n" +
+                    "27698|27697|Ministerio Público. Organización\n" +
+                    "27699|27698|20130306011554844\n" +
+                    "27700|27528|Ley 14449\n" +
+                    "27701|27700|Vivienda. Derecho a la Vivienda y a un Hábitat Digno. Promoción\n" +
+                    "27702|27701|20131008113318746\n" +
+                    "27703|27528|Ley 14528\n" +
+                    "27704|27703|Adopción. Procedimiento\n" +
+                    "27705|27704|20130902123615038\n" +
+                    "27706|27528|Ley 14568\n" +
+                    "27707|27706|Menores. Abogado del Niño. Creación\n" +
+                    "27708|27707|20140219142552268\n" +
+                    "27709|27528|Ley 14613\n" +
+                    "27710|27709|Ministerio Público. Cuerpo de Magistrados Suplentes. Creación\n" +
+                    "27711|27710|20141023134500551\n" +
+                    "27712|27528|Ley 14736\n" +
+                    "27713|27712|Procedimiento Judicial. Procesos de Incidencia Colectiva. Amigo del Tribunal. Régimen\n" +
+                    "27714|27713|20150922132259469\n" +
+                    "27715|27528|Ley 14967\n" +
+                    "27716|27715|Ley Arancelaria para Abogados y Procuradores de la Provincia de Buenos Aires\n" +
+                    "27717|27716|20171012064524974\n" +
+                    "27718|27716|20171012064524974\n" +
+                    "27719|27528|Ley 15057\n" +
+                    "27720|27719|Ley de Procedimiento Laboral de la Provincia de Buenos Aires\n" +
+                    "27721|27720|20181127082113754\n" +
+                    "27722|27528|Ley 15100\n" +
+                    "27723|27722|Derecho a la Identidad de Género en el Desarrollo de Actividades Deportivas\n" +
+                    "27724|27723|20181227104046122\n" +
+                    "27725|27528|Ley 15115\n" +
+                    "27726|27725|Régimen de Accesibilidad de la Información en Páginas Web para Personas con Discapacidad\n" +
+                    "27727|27726|20190208095911840\n" +
+                    "27728|27528|Ley 15165\n" +
+                    "27729|27728|Declaración de Emergencia Social, Económica, Productiva y Energética en el Ámbito de la Provincia de Buenos Aires\n" +
+                    "27730|27729|20191223061434143\n" +
+                    "27731|27528|Decreto Ley 868/1957\n" +
+                    "27732|27731|Procedimiento Judicial. Rurales\n" +
+                    "27733|27732|20100922065004292\n" +
+                    "27734|27528|Decreto Ley 2125/1962\n" +
+                    "27735|27734|Empleados y Funcionarios Públicos. Honorarios. Representación\n" +
+                    "27736|27735|20100922064909902\n" +
+                    "27737|27528|Decreto Ley 3630/1991\n" +
+                    "27738|27737|Reglamento de los Colegios Profesinales de Martilleros\n" +
+                    "27739|27738|20100922041750236\n" +
+                    "27740|27528|Decreto 3887/1998\n" +
+                    "27741|27740|Escribanos. Ley orgánica del notariado. Reglamentación\n" +
+                    "27742|27741|20100922064910995\n" +
+                    "27743|27528|Decreto 2530/2010\n" +
+                    "27744|27743|Reglamentación del Régimen de Mediación en la Provincia de Buenos Aires\n" +
+                    "27745|27744|20110104112805328\n" +
+                    "27746|27528|Decreto 1062/2013\n" +
+                    "27747|27746|Reglamentación del Derecho a la Vivienda y a un Hábitat Digno\n" +
+                    "27748|27747|20140109124335280\n" +
+                    "27749|27528|Decreto 295/2014\n" +
+                    "27750|27749|Adopción. Procedimiento. Reglamentación\n" +
+                    "27751|27750|20140623134900367\n" +
+                    "27752|27528|Decreto 62/2015\n" +
+                    "27753|27752|Menores. Abogado del Niño. Reglamentación\n" +
+                    "27754|27753|20150518141421354\n" +
+                    "27755|27528|Decreto 608/2017\n" +
+                    "27756|27755|Reglamentación de la Obligación del Poder Ejecutivo de Mantener Bienes del Acervo Sucesorio de una Herencia Vacante\n" +
+                    "27757|27756|20171110091655505\n" +
+                    "27758|27528|Decreto 43/2019\n" +
+                    "27759|27758|Nuevo Reglamento del Régimen de Mediación de la Provincia de Buenos Aires\n" +
+                    "27760|27759|20190201105601122\n" +
+                    "27761|27528|Acuerdo (SCJ) 1767/1978\n" +
+                    "27762|27761|Procedimiento Judicial. Documentos. Legalización\n" +
+                    "27763|27762|20100922065000667\n" +
+                    "27764|27528|Acuerdo (SCJ) 1783/1978\n" +
+                    "27765|27764|Procedimiento Judicial. Edictos. Publicación\n" +
+                    "27766|27765|20100922065000682\n" +
+                    "27767|27528|Acuerdo (SCJ) 1790/1978\n" +
+                    "27768|27767|Procedimiento Judicial. Recursos. Copia. Presentación\n" +
+                    "27769|27768|20100922065004229\n" +
+                    "27770|27528|Acuerdo (SCJ) 1793/1978\n" +
+                    "27771|27770|Poder Judicial. Dirección General de Asesoría Pericial. Reglamento\n" +
+                    "27772|27771|20100922064934792\n" +
+                    "27773|27528|Acuerdo (SCJ) 1870/1979\n" +
+                    "27774|27773|Poder Judicial. Peritos. Designación. Honorarios\n" +
+                    "27775|27774|20100922064943198\n" +
+                    "27776|27528|Acuerdo (SCJ) 1962/1981\n" +
+                    "27777|27776|Poder Judicial. Prueba pericial. Copias. Solicitud. Designación\n" +
+                    "27778|27777|20100922064947401\n" +
+                    "27779|27528|Acuerdo (SCJ) 1968/1981\n" +
+                    "27780|27779|Calígrafos Públicos. Ejercicio de la profesión\n" +
+                    "27781|27780|20100922064844355\n" +
+                    "27782|27528|Acuerdo (SCJ) 2027/1982\n" +
+                    "27783|27782|Poder Judicial. Organización\n" +
+                    "27784|27783|20100922064940839\n" +
+                    "27785|27783|20100922064942479\n" +
+                    "27786|27528|Acuerdo (SCJ) 2085/1984\n" +
+                    "27787|27786|Poder Judicial. Asesoría pericial\n" +
+                    "27788|27787|20100922064933730\n" +
+                    "27789|27528|Acuerdo (SCJ) 2406/1990\n" +
+                    "27790|27789|Procedimiento Judicial. Informaciones sumarias. Listado de temas\n" +
+                    "27791|27790|20100922065002120\n" +
+                    "27792|27528|Acuerdo (SCJ) 2514/1992\n" +
+                    "27793|27792|Poder Judicial. Escritos, Resoluciones, Pericias. Formalidades\n" +
+                    "27794|27793|20100922064937542\n" +
+                    "27795|27528|Acuerdo (SCJ) 2579/1993\n" +
+                    "27796|27795|Procedimiento Judicial. Depósitos judiciales\n" +
+                    "27797|27796|20100922065000620\n" +
+                    "27798|27528|Acuerdo (SCJ) 2728/1996\n" +
+                    "27799|27798|Poder Judicial. Peritos. Lista y Designaciones de Oficio. Reglamento\n" +
+                    "27800|27799|20100922064945011\n" +
+                    "27801|27528|Acuerdo (SCJ) 3055/2002\n" +
+                    "27802|27801|Procedimiento Judicial. Apremio\n" +
+                    "27803|27802|20100922064958401\n" +
+                    "27804|27528|Acuerdo (SCJ) 3103/2003\n" +
+                    "27805|27804|Poder Judicial. Suprema Corte de Justicia. Registro de Órganos de Prensa\n" +
+                    "27806|27805|20100922064952479\n" +
+                    "27807|27528|Acuerdo (SCJ) 3168/2004\n" +
+                    "27808|27807|Procedimiento Judicial. Archivo y Prescripción de Causas. Disposiciones\n" +
+                    "27809|27808|20100922064957464\n" +
+                    "27810|27528|Acuerdo (SCJ) 3397/2008\n" +
+                    "27811|27810|Poder Judicial. Reglamento sobre el Régimen de Receptorías de Expedientes, Archivos del Poder Judicial y Mandamientos y Notificaciones. Aprobación\n" +
+                    "27812|27811|20100922064947604\n" +
+                    "27813|27528|Acuerdo (SCJ) 3536/2011\n" +
+                    "27814|27813|Poder Judicial. Suprema Corte de Justicia de la Provincia de Buenos Aires. Estructura Organizativa. Aprobación\n" +
+                    "27815|27814|20110502112150650\n" +
+                    "27816|27528|Acuerdo (SCJ) 3540/2011\n" +
+                    "27817|27816|Procedimiento Judicial. Notificación por Medios Electrónicos. Reglamento. Aprobación\n" +
+                    "27818|27817|20110502112810655\n" +
+                    "27819|27528|Acuerdo (SCJ) 3585/2012\n" +
+                    "27820|27819|Mediación y Conciliación. Reglamento para la Designación de Mediadores. Aprobación\n" +
+                    "27821|27820|20120521025643846\n" +
+                    "27822|27528|Acuerdo (SCJ) 3607/2012\n" +
+                    "27823|27822|Adopción. Aspirantes a Guarda. Registro Central. Reglamento. Aprobación\n" +
+                    "27824|27823|20121109030708166\n" +
+                    "27825|27528|Acuerdo (SCJ) 3660/2013\n" +
+                    "27826|27825|Poder Judicial. Registro Público de Procesos de Incidencia Colectiva. Creación\n" +
+                    "27827|27826|20130827124130185\n" +
+                    "27828|27528|Acuerdo (SCJ) 3747/2015\n" +
+                    "27829|27828|Poder Judicial. Suprema Corte de Justicia. Secretarías Actuarias. Actos Procesales de Naturaleza Jurisdiccional. Reglamento\n" +
+                    "27830|27829|20150421110053465\n" +
+                    "27831|27528|Acuerdo (SCJ) 3778/2015\n" +
+                    "27832|27831|Procedimiento Judicial. Registro Público. Reglamento. Aprobación\n" +
+                    "27833|27832|20151002102645192\n" +
+                    "27834|27528|Acuerdo (SCJ) 3824/2016\n" +
+                    "27835|27834|Registro de Personas con Padecimientos Mentales bajo el Control de Legalidad del Poder Judicial\n" +
+                    "27836|27835|20161104082414399\n" +
+                    "27837|27528|Acuerdo (SCJ) 3842/2017\n" +
+                    "27838|27837|Determinación de los Actos Procesales de Mero Trámite a los Fines de su Presentación por los Letrados con su Sola Firma\n" +
+                    "27839|27838|20170320154230931\n" +
+                    "27840|27528|Acuerdo (SCJ) 3845/2017\n" +
+                    "27841|27840|Reglamento para la Notificación por Medios Electrónicos\n" +
+                    "27842|27841|20170327083717633\n" +
+                    "27843|27528|Acuerdo (SCJ) 3886/2018\n" +
+                    "27844|27843|Nuevo Reglamento para Presentaciones por Medios Electrónicos\n" +
+                    "27845|27844|20180321143257297\n" +
+                    "27846|27528|Acuerdo (SCJ) 3909/2018\n" +
+                    "27847|27846|Fijación del Valor del Jus Arancelario. Setiembre de 2018\n" +
+                    "27848|27847|20181025153546360\n" +
+                    "27849|27528|Resolución (SCJ) 760/1968\n" +
+                    "27850|27849|Procedimiento Judicial. Multas. Depósitos. Banco de la Provincia de Buenos Aires\n" +
+                    "27851|27850|20100922065002651\n" +
+                    "27852|27528|Resolución (SCJ) 854/1973\n" +
+                    "27853|27852|Procedimiento Judicial. Expedientes. Consulta y préstamo\n" +
+                    "27854|27853|20100922065000714\n" +
+                    "27855|27528|Resolución (SCJ) 966/1980\n" +
+                    "27856|27855|Procedimiento Judicial. Contencioso administrativo. Plazos. Ampliación\n" +
+                    "27857|27856|20100922064959526\n" +
+                    "27858|27528|Resolución (SCJ) 534/1981\n" +
+                    "27859|27858|Procedimiento Judicial. Documento. Legalización\n" +
+                    "27860|27859|20100922065000651\n" +
+                    "27861|27528|Resolución (SCJ) 1301/2001\n" +
+                    "27862|27861|Mediación y Conciliación. Oficina Central de Mediación. Creación\n" +
+                    "27863|27862|20100922064930433\n" +
+                    "27864|27528|Resolución (SCJ) 2993/2002\n" +
+                    "27865|27864|Procedimiento Judicial Apremio\n" +
+                    "27866|27865|20100922064958432\n" +
+                    "27867|27528|Resolución (SCJ) 2921/2012\n" +
+                    "27868|27867|Poder Judicial. Reglamento sobre el Régimen de Receptoría de Expedientes, Archivos del Poder Judicial y Mandamientos y Notificaciones. Destrucción de Expedientes. Comunicaciones. Correo Electrónico. Implementación\n" +
+                    "27869|27868|20130109010757024\n" +
+                    "27870|27528|Resolución (SCJ) 1690/2015\n" +
+                    "27871|27870|Poder Judicial. Registro de Juicios Universales. Letrados. Acceso Vía Web\n" +
+                    "27872|27871|20150915143629765\n" +
+                    "27873|27528|Resolución (SCJ) 2129/2015\n" +
+                    "27874|27873|Poder Judicial. Subasta Judicial por Medios Electrónicos. Recomendaciones\n" +
+                    "27875|27874|20151014120419134\n" +
+                    "27876|27528|Resolución (SCJ) 582/2016\n" +
+                    "27877|27876|Recordatorio sobre la Vigencia y Alcance del Sistema de Notificaciones Electrónicas del Poder Judicial\n" +
+                    "27878|27877|20160502125910109\n" +
+                    "27879|27528|Resolución (SCJ) 1407/2016\n" +
+                    "27880|27879|Excepción al Uso del Sistema de Notificaciones y Presentaciones Electrónicas. Implementación del Aviso de Cortesía\n" +
+                    "27881|27880|20160804133204006\n" +
+                    "27882|27528|Resolución (SCJ) 433/2019\n" +
+                    "27883|27882|Uso de Medios Electrónicos para las Publicaciones Judiciales en el Boletín Oficial\n" +
+                    "27884|27883|20190503113144760\n" +
+                    "27885|27528|Resolución (SCJ) 3115/2019\n" +
+                    "27886|27885|Canal Web de la Suprema Corte de Justicia de Buenos Aires\n" +
+                    "27887|27886|20191204105105697\n" +
+                    "27888|27528|Resolución (MJyS) 793/2019\n" +
+                    "27889|27888|Pautas Generales de Matriculación para Mediadores. Procedimiento por Incomparecencia Injustificada de las Partes a la Mediación\n" +
+                    "27890|27889|20190917115429817\n" +
+                    "27891|27528|Resolución (MJyS) 999/2019\n" +
+                    "27892|27891|Readecuación de Honorarios y Sumas Fijas Percibidas por Mediadores\n" +
+                    "27893|27892|20191204101318125\n" +
+                    "27894|3401|Normas complementarias del Código Procesal Penal de la Provincia de Buenos Aires\n" +
+                    "27895|27894|Ley (BsAs) 4552\n" +
+                    "27896|27895|Procedimiento Judicial. Penal. Costas. Competencia\n" +
+                    "27897|27896|20100922065003542\n" +
+                    "27898|27894|Ley (BsAs) 7710\n" +
+                    "27899|27898|Procedimiento Judicial. Penal. Decomiso\n" +
+                    "27900|27899|20100922065003557\n" +
+                    "27901|27894|Ley (BsAs) 8031\n" +
+                    "27902|27901|Código de Faltas y Contravenciones de la Provincia de Buenos Aires\n" +
+                    "27903|27902|20100922064847340\n" +
+                    "27904|27894|Ley (BsAs) 8055\n" +
+                    "27905|27904|Convenios. Procedimiento judicial. Detención y extradición de imputados o condenados\n" +
+                    "27906|27905|20100922064903089\n" +
+                    "27907|27894|Ley (BsAs) 8785\n" +
+                    "27908|27907|Derecho Agrario. Faltas. Procedimiento\n" +
+                    "27909|27908|20100922064907027\n" +
+                    "27910|27894|Ley (BsAs) 8873\n" +
+                    "27911|27910|Procedimiento Judicial. Penal. Secuestro de bienes muebles no registrables. Destino final\n" +
+                    "27912|27911|20100922065004089\n" +
+                    "27913|27894|Ley (BsAs) 9302\n" +
+                    "27914|27913|Convenios. Procedimiento judicial. Prueba\n" +
+                    "27915|27914|20100922064903542\n" +
+                    "27916|27894|Ley (BsAs) 10082\n" +
+                    "27917|27916|Conmutación de Penas. Solicitud\n" +
+                    "27918|27917|20100922064901605\n" +
+                    "27919|27894|Ley (BsAs) 10122\n" +
+                    "27920|27919|Convenios. Menores. Establecimientos\n" +
+                    "27921|27920|20100922064902636\n" +
+                    "27922|27894|Ley (BsAs) 10484\n" +
+                    "27923|27922|Procedimiento Judicial. Penal. Excarcelación\n" +
+                    "27924|27923|20100922065004010\n" +
+                    "27925|27894|Ley (BsAs) 10721\n" +
+                    "27926|27925|Servicio Penitenciario. Internos portadores de SIDA. Suministro de informes al magistrado interviniente\n" +
+                    "27927|27926|20100922065007604\n" +
+                    "27928|27894|Ley (BsAs) 11748\n" +
+                    "27929|27928|Bebidas Alcohólicas. Venta a Menores. Prohibición\n" +
+                    "27930|27929|20100922064843121\n" +
+                    "27931|27894|Ley (BsAs) 11825\n" +
+                    "27932|27931|Bebidas Alcohólicas. Venta, Expendio o Suministro. Horarios. Prohibición. Excepciones\n" +
+                    "27933|27932|20100922064841090\n" +
+                    "27934|27894|Ley (BsAs) 11929\n" +
+                    "27935|27934|Deportes. Espectáculos deportivos. Código de Faltas. Modificación\n" +
+                    "27936|27935|20100922064905464\n" +
+                    "27937|27894|Ley (BsAs) 11982\n" +
+                    "27938|27937|Poder Judicial. Tribunal de Casación Penal. Creación. Código Procesal Penal. Modificación\n" +
+                    "27939|27938|20100922064954417\n" +
+                    "27940|27894|Ley (BsAs) 12011\n" +
+                    "27941|27940|Sustancias Tóxicas. Pegamentos. Venta, expendio o suministros menores. Prohibición\n" +
+                    "27942|27941|20100922065007713\n" +
+                    "27943|27894|Ley (BsAs) 12059\n" +
+                    "27944|27943|Procedimiento Judicial. Penal\n" +
+                    "27945|27944|20100922065003073\n" +
+                    "27946|27894|Ley (BsAs) 12119\n" +
+                    "27947|27946|Código Procesal Penal. Texto. Vigencia\n" +
+                    "27948|27947|20100922064900371\n" +
+                    "27949|27894|Ley (BsAs) 12154\n" +
+                    "27950|27949|Seguridad Pública. Sistema Provincial. Participación Comunitaria\n" +
+                    "27951|27950|20100922065007057\n" +
+                    "27952|27894|Ley (BsAs) 12256\n" +
+                    "27953|27952|Código de Ejecución Penal de la Provincia de Buenos Aires\n" +
+                    "27954|27953|20100922064846277\n" +
+                    "27955|27894|Ley (BsAs) 12569\n" +
+                    "27956|27955|Asistencia Social. Violencia Familiar. Protección\n" +
+                    "27957|27956|20100922064840261\n" +
+                    "27958|27894|Ley (BsAs) 12764\n" +
+                    "27959|27958|Acoso Sexual. Funcionarios y empleados públicos. Sanción\n" +
+                    "27960|27959|20100922064838262\n" +
+                    "27961|27894|Ley (BsAs) 12807\n" +
+                    "27962|27961|Delitos. Abuso Sexual de Niños. Prevención\n" +
+                    "27963|27962|20100922064906386\n" +
+                    "27964|27894|Ley (BsAs) 12832\n" +
+                    "27965|27964|Procedimiento Judicial. Código Procesal Penal. Entrada en Vigencia. Causas Pendientes. Prórroga\n" +
+                    "27966|27965|20100922064959495\n" +
+                    "27967|27894|Ley (BsAs) 12920\n" +
+                    "27968|27967|Administración Pública. Organismos públicos. Certificación de autenticidad de fotocopias de instrumentos. Aranceles\n" +
+                    "27969|27968|20100922064838715\n" +
+                    "27970|27894|Ley (BsAs) 12956\n" +
+                    "27971|27970|Procedimiento Judicial. Penal. Menores\n" +
+                    "27972|27971|20100922065004042\n" +
+                    "27973|27894|Ley (BsAs) 13178\n" +
+                    "27974|27973|Bebidas Alcohólicas. Venta, expendio o suministro. Modificaciones. Registro Provincial para la Comercialización. Creación\n" +
+                    "27975|27974|20100922064842480\n" +
+                    "27976|27894|Ley (BsAs) 13433\n" +
+                    "27977|27976|Procedimiento Judicial. Resolución Alternativa de Conflictos Penales. Creación\n" +
+                    "27978|27977|20100922065004276\n" +
+                    "27979|27894|Ley (BsAs) 13470\n" +
+                    "27980|27979|Juegos de Azar. Prevención y Represión. Régimen\n" +
+                    "27981|27980|20100922064930417\n" +
+                    "27982|27894|Ley (BsAs) 13811\n" +
+                    "27983|27982|Procedimiento Penal. Casos de Flagrancia. Procedimiento Especial\n" +
+                    "27984|27983|20100922065005245\n" +
+                    "27985|27894|Ley (BsAs) 13869\n" +
+                    "27986|27985|Creación del Banco de Datos Genéticos de la Suprema Corte de Justicia\n" +
+                    "27987|27986|20100922042330717\n" +
+                    "27988|27894|Ley (BsAs) 14473\n" +
+                    "27989|27988|Derechos Humanos. Trata de Personas con Fines de Explotación. Sistema de Refugios. Creación\n" +
+                    "27990|27989|20130311123525994\n" +
+                    "27991|27894|Ley (BsAs) 14603\n" +
+                    "27992|27991|Asistencia Social. Registro Único de Casos de Violencia de Género. Creación\n" +
+                    "27993|27992|20140910134249341\n" +
+                    "27994|27894|Ley (BsAs) 14613\n" +
+                    "27995|27994|Ministerio Público. Cuerpo de Magistrados Suplentes. Creación\n" +
+                    "27996|27995|20141023134500551\n" +
+                    "27997|27894|Ley (BsAs) 14967\n" +
+                    "27998|27997|Ley Arancelaria para Abogados y Procuradores de la Provincia de Buenos Aires\n" +
+                    "27999|27998|20171012064524974\n" +
+                    "28000|27894|Ley (BsAs) 15005\n" +
+                    "28001|28000|Creación de la Policía Judicial de la Provincia de Buenos Aires\n" +
+                    "28002|28001|20180118144408754\n" +
+                    "28003|27894|Ley (BsAs) 15131\n" +
+                    "28004|28003|Régimen de Prevención y Asistencia del Juego Compulsivo, Problemático o Patológico\n" +
+                    "28005|28004|20190208101124131\n" +
+                    "28006|27894|Ley (BsAs) 15165\n" +
+                    "28007|28006|Declaración de Emergencia Social, Económica, Productiva y Energética en el Ámbito de la Provincia de Buenos Aires\n" +
+                    "28008|28007|20191223061434143\n" +
+                    "28009|27894|Decreto 2019/1967\n" +
+                    "28010|28009|Policía. Prontuarios Policiales. Reglamento\n" +
+                    "28011|28010|20130822134720155\n" +
+                    "28012|27894|Decreto 4235/1993\n" +
+                    "28013|28012|Procedimiento Judicial. Penal. Procesado. Establecimiento penitenciario\n" +
+                    "28014|28013|20100922065004057\n" +
+                    "28015|27894|Decreto 1555/1996\n" +
+                    "28016|28015|Establecimientos Comerciales. Esparcimiento. Horario\n" +
+                    "28017|28016|20100922064911824\n" +
+                    "28018|27894|Decreto 3651/1996\n" +
+                    "28019|28018|Establecimientos Comerciales. Esparcimiento nocturno. Menores. Horario\n" +
+                    "28020|28019|20100922064911839\n" +
+                    "28021|27894|Decreto 490/1998\n" +
+                    "28022|28021|Actividades Nocturnas. Establecimientos comerciales. Registro Único de Control\n" +
+                    "28023|28022|20100922064840371\n" +
+                    "28024|27894|Decreto 3707/1998\n" +
+                    "28025|28024|Procedimiento Judicial. Penal. Contravención\n" +
+                    "28026|28025|20100922065003526\n" +
+                    "28027|27894|Decreto 1863/2002\n" +
+                    "28028|28027|Deportes. Espectáculo. Seguridad\n" +
+                    "28029|28028|20100922064904886\n" +
+                    "28030|27894|Decreto 1382/2003\n" +
+                    "28031|28030|Bebidas Alcohólicas. Registro Provincial para la Comercialización de Bebidas Alcohólicas. Comercialización. Modificación\n" +
+                    "28032|28031|20100922064840902\n" +
+                    "28033|27894|Decreto 332/2004\n" +
+                    "28034|28033|Delitos. Centro de Protección de los Derechos de la Víctima. Creación\n" +
+                    "28035|28034|20100922064903996\n" +
+                    "28036|27894|Decreto 333/2004\n" +
+                    "28037|28036|Derechos Humanos. Servicio de coordinación de emergencias para víctimas de violencia. Creación\n" +
+                    "28038|28037|20100922064909324\n" +
+                    "28039|27894|Decreto 828/2004\n" +
+                    "28040|28039|Bebidas Alcohólicas. Venta, expendio o suministro. Modificaciones. Registro. Reglamentación\n" +
+                    "28041|28040|20100922064842027\n" +
+                    "28042|27894|Decreto 2889/2004\n" +
+                    "28043|28042|Código de Ejecución Penal. Texto. Reglamentación Parcial\n" +
+                    "28044|28043|20100922064846824\n" +
+                    "28045|27894|Decreto 579/2009\n" +
+                    "28046|28045|Reglamentación del Registro de Condenados por Delitos contra la Integridad Sexual\n" +
+                    "28047|28046|20100922042338248\n" +
+                    "28048|27894|Decreto 341/2014\n" +
+                    "28049|28048|Reglamento del Sistema de Refugios para Víctimas de Trata de Personas con fines de Explotación\n" +
+                    "28050|28049|20140717102012532\n" +
+                    "28051|27894|Decreto 459/2017\n" +
+                    "28052|28051|Reglamentación del Registro Único de Casos de Violencia de Género\n" +
+                    "28053|28052|20171013101558098\n" +
+                    "28054|27894|Decreto 694/2018\n" +
+                    "28055|28054|Programa de Protección Integral para Menores Hijos de Víctimas de Femicidio\n" +
+                    "28056|28055|20180814162410713\n" +
+                    "28057|27894|Resolución (SCJ) 691/1997\n" +
+                    "28058|28057|Contravención. Ministerio fiscal\n" +
+                    "28059|28058|20100922064902027\n" +
+                    "28060|27894|Resolución (SCJ) 2719/1998\n" +
+                    "28061|28060|Faltas y Contravenciones. Competencia\n" +
+                    "28062|28061|20100922064913058\n" +
+                    "28063|27894|Resolución (SCJ) 68/2003\n" +
+                    "28064|28063|Proceso Judicial. Penal. Investigación preparatoria. Fiscal\n" +
+                    "28065|28064|20100922065005729\n" +
+                    "28066|27894|Resolución (SCJ) 4172/2009\n" +
+                    "28067|28066|Reglamento del Banco de Datos Genéticos de la Suprema Corte de Justicia de la Provincia de Buenos Aires\n" +
+                    "28068|28067|20200131135019924\n" +
+                    "28069|27894|Resolución (SCJ) 1644/2012\n" +
+                    "28070|28069|Procedimiento Judicial. Fuero Penal. Integración de Tribunales. Procedimiento. Actualización\n" +
+                    "28071|28070|20120718030413196\n" +
+                    "28072|27894|Resolución (SCJ) 1935/2012\n" +
+                    "28073|28072|Procedimiento Judicial. Suspensión del Proceso a Prueba. Condiciones Impuestas. Seguimiento\n" +
+                    "28074|28073|20120911113848526\n" +
+                    "28075|27894|Resolución (SCJ) 2080/2019\n" +
+                    "28076|28075|Implementación del Banco de Datos Genéticos\n" +
+                    "28077|28076|20190927100336116\n" +
+                    "28078|27894|Resolución (SCJ) 2914/2019\n" +
+                    "28079|28078|Protocolo de Actuación para Supuestos de Personas Incapaces de Culpabilidad en Conflicto con la Ley Penal\n" +
+                    "28080|28079|20200131140115115\n" +
+                    "28081|27894|Resolución (SCJ) 3115/2019\n" +
+                    "28082|28081|Canal Web de la Suprema Corte de Justicia de Buenos Aires\n" +
+                    "28083|28082|20191204105105697\n" +
+                    "28084|27894|Resolución (SCJ) 3342/2019\n" +
+                    "28085|28084|Norma Práctica para la Aplicación de la Pena Privativa de la Libertad para Mujeres Embarazadas y/o con Hijos o Hijas Menores de 5 Años\n" +
+                    "28086|28085|20200131140602244\n" +
+                    "28087|27894|Acuerdo (SCJ) 1990/1981\n" +
+                    "28088|28087|Pena Privativa de la Libertad. Procesado. Inimputabilidad. Deberes de los jueces\n" +
+                    "28089|28088|20100922064932823\n" +
+                    "28090|27894|Acuerdo (SCJ) 2702/1996\n" +
+                    "28091|28090|Poder Judicial. Suprema Corte de Justicia. Secretarías\n" +
+                    "28092|28091|20100922064952917\n" +
+                    "28093|27894|Acuerdo (SCJ) 2840/1998\n" +
+                    "28094|28093|Poder Judicial. Tramitación de Causas Penales\n" +
+                    "28095|28094|20100922064953386\n" +
+                    "28096|27894|Acuerdo (SCJ) 2844/1998\n" +
+                    "28097|28096|Procedimiento Judicial. Amparo. Habeas Corpus\n" +
+                    "28098|28097|20100922064957995\n" +
+                    "28099|27894|Acuerdo (SCJ) 3495/2010\n" +
+                    "28100|28099|Procedimiento Judicial. Penal. Secuestro de Bienes Muebles No Registrables. Inventarios y Disposición. Régimen\n" +
+                    "28101|28100|20100922065004104\n" +
+                    "28102|27894|Acuerdo (SCJ) 3511/2010\n" +
+                    "28103|28102|Poder Judicial. Secretarías de Gestión Administrativa. Régimen. Reglamentación\n" +
+                    "28104|28103|20100922064950464\n" +
+                    "28105|27894|Acuerdo (SCJ) 3595/2012\n" +
+                    "28106|28105|Poder Judicial. Registro de Hábeas Corpus. Aprobación\n" +
+                    "28107|28106|20120718030159195\n" +
+                    "28108|27894|Acuerdo (SCJ) 3729/2014\n" +
+                    "28109|28108|Poder Judicial. Juicio por Jurados. Oficina Central. Creación\n" +
+                    "28110|28109|20141020135631795\n" +
+                    "28111|27894|Acuerdo (SCJ) 3746/2015\n" +
+                    "28112|28111|Procedimiento Penal. Juicio por Jurados. Retribución y Dieta de los Jurados. Reconocimiento, Liquidación y Pago. Régimen\n" +
+                    "28113|28112|20150313104143268\n" +
+                    "28114|27894|Acuerdo (SCJ) 3747/2015\n" +
+                    "28115|28114|Poder Judicial. Suprema Corte de Justicia. Secretarías Actuarias. Actos Procesales de Naturaleza Jurisdiccional. Reglamento\n" +
+                    "28116|28115|20150421110053465\n" +
+                    "28117|27894|Acuerdo (SCJ) 3842/2017\n" +
+                    "28118|28117|Determinación de los Actos Procesales de Mero Trámite a los Fines de su Presentación por los Letrados con su Sola Firma\n" +
+                    "28119|28118|20170320154230931\n" +
+                    "28120|27894|Acuerdo (SCJ) 3845/2017\n" +
+                    "28121|28120|Reglamento para la Notificación por Medios Electrónicos\n" +
+                    "28122|28121|20170327083717633\n" +
+                    "28123|27894|Resolución (PGJ) 4/1984\n" +
+                    "28124|28123|Acción Penal. Fiscal de Cámara. Competencia\n" +
+                    "28125|28124|20100922064837933\n" +
+                    "28126|27894|Resolución (PGJ) 27/1986\n" +
+                    "28127|28126|Acción Penal. Fiscal de Cámara. Denuncia. Reserva de identidad\n" +
+                    "28128|28127|20100922064837980\n" +
+                    "28129|27894|Resolución (PGJ) 76/1987\n" +
+                    "28130|28129|Acción penal. Fiscal de Cámara. Turno\n" +
+                    "28131|28130|20100922064838058\n" +
+                    "28132|27894|Resolución (PGJ) 752/2000\n" +
+                    "28133|28132|Excarcelación. Recursos\n" +
+                    "28134|28133|20100922064912495\n" +
+                    "28135|27894|Resolución (PGJ) 1038/2001\n" +
+                    "28136|28135|Ministerio Público Fiscal. Medios de comunicación. Responsabilidad\n" +
+                    "28137|28136|20100922064932776\n" +
+                    "28138|27894|Resolución (PGJ) 1390/2001\n" +
+                    "28139|28138|Ministerio Público Fiscal. Apremios ilegales. Delitos económicos. Funcionario público\n" +
+                    "28140|28139|20100922064932761\n" +
+                    "28141|27894|Resolución (PGJ) 125/2002\n" +
+                    "28142|28141|Empleados y Funcionarios Públicos. Ética pública. Denuncia. Hecho ilícito\n" +
+                    "28143|28142|20100922064909855\n" +
+                    "28144|27894|Resolución (PGJ) 343/2002\n" +
+                    "28145|28144|Acción Penal. Fiscal de Cámara. Prueba testimonial\n" +
+                    "28146|28145|20100922064838012");
+            private static String menu6 =new String("3093|0|Procesal Penal\n" +
+                    "27102|3093|Procesal Penal Nacional\n" +
+                    "27103|27102|LIBRO I:&nbsp;DISPOSICIONES&nbsp;GENERALES Título I - Garantías&nbsp;fundamentales, interpretación y aplicación de la ley-arts. 1 a 4\n" +
+                    "27104|27103|20160816030544475\n" +
+                    "27105|27102|LIBRO I:&nbsp;DISPOSICIONES&nbsp;GENERALES Título II - Acciones que nacen del delito - arts. 5 a 17\n" +
+                    "27106|27105|20160816030546476\n" +
+                    "27107|27102|LIBRO I:&nbsp;DISPOSICIONES&nbsp;GENERALES Título III - El juez - arts. 18 a 64\n" +
+                    "27108|27107|20160816030547477\n" +
+                    "27109|27102|LIBRO I:&nbsp;DISPOSICIONES&nbsp;GENERALES Título IV - Partes, defensores y derechos de testigos y víctimas - arts. 65 a 113\n" +
+                    "27110|27109|20160816030548478\n" +
+                    "27111|27102|LIBRO I:&nbsp;DISPOSICIONES&nbsp;GENERALES Título V - Actos Procesales -  arts. 114 a 173\n" +
+                    "27112|27111|20160816030548479\n" +
+                    "27113|27102|LIBRO II: INSTRUCCIÓN Título I - Actos iniciales arts. 174 a192\n" +
+                    "27114|27113|20160816030549480\n" +
+                    "27115|27102|LIBRO II: INSTRUCCIÓN Título II- arts. 193 a 215&nbsp;bis\n" +
+                    "27116|27115|20160816030550481\n" +
+                    "27117|27102|LIBRO II: INSTRUCCIÓN Título III - Medios de prueba -  arts. 216 a 278\n" +
+                    "27118|27117|20160816030551482\n" +
+                    "27119|27102|LIBRO II: INSTRUCCIÓN Título IV - Situación del imputado -  arts. 279 a 333\n" +
+                    "27120|27119|20160816030551483\n" +
+                    "27121|27102|LIBRO II: INSTRUCCIÓN Título V - Sobreseimiento - arts. 334 a 338\n" +
+                    "27122|27121|20160816030553485\n" +
+                    "27123|27102|LIBRO II: INSTRUCCIÓN Título VI - Excepciones -  arts. 334 a 338\n" +
+                    "27124|27123|20160816030553486\n" +
+                    "27125|27102|LIBRO II: INSTRUCCIÓN Título VII - Clausura de la instrucción y elevación a juicio -  arts. 346 a 353\n" +
+                    "27126|27125|20160816030554487\n" +
+                    "27127|27102|LIBRO II: INSTRUCCIÓN Título IX - Instrucción sumaria -  arts. 353&nbsp;bis&nbsp;a 353&nbsp;ter\n" +
+                    "27128|27127|20160816030552484\n" +
+                    "27129|27102|LIBRO III: JUICIOS Título I - Juicio común -  arts. 354 a 404\n" +
+                    "27130|27129|20160816030555488\n" +
+                    "27131|27102|LIBRO III: JUICIOS Título II - Juicios especiales -  arts. 405 a 431&nbsp;bis\n" +
+                    "27132|27131|20160816030556489\n" +
+                    "27133|27102|LIBRO IV: RECURSOS Cap. I - Disposiciones generales -  arts. 432 a 445\n" +
+                    "27134|27133|20160816030556490\n" +
+                    "27135|27102|LIBRO IV: RECURSOS Cap. II - Recurso de reposición -  arts. 446 a 448\n" +
+                    "27136|27135|20160816030556491\n" +
+                    "27137|27102|LIBRO IV: RECURSOS Cap. III - Recurso de apelación -  arts. 449 a 455\n" +
+                    "27138|27137|20160816030558492\n" +
+                    "27139|27102|LIBRO IV: RECURSOS Cap. IV - Recurso de casación -  arts. 456 a 473\n" +
+                    "27140|27139|20160816030558493\n" +
+                    "27141|27102|LIBRO IV: RECURSOS Cap. VR - ecurso de inconstitucionalidad -  arts. 474 a 475\n" +
+                    "27142|27141|20160816030600494\n" +
+                    "27143|27102|LIBRO IV: RECURSOS Cap. VI - Recurso de queja -  arts. 476 a 478\n" +
+                    "27144|27143|20160816030600495\n" +
+                    "27145|27102|LIBRO IV: RECURSOS Cap. VII - Recurso de revisión -  arts. 479 a 489\n" +
+                    "27146|27145|20160816030600496\n" +
+                    "27147|27102|LIBRO V: EJECUCIÓN Título I - Disposiciones Generales -  arts. 490 a 492\n" +
+                    "27148|27147|20160816030602498\n" +
+                    "27149|27102|LIBRO V: EJECUCIÓN Título II - Ejecución penal -  arts. 493 a 515\n" +
+                    "27150|27149|20160816030604499\n" +
+                    "27151|27102|LIBRO V: EJECUCIÓN Título III - Ejecución civil -  arts. 516 a 528\n" +
+                    "27152|27151|20160816030604500\n" +
+                    "27153|27102|LIBRO V: EJECUCIÓN Título IV - Costas -  arts. 529 a 535\n" +
+                    "27154|27153|20160816030605501\n" +
+                    "27155|27102|LIBRO V: EJECUCIÓN Disposiciones transitoriasarts. 536 a 539\n" +
+                    "27156|27155|20160816030602497\n" +
+                    "27157|27102|Normas Complementarias\n" +
+                    "27158|27157|Ley 48 - Jurisdicción y Competencia de la Justicia Nacional\n" +
+                    "27159|27158|20100922064530545\n" +
+                    "27160|27157|Ley 20711 - Convenio de Detención y Extradición de Imputados o Condenados entre la Provincia de Buenos Aires y la Nación\n" +
+                    "27161|27160|20100922063845503\n" +
+                    "27162|27157|Ley 20785 - Régimen de Custodia y Disposición de los Bienes Objeto de Secuestro en Causas Penales\n" +
+                    "27163|27162|20100922064603170\n" +
+                    "27164|27157|Ley 21313 - Extensión de la Jurisdicción de los Jueces Nacionales, Respecto de los Procesados que se Encuentren a su Disposición\n" +
+                    "27165|27164|20100922064417374\n" +
+                    "27166|27157|Ley 22055 - Convenio sobre Obtención y Producción de Prueba entre la Provincia de Buenos Aires y la Nación\n" +
+                    "27167|27166|20100922063847050\n" +
+                    "27168|27157|Ley 22172 - Convenio entre el Poder Ejecutivo Nacional y el Poder Ejecutivo de la Provincia de Santa Fe, sobre Comunicaciones entre Tribunales de Distinta Jurisdicción Territorial\n" +
+                    "27169|27168|20100922063846019\n" +
+                    "27170|27157|Ley 22777 - Creación del Juzgado Nacional en lo Criminal de Rogatorias de la Capital Federal\n" +
+                    "27171|27170|20100922064543951\n" +
+                    "27172|27157|Ley 23098 - Ley de Habeas Corpus\n" +
+                    "27173|27172|20100922064158313\n" +
+                    "27174|27157|Ley 24050 - Organización y Competencia Judicial en Materia Penal\n" +
+                    "27175|27174|20100922064615826\n" +
+                    "27176|27157|Ley 24121 - Cámara Nacional de Casación Penal y Tribunales en lo Criminal y Correccional\n" +
+                    "27177|27176|20100922064544498\n" +
+                    "27178|27157|Ley 24390 - Plazos de la Prisión Preventiva\n" +
+                    "27179|27178|20100922064600451\n" +
+                    "27180|27157|Ley 24477 - Defensorías Adjuntas\n" +
+                    "27181|27180|20100922064540389\n" +
+                    "27182|27157|Ley 24480 - Centro Nacional de Informática sobre Detenidos y Extravíos de Personas\n" +
+                    "27183|27182|20100922064708013\n" +
+                    "27184|27157|Ley 24767 - Régimen de Extradición\n" +
+                    "27185|27184|20100922064145454\n" +
+                    "27186|27157|Ley 24937 - Ley del Consejo de la Magistratura\n" +
+                    "27187|27186|20100922064533389\n" +
+                    "27188|27157|Ley 24946 - Organización e Integración del Ministerio Público\n" +
+                    "27189|27188|20100922064546404\n" +
+                    "27190|27157|Ley 25269 - Tribunales Orales en lo Criminal y Correccional Federal\n" +
+                    "27191|27190|20100922064557514\n" +
+                    "27192|27157|Ley 25320 - Régimen de Desafuero para Legisladores, Magistrados o Funcionarios Públicos\n" +
+                    "27193|27192|20100922064113986\n" +
+                    "27194|27157|Ley 25390 - Estatuto de Roma de la Corte Penal Internacional. Roma 1998\n" +
+                    "27195|27194|20100922063913487\n" +
+                    "27196|27157|Ley 25752 - Convenio de Transferencia Progresiva de Competencias Penales de la Justicia Nacional al Poder Judicial de la Ciudad Autónoma de Buenos Aires\n" +
+                    "27197|27196|20100922063844457\n" +
+                    "27198|27157|Ley 26357 - Convenio de Transferencia Progresiva de Competencias Penales de la Justicia Nacional al Poder Judicial de la Ciudad Autónoma de Buenos Aires\n" +
+                    "27199|27198|20100922063847566\n" +
+                    "27200|27157|Ley 26375 - Unidad Especial para Búsqueda de Personas Ordenada por la Justicia\n" +
+                    "27201|27200|20100922064028252\n" +
+                    "27202|27157|Ley 26702 - Transferencia de Competencias Penales y Contravencionales de la Justicia Nacional Ordinaria a la Ciudad Autónoma de Buenos Aires\n" +
+                    "27203|27202|20111006090939456\n" +
+                    "27204|27157|Ley 26856 - Publicación Integral de las Acordadas y Resoluciones Dictadas por la Corte Suprema de Justicia de la Nación y los Tribunales de Segunda Instancia que Integran el Poder Judicial de la Nación\n" +
+                    "27205|27204|20130523094340270\n" +
+                    "27206|27157|Ley 26879 - Registro Nacional de Datos Genéticos Vinculados a Delitos contra la Integridad Sexual\n" +
+                    "27207|27206|20130724081845448\n" +
+                    "27208|27157|Ley 26939 - Digesto Jurídico Argentino\n" +
+                    "27209|27208|20140616093736982\n" +
+                    "27210|27157|Ley 27080 - Creación de la Dirección de Control y Asistencia de Ejecución Penal\n" +
+                    "27211|27210|20150209074213680\n" +
+                    "27212|27157|Ley 27097 - Competencia del Fuero Nacional en lo Penal Económico\n" +
+                    "27213|27212|20150127074830264\n" +
+                    "27214|27157|Ley 27126 - Creación de la Agencia Federal de Inteligencia\n" +
+                    "27215|27214|20150305080708500\n" +
+                    "27216|27157|Ley 27146 - Ley de Organización y Competencia de la Justicia Federal y Nacional Penal\n" +
+                    "27217|27216|20150618081500731\n" +
+                    "27218|27157|Ley 27148 - Ley Orgánica del Ministerio Público Fiscal\n" +
+                    "27219|27218|20150618082206128\n" +
+                    "27220|27157|Ley 27149 - Ley Orgánica del Ministerio Público de la Defensa\n" +
+                    "27221|27220|20150618082417875\n" +
+                    "27222|27157|Ley 27150 - Ley de Implementación del Código Procesal Penal de la Nación – Ley 27063\n" +
+                    "27223|27222|20150618082641774\n" +
+                    "27224|27157|Ley 27156 - Prohibición de Indultos, Amnistías y Conmutación de Penas en Delitos de Lesa Humanidad\n" +
+                    "27225|27224|20150731081627626\n" +
+                    "27226|27157|Ley 27210 - Creación del Cuerpo de Abogadas y Abogados para Víctimas de Violencia de Género\n" +
+                    "27227|27226|20151126082320420\n" +
+                    "27228|27157|Ley 27307 - Ley de Fortalecimiento de los Tribunales Orales en lo Criminal Federal y de los Tribunales Orales en lo Penal Económico\n" +
+                    "27229|27228|20161230073931192\n" +
+                    "27230|27157|Ley 27384 - Modificación del Código Procesal Penal de la Nación. Competencia e Integración de las Cámaras de Apelación y de Casación\n" +
+                    "27231|27230|20171002063122094\n" +
+                    "27232|27157|Ley 27439 - Régimen de Subrogancias para los Juzgados y Tribunales del Poder Judicial de la Nación\n" +
+                    "27233|27232|20180606074255731\n" +
+                    "27234|27157|Ley 27482 - Modificación del Nuevo Código Procesal Penal de la Nación (ley 27063). Código Procesal Penal Federal\n" +
+                    "27235|27234|20190107075708473\n" +
+                    "27236|27157|Decreto Ley 1285/1958 - Ley Orgánica del Poder Judicial\n" +
+                    "27237|27236|20100922064549107\n" +
+                    "27238|27157|Decreto 303/1996 - Reglamento General de Procesados\n" +
+                    "27239|27238|20100922064519139\n" +
+                    "27240|27157|Decreto 18/1997 - Reglamento de Disciplina para los Internos\n" +
+                    "27241|27240|20100922064518592\n" +
+                    "27242|27157|Decreto 1162/2000 - Denuncia de Hechos Ilícitos por parte de Funcionarios y Empleados Públicos\n" +
+                    "27243|27242|20100922064142704\n" +
+                    "27244|27157|Decreto 715/2004 - Unidad Especial de Investigación de la Desaparición de Niños por Acciones de Terrorismo del Estado\n" +
+                    "27245|27244|20100922064028830\n" +
+                    "27246|27157|Decreto 807/2004 - Reglamento para la Supervisión de la Ley de Ejecución Penal por parte del Patronato de Liberados\n" +
+                    "27247|27246|20100922064516077\n" +
+                    "27248|27157|Decreto 894/2013 - Poder Judicial. Corte Suprema de Justicia de la Nación y Tribunales de Segunda Instancia. Acordadas y Resoluciones. Acceso a la Información Judicial. Reglamentación\n" +
+                    "27249|27248|20130708091418936\n" +
+                    "27250|27157|Decreto 140/2015 - Reglamentación del Derecho a la Educación Pública dentro del Régimen de Ejecución de la Pena Privativa de la Libertad\n" +
+                    "27251|27250|20150210080743471\n" +
+                    "27252|27157|Decreto 257/2015 - Modificación del Plan Progresivo de Asignación de Recursos para la Entrada en Vigencia e Implementación del Código Procesal Penal de la Nación – Ley 27063\n" +
+                    "27253|27252|20151229081252491\n" +
+                    "27254|27157|Decreto 522/2017 - Reglamentación del Registro Nacional de Datos Genéticos Vinculados a Delitos contra la Integridad Sexual\n" +
+                    "27255|27254|20170718075356184\n" +
+                    "27256|27157|Decreto 62/2019 - Régimen Procesal de la Acción Civil de Extinción de Dominio\n" +
+                    "27257|27256|20190122061237505\n" +
+                    "27258|27157|Acordada (CSJN) 34/2002 - Atribuciones de la Cámara Nacional de Apelaciones en lo Penal Económico\n" +
+                    "27259|27258|20100922064530530\n" +
+                    "27260|27157|Acordada (CSJN) 29/2008 - Difusión Radial y Televisiva de Juicios Orales\n" +
+                    "27261|27260|20100922064614045\n" +
+                    "27262|27157|Acordada (CSJN) 31/2011 - Poder Judicial. Expedientes Digitales. Expedientes de la Corte Suprema de Justicia de la Nación. Constitución de Domicilio Electrónico. Obligatoriedad\n" +
+                    "27263|27262|20111215104147675\n" +
+                    "27264|27157|Acordada (CSJN) 38/2011 - Procedimiento Judicial. Corte Suprema de Justicia de la Nación. Presentaciones. Hoja A4\n" +
+                    "27265|27264|20120217015251699\n" +
+                    "27266|27157|Acordada (CSJN) 3/2012 - Recurso de Queja. Sistema de Notificaciones por Medios Electrónicos\n" +
+                    "27267|27266|20120403111908805\n" +
+                    "27268|27157|Acordada (CSJN) 8/2012 - Corte Suprema de Justicia de la Nación. Libro de Asistencia de Letrados (Libro de Notas). Programa Informático\n" +
+                    "27269|27268|20120614113951251\n" +
+                    "27270|27157|Acordada (CSJN) 20/2013 - Reglas Prácticas para la Aplicación de Videoconferencia en Causas en Trámite\n" +
+                    "27271|27270|20130703091408337\n" +
+                    "27272|27157|Acordada (CSJN) 35/2013 - Procedimiento Judicial. Sistema de Notificaciones por Medios Electrónicos. Corte Suprema de Justicia de la Nación. Recursos Ordinarios, Recursos de Queja, Denuncias por Retardo o Denegación de Justicia y Presentaciones Varias. Obligatoriedad\n" +
+                    "27273|27272|20131002103343987\n" +
+                    "27274|27157|Acordada (CSJN) 36/2013 - Procedimiento Judicial. Sistema de Notificaciones por Medios Electrónicos. Corte Suprema de Justicia de la Nación. Causas en que Intervenga. Obligatoriedad\n" +
+                    "27275|27274|20131002104019988\n" +
+                    "27276|27157|Acordada (CSJN) 38/2013 - Poder Judicial. Expedientes Digitales. Sistema de Notificaciones por Medios Electrónicos. Ámbito de Aplicación. Extensión\n" +
+                    "27277|27276|20131016091539963\n" +
+                    "27278|27157|Acordada (CSJN) 42/2013 - Poder Judicial. Recursos de Queja por Denegación de Recursos Extraordinarios. Banco de la Nación Argentina. Depósitos. Plazo Fijo. Inversión\n" +
+                    "27279|27278|20131212094440851\n" +
+                    "27280|27157|Acordada (CSJN) 43/2013 - Poder Judicial. Sistema de Notificaciones por Medios Electrónicos. Recursos de Queja por Denegación de Recursos Extraordinarios. Obligatoriedad\n" +
+                    "27281|27280|20131212094013208\n" +
+                    "27282|27157|Acordada (CSJN) 4/2014 - Poder Judicial. Actividades Procesales. Difusión Pública. Corte Suprema de Justicia de la Nación. Captura y Transmisión. Facultad Exclusiva\n" +
+                    "27283|27282|20140327092753269\n" +
+                    "27284|27157|Acordada (CSJN) 7/2014 - Poder Judicial. Expedientes Digitales. Sistema de Notificaciones por Medios Electrónicos. Aplicación. Prórroga\n" +
+                    "27285|27284|20140416094058637\n" +
+                    "27286|27157|Acordada (CSJN) 11/2014 - Poder Judicial. Expedientes Digitales. Sistema de Notificaciones por Medios Electrónicos. Defensores y Fiscales. Incorporación\n" +
+                    "27287|27286|20140507094913157\n" +
+                    "27288|27157|Acordada (CSJN) 34/2014 - Poder Judicial. Cuerpo de Peritos del Poder Judicial de la Nación, Especializados en Casos de Corrupción y Delitos contra la Administración Pública. Creación\n" +
+                    "27289|27288|20141022080302933\n" +
+                    "27290|27157|Acordada (CSJN) 3/2015 - Poder Judicial. Nuevos Sistemas Informáticos. Utilización. Pautas Ordenatorias\n" +
+                    "27291|27290|20150220103417570\n" +
+                    "27292|27157|Acordada (CSJN) 33/2015 - Poder Judicial. Base General de Datos de Bienes Secuestrados y/o Comisados en Causas Penales de Competencia de la Justicia Nacional y Federal. Reglamento. Aprobación\n" +
+                    "27293|27292|20151125084150147\n" +
+                    "27294|27157|Acordada (CSJN) 2/2016 - Poder Judicial. Dirección de Captación de Comunicaciones. Creación\n" +
+                    "27295|27294|20160216082134835\n" +
+                    "27296|27157|Acordada (CSJN) 16/2016 - Reglamento para el Ingreso de Causas Judiciales por Medios Electrónicos, Sorteo y Asignación de Expedientes. Reglas para la Interposición de Demandas y Presentaciones en General\n" +
+                    "27297|27296|20160608081023652\n" +
+                    "27298|27157|Acordada (CSJN) 21/2016 - Ampliación de Funciones de la Oficina de Violencia Doméstica\n" +
+                    "27299|27298|20160824082318377\n" +
+                    "27300|27157|Acordada (CSJN) 30/2016 - Creación de la Dirección de Asistencia Judicial en Delitos Complejos y Crimen Organizado del Poder Judicial de la Nación\n" +
+                    "27301|27300|20160930074521022\n" +
+                    "27302|27157|Acordada (CSJN) 8/2017 - Traslado de Tribunales con Competencia en lo Penal Ubicados en el Palacio de Justicia\n" +
+                    "27303|27302|20170421071424391\n" +
+                    "27304|27157|Acordada (CSJN) 22/2017 - Protocolo de Pautas Generales ante Incidencias en la Asignación de Causas en el Sistema de Gestión Judicial\n" +
+                    "27305|27304|20170809073646443\n" +
+                    "27306|27157|Acordada (CSJN) 23/2017 - Reemplazo de Todas las Notificaciones Judiciales en Papel por Notificaciones Electrónicas\n" +
+                    "27307|27306|20170816073706404\n" +
+                    "27308|27157|Acordada (CSJN) 28/2017 - Suspensión de la Implementación del Reglamento para el Ingreso de Causas Judiciales por Medios Electrónicos, Sorteo y Asignación de Expedientes y de las Reglas para la Interposición de Demandas y Presentaciones en General\n" +
+                    "27309|27308|20170901075613835\n" +
+                    "27310|27157|Acordada (CSJN) 17/2019 - Principios Rectores en los Procesos y Procedimientos Involucrados en la Interceptación y Captación de Comunicaciones y/o Escuchas Judiciales\n" +
+                    "27311|27310|20190619152431666\n" +
+                    "27312|27157|Resolución (PGN) 127/2002 - Intervención de la Fiscalía ante la Cámara Nacional de Apelaciones en lo Penal Económico\n" +
+                    "27313|27312|20100922064547514\n" +
+                    "27314|27157|Resolución (MJyDH) 1379/2015 - Pena Privativa de la Libertad. Programa de Asistencia de Personas bajo Vigilancia Electrónica\n" +
+                    "27315|27314|20150701082222460\n" +
+                    "27316|27157|Resolución (MJyDH) 813/2018 - Protocolo en Mediación Penal Juvenil Restaurativa y Acuerdos Restaurativos\n" +
+                    "27317|27316|20180921074411480\n" +
+                    "27318|27157|Resolución (MJyDH) 184/2019 - Declaración de Emergencia en Materia Penitenciaria\n" +
+                    "27319|27318|20190326060625551\n" +
+                    "27320|27157|Resolución (MJyDH) 1291/2019 - Creación de la Unidad 24/7 de Delitos Informáticos y Evidencia Digital\n" +
+                    "27321|27320|20191202133051465\n" +
+                    "27322|27157|Resolución (CNC) 1315/2005 - Identificación Especial de Líneas Telefónicas Ubicadas en Establecimientos Penitenciarios\n" +
+                    "27323|27322|20100922064818027\n" +
+                    "27324|27157|Resolución (FG -CABA-) 78/2008 - Ciudad Autónoma de Buenos Aires. Criterios Generales de Actuación para la Suspensión del Proceso a Prueba\n" +
+                    "27325|27324|20100922065008292\n" +
+                    "27326|27157|Resolución (MS) 351/2019 - Sistema Nacional de Denuncias por Violencia de Género (SIVIOGEN)\n" +
+                    "27327|27326|20190425062444041\n" +
+                    "27328|27157|Resolución (MS) 828/2019 - Protocolos de Seguridad para el Resguardo del Anonimato de los Aportantes de Información sobre Delitos\n" +
+                    "27329|27328|20191001063825500\n" +
+                    "27330|27157|Disposición (RNR) 11/2018 - Creación del Registro de Antecedentes Penales de Personas Jurídicas\n" +
+                    "27331|27330|20181123080906770\n" +
+                    "27332|3093|Procesal Penal Federal\n" +
+                    "27333|27332|Observaciones.Vigencia y aplicación\n" +
+                    "27334|27333|20190513155446574\n" +
+                    "27335|27332|Primera Parte. Parte General. Arts. 1 a 227\n" +
+                    "27336|27335|Libro Primero. Principios Fundamentales. Arts. 1 a 42\n" +
+                    "27337|27336|Título I.Principios y Garantías procesales. Arts. 1 a 24\n" +
+                    "27338|27337|20150102122642367\n" +
+                    "27339|27336|Título II. Acción Penal. Arts. 25 a 42\n" +
+                    "27340|27339|Capítulo 1. Acción Penal. Arts. 25 a 39\n" +
+                    "27341|27340|Sección 1°. Reglas generales. Arts. 25 a 29\n" +
+                    "27342|27341|20150102122913368\n" +
+                    "27343|27340|Sección 2°. Reglas de disponibilidad. Arts. 30 a 35\n" +
+                    "27344|27343|20150102125728370\n" +
+                    "27345|27340|Sección 3°. Obstáculos fundados en privilegio constitucional. Art. 36\n" +
+                    "27346|27345|20150102020133374\n" +
+                    "27347|27340|Sección 4°. Excepciones. Arts. 37 a 39\n" +
+                    "27348|27347|20150102020306375\n" +
+                    "27349|27339|Capítulo 2. Acción civil. Arts. 40 a 42.\n" +
+                    "27350|27349|20150102020829376\n" +
+                    "27351|27335|Libro Segundo. La Justicia Penal y los Sujetos Procesales. Arts. 43 a 105\n" +
+                    "27352|27351|Título I. La Justicia Penal Federal y Nacional. Arts. 43 a 63\n" +
+                    "27353|27352|Capítulo 1. Jurisdicción y competencia. Arts. 43 a 51\n" +
+                    "27354|27353|20150102022052377\n" +
+                    "27355|27352|Capítulo 2. Órganos Jurisdiccionales competentes. Arts. 52 a 58\n" +
+                    "27356|27355|20150102022207378\n" +
+                    "27357|27352|Capítulo 3. Excusación y recusación. Arts. 59 a 63\n" +
+                    "27358|27357|20150102022311379\n" +
+                    "27359|27351|Título II. El Imputado. Arts. 64 a 78\n" +
+                    "27360|27359|Capítulo 1. Normas generales. Arts. 64 a 69\n" +
+                    "27361|27360|20150102022410380\n" +
+                    "27362|27359|Capítulo 2. Declaración del imputado. Arts. 70 a 74\n" +
+                    "27363|27362|20150102022523381\n" +
+                    "27364|27359|Capítulo 3. Asistencia técnica. Arts. 75 a 78\n" +
+                    "27365|27364|20150102022632382\n" +
+                    "27366|27351|Título III. La Víctima. Arts. 79 a 89\n" +
+                    "27367|27366|Capítulo 1.  Derechos Fundamentales. Arts. 79 a 82\n" +
+                    "27368|27367|Derechos fundamentales. Arts. 79 a 82\n" +
+                    "27369|27368|20150102022724383\n" +
+                    "27370|27366|Capítulo 2. Querella. Arts. 83 a 89\n" +
+                    "27371|27370|Sección 1ª. Normas comunes. Arts. 83 a 86\n" +
+                    "27372|27371|20150102022826384\n" +
+                    "27373|27370|Sección 2ª. Querellante en delitos de acción pública. Art. 87\n" +
+                    "27374|27373|20150102022937385\n" +
+                    "27375|27370|Sección 3ª. Querellante en delitos de acción privada. Arts. 88 a 89\n" +
+                    "27376|27375|20150102023043386\n" +
+                    "27377|27351|Título IV. Ministerio Público Fiscal. Arts 90. a 97\n" +
+                    "27378|27377|Capítulo 1. Normas generales. Arts. 90 a 95\n" +
+                    "27379|27378|20150102023152387\n" +
+                    "27380|27377|Capítulo 2. Fuerzas de seguridad. Arts. 96 a 97\n" +
+                    "27381|27380|20150102023246388\n" +
+                    "27382|27351|Título V. El Actor Civil. Arts. 98 a 102\n" +
+                    "27383|27382|20150102023340389\n" +
+                    "27384|27351|Título VI. El Civilmente Demandado. Arts. 103 a 105\n" +
+                    "27385|27384|20150102023455390\n" +
+                    "27386|27335|Libro Tercero. Actividad Procesal. Arts. 106 a 133\n" +
+                    "27387|27386|Título I. Actos Procesales. Arts. 106 a 128\n" +
+                    "27388|27387|Capítulo 1. Idioma y forma de los actos procesales. Arts. 106 a 110\n" +
+                    "27389|27388|20150102023815391\n" +
+                    "27390|27387|Capítulo 2. Actos y resoluciones judiciales. Arts. 111 a 113\n" +
+                    "27391|27390|20150102023945392\n" +
+                    "27392|27387|Capítulo 3. Plazos. Arts. 114 a 118\n" +
+                    "27393|27392|20150102024038393\n" +
+                    "27394|27387|Capítulo 4. Control de la duración del procedimiento. Arts. 119 a 121\n" +
+                    "27395|27394|20150102024142394\n" +
+                    "27396|27387|Capítulo 5. Requerimientos y comunicaciones. Arts. 122 a 126\n" +
+                    "27397|27396|20150102024236395\n" +
+                    "27398|27387|Capítulo 6. Reglas de cooperación judicial. Arts. 127 a 128\n" +
+                    "27399|27398|20150102024514396\n" +
+                    "27400|27386|Título II. Invalidez de los Actos Procesales\n" +
+                    "27401|27400|Invalidez de los actos procesales. Arts. 129 a 133\n" +
+                    "27402|27401|20150102024730397\n" +
+                    "27403|27335|Libro Cuarto. Medios de Prueba. Arts. 134 a 208\n" +
+                    "27404|27403|Título I. Normas generales. Arts. 134 a 135\n" +
+                    "27405|27404|20150102025439398\n" +
+                    "27406|27403|Título II. Comprobaciones Directas. Arts. 136 a 157\n" +
+                    "27407|27406|20150102025542399\n" +
+                    "27408|27403|Título III.  Testimonios. Arts. 158 a 166\n" +
+                    "27409|27408|20150102025634400\n" +
+                    "27410|27403|Título IV. Peritajes. Arts. 167 a 172\n" +
+                    "27411|27410|20150102025738401\n" +
+                    "27412|27403|Título V. Otros medios de prueba. Arts. 173 a 181\n" +
+                    "27413|27412|20150102025826402\n" +
+                    "27414|27403|Título VI.  Técnicas especiales de investigación. Arts. 182 a 194\n" +
+                    "27415|27414|20190311024504668\n" +
+                    "27416|27403|Título VII. Acuerdos de colaboración Arts. 195 a 208\n" +
+                    "27417|27416|20190311024826669\n" +
+                    "27418|27335|Libro Quinto. Medidas de Coerción y Cautelares. Arts 209 a 227\n" +
+                    "27419|27418|Medidas de coerción y cautelares. Arts. 209 a 227\n" +
+                    "27420|27419|20150102025917403\n" +
+                    "27421|27332|Segunda Parte. Procedimientos. Arts. 228 a 397\n" +
+                    "27422|27421|Libro Primero. Procedimiento ordinario. Arts. 228 a 313\n" +
+                    "27423|27422|Título I. Etapa preparatoria. Arts. 228 a 273\n" +
+                    "27424|27423|Capítulo 1. Normas generales. Arts. 228 a 234\n" +
+                    "27425|27424|Normas generales. Arts. 228 a 234\n" +
+                    "27426|27425|20150106082955435\n" +
+                    "27427|27422|Título I. Etapa preparatoria. Arts. 228 a 274\n" +
+                    "27428|27427|Capítulo 2. Actos de inicio. Arts. 235 a 247\n" +
+                    "27429|27428|Actos de inicio. Art.235\n" +
+                    "27430|27429|20150106082850434\n" +
+                    "27431|27428|Sección 1ª. Denuncia. Arts. 236 a 240\n" +
+                    "27432|27431|20150106082741433\n" +
+                    "27433|27428|Sección 2ª. Querella. Arts. 241 a 242\n" +
+                    "27434|27433|20150106082520432\n" +
+                    "27435|27428|Sección 3ª. Prevención. Arts. 243 a 245\n" +
+                    "27436|27435|20150106082347431\n" +
+                    "27437|27428|Sección 4ª. Iniciación de oficio. Arts. 246 a 247\n" +
+                    "27438|27437|20150106082218430\n" +
+                    "27439|27427|Capítulo 3. Valoración inicial. Arts. 248 a 253\n" +
+                    "27440|27439|Valoración inicial. Arts. 248 a 253\n" +
+                    "27441|27440|20150106082024429\n" +
+                    "27442|27427|Capítulo 4. Formalización de la investigación preparatoria. Arts. 254 a 259\n" +
+                    "27443|27442|Formalización de la investigación preparatoria. Arts. 254 a 259\n" +
+                    "27444|27443|20150106081813428\n" +
+                    "27445|27427|Capítulo 5. Desarrollo de la investigación. Arts. 260 a 264\n" +
+                    "27446|27445|Desarrollo de la investigación. Arts. 260 a 264\n" +
+                    "27447|27446|20150106081710427\n" +
+                    "27448|27427|Capítulo 6. Conclusión de la investigación preparatoria. Arts. 265 a 273\n" +
+                    "27449|27448|Conclusión de la investigación preparatoria. Arts. 265 a 273\n" +
+                    "27450|27449|20150106081325426\n" +
+                    "27451|27422|Título II. Control de la Acusación. Arts. 274 a 280\n" +
+                    "27452|27451|Control de la acusación. Arts. 274 a 280\n" +
+                    "27453|27452|20150106081113425\n" +
+                    "27454|27422|Título III. Juicio. Arts. 281 a 313\n" +
+                    "27455|27454|Capítulo 1. Normas generales. Arts. 281 a 293\n" +
+                    "27456|27455|Normas generales. Arts. 281 a 293\n" +
+                    "27457|27456|20150106080233424\n" +
+                    "27458|27454|Capítulo 2. Desarrollo del debate. Arts. 294 a 304\n" +
+                    "27459|27458|Desarrollo del debate. Arts. 294 a 304\n" +
+                    "27460|27459|20150106080112423\n" +
+                    "27461|27454|Capítulo 3. Sentencia. Arts. 305 a 310\n" +
+                    "27462|27461|Sentencia. Arts. 305 a 310\n" +
+                    "27463|27462|20150106075305422\n" +
+                    "27464|27454|Capítulo 4. Registro de la audiencia. Arts. 311 a 313\n" +
+                    "27465|27464|Registro de la audiencia. Arts. 311 a 313\n" +
+                    "27466|27465|20150106074752421\n" +
+                    "27467|27421|Libro Segundo. Procedimientos Especiales. Arts. 314 a 343\n" +
+                    "27468|27467|Título I. Procesos de Acción Privada. Arts. 314 a 322\n" +
+                    "27469|27468|Procesos de acción privada. Arts. 314 a 322\n" +
+                    "27470|27469|20150106074619420\n" +
+                    "27471|27467|Título II. Procedimientos Abreviados. Arts. 323 a 327\n" +
+                    "27472|27471|Procedimientos abreviados. Arts. 323 a 327\n" +
+                    "27473|27472|20150106074359419\n" +
+                    "27474|27467|Título III. Procedimiento en Flagrancia. Arts. 328 a 333\n" +
+                    "27475|27474|Procedimiento en Flagrancia. Arts. 328 a 333\n" +
+                    "27476|27475|20161202104538566\n" +
+                    "27477|27467|Título IV. Procedimientos Complejos. Arts. 334 a 336\n" +
+                    "27478|27477|Procedimientos complejos. Arts. 334 a 336\n" +
+                    "27479|27478|20150106074129418\n" +
+                    "27480|27467|Título V. Proceso penal juvenil. Art. 337\n" +
+                    "27481|27480|Proceso penal juvenil. Art. 337\n" +
+                    "27482|27481|20190312103631670\n" +
+                    "27483|27467|Título VI. Procesos contra personas jurídicas. Arts. 338 a 343\n" +
+                    "27484|27483|Procesos contra personas jurídicas. Arts. 338 a 343\n" +
+                    "27485|27484|20190312103757671\n" +
+                    "27486|27421|Libro Tercero. Control de las Decisiones Judiciales. Arts. 344 a 370\n" +
+                    "27487|27486|Título I. Normas Generales. Arts. 344 a 351\n" +
+                    "27488|27487|Normas generales. Arts. 344 a 351\n" +
+                    "27489|27488|20150105125814417\n" +
+                    "27490|27486|Título II. Legitimación para Impugnar. Arts. 352 a 355\n" +
+                    "27491|27490|Legitimación para impugnar. Arts. 352 a 355\n" +
+                    "27492|27491|20150105125700416\n" +
+                    "27493|27486|Título III. Decisiones Impugnables. Arts. 356 a 359\n" +
+                    "27494|27493|Decisiones impugnables. Arts. 356 a 359\n" +
+                    "27495|27494|20150105125542415\n" +
+                    "27496|27486|Título IV. Trámite. Arts. 360 a 365\n" +
+                    "27497|27496|Trámite. Arts. 360 a 365\n" +
+                    "27498|27497|20150105125434414\n" +
+                    "27499|27486|Título V. Revisión de Sentencia Condenatoria Firme. Arts. 366 a 370\n" +
+                    "27500|27499|Revisión de sentencia condenatoria firme. Arts. 366 a 370\n" +
+                    "27501|27500|20150105124912413\n" +
+                    "27502|27421|Libro Cuarto. Ejecución. Arts. 371 a 395\n" +
+                    "27503|27502|Título I. Disposiciones Generales. Arts. 371 a 373\n" +
+                    "27504|27503|Disposiciones generales. Arts. 371 a 373\n" +
+                    "27505|27504|20150105124701412\n" +
+                    "27506|27502|Título II. Ejecución Penal. Arts. 374 a 383\n" +
+                    "27507|27506|Ejecución penal. Arts. 374 a 383\n" +
+                    "27508|27507|20150105124529411\n" +
+                    "27509|27502|Título III. Inhabilitación. Art. 384\n" +
+                    "27510|27509|Inhabilitación. Art. 384\n" +
+                    "27511|27510|20150105124250410\n" +
+                    "27512|27502|Título IV. Ejecución Civil. Art. 385\n" +
+                    "27513|27512|Ejecución civil. Art. 385\n" +
+                    "27514|27513|20150102010016373\n" +
+                    "27515|27502|Título V. Costas e indemnizaciones. Arts. 386 a 395\n" +
+                    "27516|27515|Costas e indemnizaciones. Arts. 386 a 395\n" +
+                    "27517|27516|20150102125906371\n" +
+                    "27518|27421|Libro Quinto. Actos de las Fuerzas Armadas. Arts. 396 a 397\n" +
+                    "27519|27518|Libro Quinto. Actos de las Fuerzas Armadas. Arts. 396 a 397\n" +
+                    "27520|27519|20150102124346369\n" +
+                    "27521|27332|Normas Complementarias\n" +
+                    "27522|27521|Resolución (CBMICPPF) 2/2019 - Implementación Progresiva del Código Procesal Penal Federal\n" +
+                    "27523|27522|20191119065946265");
 
 }
 
