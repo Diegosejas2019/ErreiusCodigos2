@@ -4595,19 +4595,19 @@ public  class BuildMenu {
                     "28146|28145|20100922064838012");
             private static String menu6 =new String("3093|0|Procesal Penal\n" +
                     "27102|3093|Procesal Penal Nacional\n" +
-                    "27103|27102|LIBRO I:&nbsp;DISPOSICIONES&nbsp;GENERALES Título I - Garantías&nbsp;fundamentales, interpretación y aplicación de la ley-arts. 1 a 4\n" +
+                    "27103|27102|LIBRO I:DISPOSICIONES GENERALES Título I - Garantías fundamentales, interpretación y aplicación de la ley-arts. 1 a 4\n" +
                     "27104|27103|20160816030544475\n" +
-                    "27105|27102|LIBRO I:&nbsp;DISPOSICIONES&nbsp;GENERALES Título II - Acciones que nacen del delito - arts. 5 a 17\n" +
+                    "27105|27102|LIBRO I:DISPOSICIONES GENERALES Título II - Acciones que nacen del delito - arts. 5 a 17\n" +
                     "27106|27105|20160816030546476\n" +
-                    "27107|27102|LIBRO I:&nbsp;DISPOSICIONES&nbsp;GENERALES Título III - El juez - arts. 18 a 64\n" +
+                    "27107|27102|LIBRO I:DISPOSICIONES GENERALES Título III - El juez - arts. 18 a 64\n" +
                     "27108|27107|20160816030547477\n" +
-                    "27109|27102|LIBRO I:&nbsp;DISPOSICIONES&nbsp;GENERALES Título IV - Partes, defensores y derechos de testigos y víctimas - arts. 65 a 113\n" +
+                    "27109|27102|LIBRO I:DISPOSICIONES GENERALES Título IV - Partes, defensores y derechos de testigos y víctimas - arts. 65 a 113\n" +
                     "27110|27109|20160816030548478\n" +
-                    "27111|27102|LIBRO I:&nbsp;DISPOSICIONES&nbsp;GENERALES Título V - Actos Procesales -  arts. 114 a 173\n" +
+                    "27111|27102|LIBRO I:DISPOSICIONES GENERALES Título V - Actos Procesales -  arts. 114 a 173\n" +
                     "27112|27111|20160816030548479\n" +
                     "27113|27102|LIBRO II: INSTRUCCIÓN Título I - Actos iniciales arts. 174 a192\n" +
                     "27114|27113|20160816030549480\n" +
-                    "27115|27102|LIBRO II: INSTRUCCIÓN Título II- arts. 193 a 215&nbsp;bis\n" +
+                    "27115|27102|LIBRO II: INSTRUCCIÓN Título II- arts. 193 a 215 bis\n" +
                     "27116|27115|20160816030550481\n" +
                     "27117|27102|LIBRO II: INSTRUCCIÓN Título III - Medios de prueba -  arts. 216 a 278\n" +
                     "27118|27117|20160816030551482\n" +
@@ -4619,11 +4619,11 @@ public  class BuildMenu {
                     "27124|27123|20160816030553486\n" +
                     "27125|27102|LIBRO II: INSTRUCCIÓN Título VII - Clausura de la instrucción y elevación a juicio -  arts. 346 a 353\n" +
                     "27126|27125|20160816030554487\n" +
-                    "27127|27102|LIBRO II: INSTRUCCIÓN Título IX - Instrucción sumaria -  arts. 353&nbsp;bis&nbsp;a 353&nbsp;ter\n" +
+                    "27127|27102|LIBRO II: INSTRUCCIÓN Título IX - Instrucción sumaria -  arts. 353 bis a 353 ter\n" +
                     "27128|27127|20160816030552484\n" +
                     "27129|27102|LIBRO III: JUICIOS Título I - Juicio común -  arts. 354 a 404\n" +
                     "27130|27129|20160816030555488\n" +
-                    "27131|27102|LIBRO III: JUICIOS Título II - Juicios especiales -  arts. 405 a 431&nbsp;bis\n" +
+                    "27131|27102|LIBRO III: JUICIOS Título II - Juicios especiales -  arts. 405 a 431 bis\n" +
                     "27132|27131|20160816030556489\n" +
                     "27133|27102|LIBRO IV: RECURSOS Cap. I - Disposiciones generales -  arts. 432 a 445\n" +
                     "27134|27133|20160816030556490\n" +

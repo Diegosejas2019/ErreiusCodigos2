@@ -38,6 +38,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
+import android.webkit.JsResult;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -212,31 +213,7 @@ public class CodesFragment extends Fragment implements  MainContract.View {
         setHasOptionsMenu(false);
         toolbar.setOverflowIcon(null);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        //mWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT); // load online by default
 
-        /*mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.getSettings().setSupportZoom(true);
-        mWebView.getSettings().setBuiltInZoomControls(true);
-        mWebView.getSettings().setDefaultZoom(WebSettings.ZoomDensity.MEDIUM);
-        mWebView.getSettings().setAppCachePath(getActivity().getCacheDir().getAbsolutePath() );
-        mWebView.getSettings().setAllowFileAccess(true);
-        mWebView.getSettings().setAppCacheEnabled(true);
-        mWebView.getSettings().setCacheMode( WebSettings.LOAD_DEFAULT ); // load online by default
-        mWebView.setWebChromeClient(new WebChromeClient());
-        mWebView.setWebViewClient(new MyWebViewClient());
-        if (!isConnected())
-        {
-            mWebView.getSettings().setCacheMode( WebSettings.LOAD_CACHE_ONLY );
-        }*/
-        /*mWebView.evaluateJavascript("(function(){return window.getSelection().toString()})()",
-                new ValueCallback<String>()
-                {
-                    @Override
-                    public void onReceiveValue(String value)
-                    {
-                        Log.v(TAG, "SELECTION:" + value);
-                    }
-                });*/
         SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         restoredText = prefs.getInt("idUser", 0);
         if (restoredText != 0) {
@@ -326,8 +303,12 @@ public class CodesFragment extends Fragment implements  MainContract.View {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.search_menu, menu);
         MenuItem searchItem = menu.findItem(R.id.search);
+
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) searchItem.getActionView();
+        EditText txtSearch = ((EditText)searchView.findViewById(androidx.appcompat.R.id.search_src_text));
+        txtSearch.setHintTextColor(Color.GRAY);
+        txtSearch.setTextColor(Color.GRAY);
         searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
@@ -355,6 +336,7 @@ public class CodesFragment extends Fragment implements  MainContract.View {
         });
         searchView.setSearchableInfo( searchManager.getSearchableInfo(getActivity().getComponentName()) );
         searchView.setQueryHint("Buscar..");
+
        // menu.add(0, SELECTTEXT_MENU_ID, 0, "Select Text");
     }
     PrintJob printJob;
@@ -445,24 +427,7 @@ public class CodesFragment extends Fragment implements  MainContract.View {
     public void onPrepareOptionsMenu(Menu menu){
         MenuItem id = menu.getItem(0);
 
-        /*if (id == R.id.cerrarSesion) {
-            getSupportFragmentManager().beginTransaction().
-                    remove(getSupportFragmentManager().findFragmentById(R.id.content_frame)).commit();
-            SharedPreferences spreferences =  getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-            SharedPreferences.Editor spreferencesEditor = spreferences.edit();
-            spreferencesEditor.clear();
-            spreferencesEditor.commit();
-            startActivity(new Intent(MainActivity.this, HomeActivity.class));
-            finish();
-        }
-        if (id == R.id.registrarse) {
-            getSupportFragmentManager().beginTransaction().
-                    remove(getSupportFragmentManager().findFragmentById(R.id.content_frame)).commit();
-            Intent myIntent = new Intent(MainActivity.this, HomeActivity.class);
-            myIntent.addFlags(FLAG_ACTIVITY_PREVIOUS_IS_TOP);
-            MainActivity.this.startActivity(myIntent);
-        }*/
-        //showInfoAlert(0);
+
         super.onPrepareOptionsMenu(menu);
     }
 
@@ -596,12 +561,24 @@ public class CodesFragment extends Fragment implements  MainContract.View {
         mWebView.getSettings().setAllowFileAccess(true);
         mWebView.getSettings().setAppCacheEnabled(false);
         mWebView.getSettings().setDomStorageEnabled(true);
-        mWebView.setWebChromeClient(new WebChromeClient());
+        mWebView.setWebChromeClient(new WebChromeClient() {
+
+            @Override
+            public boolean onJsAlert(WebView view, String url, String message, final JsResult result) {
+                AlertDialog dialog = new AlertDialog.Builder(view.getContext()).
+                        setTitle("Atención").
+                        setMessage(message).
+                        create();
+                dialog.show();
+                result.confirm();
+                return true;
+            } });
         mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE); // load online by default
         mWebView.setWebViewClient(new WebViewClient() {
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                Toast.makeText(getContext(), description, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), description, Toast.LENGTH_SHORT).show();
             }
+
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon)
             {

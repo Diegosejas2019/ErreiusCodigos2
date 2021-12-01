@@ -1,12 +1,14 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
+// Apply the Crashlytics Gradle plugin
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     signingConfigs {
         config {
             keyAlias 'key0'
             keyPassword 'diegosejas'
-            storeFile file('C:/Erreius Codigos/Erreius/MitraPharma')
+            storeFile file('E:/MitraPharma.jks')
             storePassword 'diegosejas'
         }
         /*debug {
@@ -27,8 +29,8 @@ android {
         applicationId "com.erreius.developer.dev2018"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 27
-        versionName "2.8.9"
+        versionCode 32
+        versionName "2.8.14"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.config
@@ -57,8 +59,10 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.play:core:1.10.0'
     implementation 'com.android.support:multidex:1.0.3'
-    implementation 'com.google.firebase:firebase-messaging:17.3.4'
+    //implementation 'com.google.firebase:c:17.3.+'
+    implementation 'com.google.firebase:firebase-messaging'
     testImplementation 'junit:junit:4.12'
+    implementation 'androidx.core:core:1.3.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
@@ -71,7 +75,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
     //Retrofit
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.14.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.5.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
@@ -96,4 +100,7 @@ dependencies {
     implementation files('libs/xmlworker-5.4.1.jar')
     implementation 'com.github.bmelnychuk:atv:1.2.+'
     implementation 'com.github.johnkil.print:print:1.2.2'
+
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
 }
