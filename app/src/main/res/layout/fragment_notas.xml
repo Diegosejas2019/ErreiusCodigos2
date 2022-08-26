@@ -23,6 +23,7 @@
         android:layout_height="50dp"
         android:gravity="center_horizontal|center_vertical"
         android:text="Notas Guardadas"
+        android:textColor="#cfabc1"
         android:textSize="20sp"
         android:textStyle="bold" />
 

@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".views.TermsAndConditionsFragment">
+
     <ScrollView android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true"
@@ -17,25 +18,27 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginTop="12dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginTop="36dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/logo" />
+            app:srcCompat="@drawable/circle_icon_new" />
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:layout_marginStart="64dp"
             android:layout_marginLeft="64dp"
             android:layout_marginEnd="64dp"
             android:layout_marginRight="64dp"
             android:gravity="center|center_vertical"
-            android:text="CONDICIONES DE USO DE LA SUSCRIPCIÓN A TODAS LAS COLECCIONES ERREIUS"
+            android:text="CONDICIONES DE USO \n DE LA SUSCRIPCIÓN A \n TODAS LAS COLECCIONES ERREIUS"
             android:textColor="@color/colorPrimary"
+            android:fontFamily="@font/raleway_bold"
             android:textSize="28sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/button"

@@ -6,32 +6,12 @@ android:layout_height="match_parent"
 android:background="@color/White"
 tools:context=".views.SlashActivity" >
 
-<ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerHorizontal="true"
-    android:layout_centerVertical="true"
-    android:scaleType="centerCrop"
-    android:src="@drawable/fondosplash" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="80dp"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/logoerreiusnuevo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints">
-
-        </ImageView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:layout_width="254dp"
+        android:layout_height="53dp"
+        android:layout_centerInParent="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/logoerreius_ai" />
 
 
 </RelativeLayout>

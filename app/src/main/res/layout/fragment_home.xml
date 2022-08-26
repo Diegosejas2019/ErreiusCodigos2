@@ -13,13 +13,13 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginTop="12dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginTop="39dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/logo" />
+            app:srcCompat="@drawable/circle_icon_new" />
 
         <Button
             android:id="@+id/buttonSuscriptor"
@@ -79,7 +79,7 @@
             android:layout_marginEnd="64dp"
             android:layout_marginRight="64dp"
             android:gravity="center|center_vertical"
-            android:text="Erreius \n Códigos 2021"
+            android:text="Erreius \n Códigos 2022"
             android:textColor="@color/colorPrimary"
             android:textSize="28sp"
             android:textStyle="bold"

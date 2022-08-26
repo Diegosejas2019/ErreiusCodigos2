@@ -17,14 +17,14 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginTop="12dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginTop="39dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/logo"
+            app:srcCompat="@drawable/circle_icon_new"
             tools:layout_editor_absoluteY="341dp" />
 
         <TextView
@@ -34,7 +34,7 @@
             android:layout_marginStart="64dp"
             android:layout_marginEnd="64dp"
             android:gravity="center|center_vertical"
-            android:text="Códigos 2021"
+            android:text="Códigos 2022"
             android:textColor="@color/Grey"
             android:textSize="28sp"
             android:textStyle="bold"

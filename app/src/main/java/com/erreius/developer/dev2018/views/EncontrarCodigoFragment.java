@@ -16,7 +16,7 @@ import android.widget.Button;
 import com.erreius.developer.dev2018.R;
 
 public class EncontrarCodigoFragment extends Fragment {
-    @BindView(R.id.btnContactanos) Button mContactanos;
+    /*@BindView(R.id.btnContactanos) Button mContactanos;*/
 
     public EncontrarCodigoFragment() {
     }
@@ -35,7 +35,7 @@ public class EncontrarCodigoFragment extends Fragment {
         toolbar.setOverflowIcon(null);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
-        mContactanos.setOnClickListener(new View.OnClickListener() {
+        /*mContactanos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ActivarFragment nextFrag= new ActivarFragment();
@@ -45,7 +45,7 @@ public class EncontrarCodigoFragment extends Fragment {
                         .addToBackStack(null)
                         .commit();
             }
-        });
+        });*/
 
         return view;
     }
