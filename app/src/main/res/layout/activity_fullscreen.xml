@@ -28,21 +28,21 @@
 
         </LinearLayout>
 
-        <!--<ImageView
-            android:layout_width="224dp"
+        <ImageView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
-            android:src="@drawable/erreius_logoapertura" />-->
+            android:src="@drawable/erreius_logoapertura_ai" />
 
-        <pl.droidsonroids.gif.GifImageView
+        <!--<pl.droidsonroids.gif.GifImageView
         android:id="@+id/gifImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:src="@drawable/erreius_logoapertura"
-        tools:ignore="ImageContrastCheck" />
+        tools:ignore="ImageContrastCheck" />-->
 
     </FrameLayout>
 </FrameLayout>
