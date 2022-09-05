@@ -5,11 +5,14 @@ import android.annotation.SuppressLint;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.erreius.developer.dev2018.R;
 
 /**
@@ -17,6 +20,8 @@ import com.erreius.developer.dev2018.R;
  * status bar and navigation/system bar) with user interaction.
  */
 public class FullscreenActivity extends AppCompatActivity {
+
+    private ImageView imagen;
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -97,6 +102,11 @@ public class FullscreenActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_fullscreen);
 
+        imagen = findViewById(R.id.imageView);
+        String url = "![](../../../../../../res/drawable-anydpi/erreius_logoapertura.gif)";
+        Uri urlparse = Uri.parse(url);
+        Glide.with(getApplicationContext()).load(urlparse).into(imagen);
+
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
 
@@ -160,4 +170,5 @@ public class FullscreenActivity extends AppCompatActivity {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
+
 }
