@@ -102,11 +102,6 @@ public class FullscreenActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_fullscreen);
 
-        imagen = findViewById(R.id.imageView);
-        String url = "![](../../../../../../res/drawable-anydpi/erreius_logoapertura.gif)";
-        Uri urlparse = Uri.parse(url);
-        Glide.with(getApplicationContext()).load(urlparse).into(imagen);
-
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
 
