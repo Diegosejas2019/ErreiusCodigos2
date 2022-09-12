@@ -95,7 +95,7 @@
                     android:id="@+id/txtNroSuscriptor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Ingresá nro suscriptor" />
+                    android:hint="Ingresá nro. de suscriptor" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout

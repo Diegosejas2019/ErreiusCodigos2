@@ -26,7 +26,7 @@ public class ContactFragment extends Fragment {
 
     @BindView(R.id.imageView3) ImageView fbImage;
     @BindView(R.id.imageView4) ImageView twImage;
-    @BindView(R.id.imageView5) ImageView lkImage;
+    /*@BindView(R.id.imageView5) ImageView lkImage;*/
     @BindView(R.id.imageView6) ImageView igImage;
     public ContactFragment() {
         // Required empty public constructor
@@ -84,14 +84,14 @@ public class ContactFragment extends Fragment {
             }
         });
 
-        lkImage.setOnClickListener(new View.OnClickListener() {
+        /*lkImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 openLinkedinIntent(getContext());
 
             }
-        });
+        });*/
 
         return view;
     }

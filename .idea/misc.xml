@@ -5,8 +5,24 @@
       <map>
         <entry key="..\:/Users/jonathan.castillo/Desktop/Erreius Codigo2/ErreiusCodigos2/app/src/main/res/layout/fragment_activar.xml" value="0.103125" />
         <entry key="..\:/Users/jonathan.castillo/Desktop/Erreius Codigo2/ErreiusCodigos2/app/src/main/res/layout/fragment_encontrar_codigo.xml" value="0.10989583333333333" />
-        <entry key="..\:/Users/jonathan.castillo/Desktop/Erreius Codigos/ErreiusCodigos2/app/src/main/res/layout/activity_fullscreen.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/jonathan.castillo/Desktop/Erreius Codigos/ErreiusCodigos2/app/src/main/res/layout/activity_fullscreen.xml" value="0.1" />
+        <entry key="..\:/Users/jonathan.castillo/Desktop/Erreius Codigos/ErreiusCodigos2/app/src/main/res/layout/activity_login_view.xml" value="0.18" />
+        <entry key="..\:/Users/jonathan.castillo/Desktop/Erreius Codigos/ErreiusCodigos2/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/jonathan.castillo/Desktop/Erreius Codigos/ErreiusCodigos2/app/src/main/res/layout/activity_master.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/jonathan.castillo/Desktop/Erreius Codigos/ErreiusCodigos2/app/src/main/res/layout/activity_slash.xml" value="0.1" />
+        <entry key="..\:/Users/jonathan.castillo/Desktop/Erreius Codigos/ErreiusCodigos2/app/src/main/res/layout/app_main_bar.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/jonathan.castillo/Desktop/Erreius Codigos/ErreiusCodigos2/app/src/main/res/layout/content_main.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/jonathan.castillo/Desktop/Erreius Codigos/ErreiusCodigos2/app/src/main/res/layout/detalle.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/jonathan.castillo/Desktop/Erreius Codigos/ErreiusCodigos2/app/src/main/res/layout/fragment_activar.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/jonathan.castillo/Desktop/Erreius Codigos/ErreiusCodigos2/app/src/main/res/layout/fragment_codes.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/jonathan.castillo/Desktop/Erreius Codigos/ErreiusCodigos2/app/src/main/res/layout/fragment_contact.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/jonathan.castillo/Desktop/Erreius Codigos/ErreiusCodigos2/app/src/main/res/layout/fragment_detail_offline.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/jonathan.castillo/Desktop/Erreius Codigos/ErreiusCodigos2/app/src/main/res/layout/fragment_encontrar_codigo.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/jonathan.castillo/Desktop/Erreius Codigos/ErreiusCodigos2/app/src/main/res/layout/fragment_home.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/jonathan.castillo/Desktop/Erreius Codigos/ErreiusCodigos2/app/src/main/res/layout/fragment_login.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/jonathan.castillo/Desktop/Erreius Codigos/ErreiusCodigos2/app/src/main/res/layout/fragment_notas.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/jonathan.castillo/Desktop/Erreius Codigos/ErreiusCodigos2/app/src/main/res/layout/fragment_offline.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/jonathan.castillo/Desktop/Erreius Codigos/ErreiusCodigos2/app/src/main/res/layout/fragment_register.xml" value="0.20416666666666666" />
       </map>
     </option>
   </component>
