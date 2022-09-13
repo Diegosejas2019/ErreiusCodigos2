@@ -211,7 +211,7 @@ public class CodesFragment extends Fragment implements  MainContract.View {
 
         toolbar = getActivity().findViewById(R.id.toolbar);
         setHasOptionsMenu(false);
-        toolbar.setOverflowIcon(null);
+        /*toolbar.setOverflowIcon(null);*/
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
